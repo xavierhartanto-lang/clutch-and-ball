@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>Clutch and Ball</title>
+
+<style>
+
+@media (max-width: 800px) {
+  .teams-container {
+    flex-wrap: wrap;  /* allows stacking */
+    justify-content: center;
+  }
+
+  .team-card {
+    width: 90%;       /* full width on mobile */
+  }
+
+}
+
+.team-card {
+  background-color: #111;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  transform: translateY(-5px) scale(1.05);
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+.team-card:hover h3{
+  color: orange;
+}
+
+body {
+    background-color: #121212;
+    color: white;
+    font-family: Comic Sans MS;
+    text-align: center;
+}
+
+.teams-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;            /* space between cards */
+  overflow-x: auto;      /* allows horizontal scrolling if needed */
+  padding: 10px;
+  flex-wrap: nowrap;     /* prevents wrapping */
+}
+.team-card p{
+  text-align: left;
+}
+
+h1 {
+    color: orange;
+    font-size: 80px;
+}
+
+h2 {
+    color: rgb(73, 193, 233);
+    text-align: middle;
+    margin-top: 40px;
+}
+
+p {
+    font-size: 18px;
+}
+
+.motto {
+    font-family: Impact;
+    font-size: 22px;
+    color: lightgray;
+}
+
+.navbar {
+  background-color: black;
+  padding: 15px;
+  position: sticky;
+  top: 0;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 20px;
+  font-size: 18px;
+  font-family: Comic Sans MS;
+}
+
+.navbar a:hover {
+  color: orange;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.bio {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.player:hover .bio {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player {
+  position: relative;
+  color: lightblue;
+  cursor: pointer;
+}
+
+.bio {
+  visibility: hidden;
+  position: absolute;
+
+  background-color: black;
+  color: white;
+
+  padding: 8px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  width: 200px;
+  max-width: 200px;
+  line-height: 1.4;
+
+  bottom: 140%;
+  left: 0;
+  transform: translateX(-50%);
+
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  box-shadow: 0 5px 15px rgba(230, 76, 4, 0.6)
+}
+
+.bio::after {
+  content: "";
+  position: absolute;
+
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+.player:hover .bio {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player:hover{
+  color:orange;
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+  <a href="#home">Home</a>
+  <a href="#rules">Rules</a>
+  <a href="#teams">Teams</a>
+  <a href="#schedule">Schedule</a>
+</div>
+
+<h1>CLUTCH AND BALL</h1>
+
+<h3 class="motto">MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</h3>  
+
+<h2 id="home">Who are we?</h2>
+
+<p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
+
+<h2 id="rules">How do we operate?</h2>
+<p>Games are held at Burlingame Intermediate School, during lunch. Each game is fast-paced, first to 7. Further rules apply to playoffs.</p>
+
+<h2 id="teams">Teams</h2>
+
+<div class="teams-container">
+
+  <div class="team-card">
+    <h3>Homeless Belly Dancers (HBD)</h3>
+
+    <p>
+      <span class="player">Jack Griffin,
+        <span class="bio"> "The King". Lightning fast driver and underrated shooter.</span>
+      </span>
+
+      <span class="player">Kyle Enersen,
+        <span class="bio"> "The Passer". Elite passer and left wing expert.</span>
+      </span>
+
+      <span class="player">Gregory Louridas
+        <span class="bio"> "The Marvelous". Undersized big man and defensive stalwart.</span>
+      </span>
+    <p>
+  </div>
+
+  <div class="team-card">
+    <h3>Lochie Xavi's (LOC)</h3>
+    <p>
+      <span class="player">Xavier Hartanto,
+        <span class="bio"> "The Arc". Ceiling high arc and stepback specialist .</span>
+      </span>
+
+      <span class="player">Mason Askari,
+        <span class="bio"> "The Hustle". Amazing hustler and multisport athlete.</span>
+      </span>
+
+      <span class="player">Zach Silk
+        <span class="bio"> "The Giant". Never-before-seen height and insurmountable rebounder.</span>
+      </span>
+    <p>
+  </div>
+
+  <div class="team-card">
+    <h3>Showtime Elite (STE)</h3>
+    <p>
+      <span class="player">Vivek Moorthy,
+        <span class="bio"> "The Grandpa". High IQ playmaker and shifty guard .</span>
+      </span>
+
+      <span class="player">Zairaan Kazi,
+        <span class="bio"> "The Warning". Amazing hustler and multisport athlete.</span>
+      </span>
+
+      <span class="player">Jack Beser
+        <span class="bio"> "The Crazy". Wild shot selection and reckless driver.</span>
+      </span>
+    <p>
+  </div>
+    
+
+  <div class="team-card">
+    <h3>The Green Giants (TGG)</h3>
+    <p>
+      <span class="player">Graham Dunn,
+        <span class="bio"> "The Truth". This isn't his main sport.</span>
+      </span>
+
+      <span class="player">Vikram Singh,
+        <span class="bio"> "The Nonchalant". Midrange master and nonchalance beyond belief .</span>
+      </span>
+
+      <span class="player">Chris Abraham
+        <span class="bio"> "The Schedule". Ball mover and underrated in the clutch.</span>
+      </span>
+    <p>
+  </div>
+
+  <div class="team-card">
+    <h3>The Adentujis (ADE)</h3>
+    <p>
+      <span class="player">Amar Mujumdar,
+        <span class="bio"> "The Monkey". Gorilla of the league and underestimated dribbler .</span>
+      </span>
+
+      <span class="player">Vedaant Sud,
+        <span class="bio"> "The Vertical". Fantastic jumper and leaves the ground before thinking.</span>
+      </span>
+
+      <span class="player">Owen Enersen
+        <span class="bio"> "The Rookie" ??? </span>
+      </span>
+    <p>
+  </div>
+
+</div>
+
+<h2 id="schedule">Schedule</h2>
+<p> COMING SOON </p>
+
+</body>
+</html>
