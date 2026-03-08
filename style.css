@@ -2,11 +2,15 @@
    GENERAL STYLES
    =============================== */
 body {
-    background-color: #121212;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     margin: 0;
+}
+
+body {
+  background:
+  radial-gradient(circle at top, #1a1a1a, #000)
 }
 
 h1 {
@@ -36,12 +40,16 @@ p {
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
 }
 
 /* ===============================
    NAVIGATION
    =============================== */
 nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background: black;
     padding: 18px;
     text-align: center;
@@ -78,16 +86,32 @@ nav a:hover {
         url("images/basketball.png");
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 
 .hero h1 {
+    opacity: 0;
+    transform: translateY(30px);
     font-size: 70px;
     margin: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero p {
     font-size: 20px;
-    opacity: 0.8;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===============================
@@ -110,14 +134,41 @@ nav a:hover {
 }
 
 .team-card {
-    flex: 0 0 180px;           /* fixed width, prevents shrinking */
-    scroll-snap-align: start;  /* snap to start */
+    flex: 0 0 180px;
+    scroll-snap-align: start;
     background-color: #111;
     color: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     transition: all 0.25s ease;
+
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+}
+
+.team-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.team-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.team-card:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.team-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(255,140,0,0.5);
 }
 
 /* MOBILE RESPONSIVE */
@@ -252,44 +303,122 @@ nav a:hover {
     font-weight: bold;
 }
 
+table {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: tableFade 1.2s ease forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes tableFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ===============================
    MEDIA QUERIES (RESPONSIVE)
    =============================== */
 @media (max-width: 800px) {
-    h1 {
-        font-size: 50px;
-    }
-
-    h2 {
-        font-size: 24px;
-    }
-
-    p {
-        font-size: 16px;
-    }
-
-    .hero {
-        height: 400px;
-    }
-
-    .standings {
-        font-size: 16px;
-    }
+    h1 { font-size: 50px;}
+    h2 { font-size: 24px;}
+    p { font-size: 16px; }
+    .hero { height: 400px;}
+    .standings { font-size: 16px; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; padding: 15px;}
+    nav a { margin: 10px; font-size: 16px; }
 }
+
+/* Hero text animations */
+.hero h1.animate {
+  animation: heroReveal 1.2s ease forwards;
+}
+
+.hero h1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+}
+
+.hero p.animate {
+  animation: fadeIn 2s ease forwards;
+}
+
+/* Team card animation */
+.team-card.animate {
+  animation: teamReveal 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes teamReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.team-card:nth-child(1).animate { animation-delay: 0.05s; }
+.team-card:nth-child(2).animate { animation-delay: 0.15s; }
+.team-card:nth-child(3).animate { animation-delay: 0.25s; }
+.team-card:nth-child(4).animate { animation-delay: 0.35s; }
+.team-card:nth-child(5).animate { animation-delay: 0.45s; }
+
+
+
 
 /* ===============================
    MOBILE NAVBAR FIX
    =============================== */
-@media (max-width: 800px) {
-    nav {
-        display: flex;
-        flex-wrap: wrap;        /* allow links to go to next line */
-        justify-content: center; /* center links */
-        padding: 15px;
-    }
-
-    nav a {
-        margin: 10px;           /* spacing between links */
-        font-size: 16px;        /* slightly smaller text */
-    }
-}

@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <title>Clutch and Ball</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
+<div id="top"></div>
+
 <nav>
-  <a href="#home">Home</a>
-  <a href="#rules">Rules</a>
-  <a href="#teams">Teams</a>
-  <a href="#schedule">Schedule</a>
-  
+  <a id="home-link" href="#top">Home</a>
+  <a id="rules-link" href="#rules">Rules</a>
+  <a id="teams-link" href="#teams">Teams</a>
+  <a id="schedule-link" href="#schedule">Schedule</a>
 </nav>
 
 <main>
-
-<section class="hero">
+<section class="hero" id = "#"></section>
   <h1>CLUTCH AND BALL</h1>
   <p>MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</p>
 </section>
 
-
-<h2 id="home">Who are we?</h2>
-
+<h2 id="rules">Who are we?</h2>
 <p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
 
 <h2 id="rules">How do we operate?</h2>
 <p>Games are held at Burlingame Intermediate School, during lunch. Each game is fast-paced, first to 7. Further rules apply to playoffs.</p>
 
 <h2 id="teams">Teams</h2>
-
 <div class="teams-container">
 
   <div class="team-card">
@@ -44,12 +39,10 @@
         Jack Griffin,
         <span class="bio">"The King". Lightning fast driver and underrated shooter.</span>
       </div>
-
       <div class="player">
         Kyle Enersen,
         <span class="bio">"The Passer". Elite passer and left wing expert.</span>
       </div>
-
       <div class="player">
         Gregory Louridas
         <span class="bio">"The Marvelous". Undersized big man and defensive stalwart.</span>
@@ -60,14 +53,12 @@
     <h3>Lochie Xavi's (LOC)</h3>
       <div class="player">
         Xavier Hartanto,
-        <span class="bio">"The Arc". Ceiling high arc and stepback specialist .</span>
+        <span class="bio">"The Arc". Ceiling high arc and stepback specialist.</span>
       </div>
-
       <div class="player">
         Mason Askari,
         <span class="bio">"The Hustle". Amazing hustler and multisport athlete.</span>
       </div>
-
       <div class="player">
         Zach Silk
         <span class="bio">"The Giant". Never-before-seen height and insurmountable rebounder.</span>
@@ -78,20 +69,17 @@
     <h3>Showtime Elite (STE)</h3>
       <div class="player">
         Vivek Moorthy,
-        <span class="bio">"The Grandpa". High IQ playmaker and shifty guard .</span>
+        <span class="bio">"The Grandpa". High IQ playmaker and shifty guard.</span>
       </div>
-
       <div class="player">
         Zairaan Kazi,
         <span class="bio">"The Warning". Consistent shooter and rizz shamgod.</span>
       </div>
-
       <div class="player">
         Jack Beser
         <span class="bio">"The Crazy". Wild shot selection and reckless driver.</span>
       </div>
   </div>
-    
 
   <div class="team-card">
     <h3>The Green Giants (TGG)</h3>
@@ -99,12 +87,10 @@
         Graham Dunn,
         <span class="bio">"The Truth". This isn't his main sport.</span>
       </div>
-
       <div class="player">
         Vikram Singh,
-        <span class="bio">"The Nonchalant". Midrange master and nonchalance beyond belief .</span>
+        <span class="bio">"The Nonchalant". Midrange master and nonchalance beyond belief.</span>
       </div>
-
       <div class="player">
         Chris Abraham
         <span class="bio">"The Schedule". Ball mover and underrated in the clutch.</span>
@@ -115,23 +101,21 @@
     <h3>The Adentujis (ADE)</h3>
       <div class="player">
         Amar Mujumdar,
-        <span class="bio">"The Monkey". Gorilla of the league and underestimated dribbler .</span>
+        <span class="bio">"The Monkey". Gorilla of the league and underestimated dribbler.</span>
       </div>
-
       <div class="player">
         Vedaant Sud,
         <span class="bio">"The Vertical". Fantastic jumper and leaves the ground before thinking.</span>
       </div>
-
-      <div class="player">Owen Enersen
-        <span class="bio">"The Rookie" Bio coming soon. </span>
+      <div class="player">
+        Owen Enersen
+        <span class="bio">"The Rookie". Bio coming soon.</span>
       </div>
   </div>
 
 </div>
 
 <h2 id="standings">Standings</h2>
-
 <table class="standings">
   <tr>
     <th>#</th>
@@ -140,50 +124,17 @@
     <th>Losses</th>
     <th>PCT</th>
   </tr>
-  <!-- Rows will be generated automatically by JS -->
+  <!-- JS will populate standings -->
 </table>
 
 <h2 id="schedule">Schedule</h2>
-<p> COMING SOON </p>
+<p>COMING SOON</p>
 
+<h2>Next Game</h2>
+<p id="next-game">Loading countdown...</p>
 </main>
+<script src="script.js"></script> 
 
-<script>
-async function loadStandings() {
-  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpKNTrOZ3HuunOBb17pdLvjBVtXtCV89pjkdjXb6aXnXzvOJ6l_a6zqADX3kW2llt2NStNrTluadzY/pub?output=csv'; // CSV link
-  const res = await fetch(sheetURL);
-  const text = await res.text();
-  const rows = text.split('\n').slice(1); // skip header
-  const table = document.querySelector('.standings');
-
-  // Clear old rows
-  table.querySelectorAll('tr:not(:first-child)').forEach(r => r.remove());
-
-  rows.forEach((row, i) => {
-    if (!row.trim()) return;
-    const cols = row.split(',');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${i+1}</td>
-      <td>${cols[0].trim()}</td>
-      <td>${cols[1].trim()}</td>
-      <td>${cols[2].trim()}</td>
-      <td>${parseFloat(cols[3]).toFixed(3)}</td>
-    `;
-    if(i === 0) tr.classList.add('gold');
-    else if(i === 1) tr.classList.add('silver');
-    else if(i === 2) tr.classList.add('bronze');
-    else if(i === rows.length-1) tr.classList.add('last');
-
-    table.appendChild(tr);
-  });
-}
-
-// initial load
-loadStandings();
-setInterval(loadStandings, 60000); // auto-refresh every 60s
-</script>
 
 </body>
 </html>
-
