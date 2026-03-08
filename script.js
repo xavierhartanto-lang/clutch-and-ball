@@ -137,8 +137,18 @@ document.getElementById("home-link").addEventListener("click", () => {
   restartAnimation(".hero p");
 });
 
+const TEAM_REVEAL_DURATION_MS = 700;
+
 document.getElementById("teams-link").addEventListener("click", () => {
   restartAnimation(".team-card");
+
+  // Remove .animate after animation ends so CSS no longer controls transform.
+  // This restores 3D tilt (mousemove/mouseleave) which uses inline transform.
+  setTimeout(() => {
+    document.querySelectorAll(".team-card").forEach((card) => {
+      card.classList.remove("animate");
+    });
+  }, TEAM_REVEAL_DURATION_MS);
 });
 
 document.getElementById("rules-link").addEventListener("click", () => {
