@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setupSmoothScroll();
     startCountdown();
     setupScrollReveal();
+    setupParallaxHero();
+    setupParticles();
 
     setInterval(loadStandings, 60000);
 
@@ -101,6 +103,42 @@ async function loadStandings() {
 
 }
 
+
+/* ============================
+   PARALLAX HERO
+============================ */
+
+function setupParallaxHero() {
+    const heroBg = document.querySelector(".hero-bg");
+    const hero = document.querySelector(".hero");
+    if (!heroBg || !hero) return;
+
+    function onScroll() {
+        if (window.innerWidth <= 768) return;
+        const rect = hero.getBoundingClientRect();
+        const scrolled = Math.max(0, -rect.top);
+        const parallaxOffset = scrolled * 0.35;
+        heroBg.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+}
+
+/* ============================
+   FLOATING PARTICLES
+============================ */
+
+function setupParticles() {
+    const container = document.getElementById("particles");
+    if (!container) return;
+
+    for (let i = 0; i < 10; i++) {
+        const p = document.createElement("span");
+        p.className = "particle";
+        container.appendChild(p);
+    }
+}
 
 /* ============================
    SCROLL REVEAL

@@ -23,7 +23,7 @@
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 8px 32px rgba(255, 140, 0, 0.25);
   --transition-fast: 0.2s ease;
-  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 main {
@@ -42,6 +42,57 @@ body {
   background: radial-gradient(ellipse at top, #1a1a1a 0%, #0d0d0d 50%, #000 100%);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* ===============================
+   FLOATING PARTICLES
+   =============================== */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 140, 0, 0.4);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+  animation: particleFloat 20s linear infinite;
+}
+
+.particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 18s; }
+.particle:nth-child(2) { left: 25%; top: 60%; animation-delay: -3s; animation-duration: 22s; }
+.particle:nth-child(3) { left: 40%; top: 80%; animation-delay: -6s; animation-duration: 20s; }
+.particle:nth-child(4) { left: 60%; top: 30%; animation-delay: -2s; animation-duration: 25s; }
+.particle:nth-child(5) { left: 75%; top: 50%; animation-delay: -8s; animation-duration: 19s; }
+.particle:nth-child(6) { left: 90%; top: 70%; animation-delay: -4s; animation-duration: 21s; }
+.particle:nth-child(7) { left: 15%; top: 85%; animation-delay: -10s; animation-duration: 23s; }
+.particle:nth-child(8) { left: 85%; top: 15%; animation-delay: -5s; animation-duration: 17s; }
+.particle:nth-child(9) { left: 50%; top: 5%; animation-delay: -7s; animation-duration: 24s; }
+.particle:nth-child(10) { left: 5%; top: 45%; animation-delay: -12s; animation-duration: 20s; }
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translate(30px, -40px) scale(1.2);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-20px, -80px) scale(0.9);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(40px, -120px) scale(1.1);
+    opacity: 0.5;
+  }
 }
 
 body::before {
@@ -190,7 +241,7 @@ nav a:focus-visible {
 }
 
 /* ===============================
-   HERO SECTION
+   HERO SECTION (PARALLAX)
    =============================== */
 .hero {
     height: clamp(280px, 60vh, 600px);
@@ -203,13 +254,26 @@ nav a:focus-visible {
     color: white;
     padding: 40px 24px;
     margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 -2px 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.hero-bg {
+    position: absolute;
+    inset: -20%;
+    z-index: 0;
     background-image:
         linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%),
         url("images/basketball.png");
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    box-shadow: inset 0 -2px 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3);
+    background-position: center top;
+    will-change: transform;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {
@@ -267,17 +331,22 @@ nav a:focus-visible {
     min-width: 0;
 
     flex: 0 0 220px;
-    padding: 32px 22px 24px;
+    padding: 36px 26px 28px;
 
     scroll-snap-align: start;
-    background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
+    background: rgba(18, 18, 18, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: white;
     border-radius: var(--radius-md);
     text-align: center;
-    border: 1px solid rgba(255, 140, 0, 0.08);
+    border: 1px solid rgba(255, 140, 0, 0.15);
 
-    box-shadow: var(--shadow-soft), 0 0 0 1px rgba(255, 255, 255, 0.03);
-    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-fast);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-fast), background var(--transition-fast);
 }
 
 .team-card::before{
@@ -355,11 +424,14 @@ nav a:focus-visible {
 }
 
 .team-card:hover{
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5),
+  background: rgba(25, 25, 25, 0.6);
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.5),
     0 0 30px var(--orange-neon-soft),
     0 0 60px var(--orange-glow),
-    0 0 0 1px rgba(255, 140, 0, 0.3);
-  border-color: rgba(255, 140, 0, 0.35);
+    0 0 0 1px rgba(255, 140, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 140, 0, 0.4);
   z-index: 10;
 }
 
@@ -540,7 +612,7 @@ nav a:focus-visible {
     padding: 14px 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
-    transition: background var(--transition-fast);
+    transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
 .standings tr:nth-child(even):not(:first-child) {
@@ -548,7 +620,7 @@ nav a:focus-visible {
 }
 
 .standings tbody tr {
-    transition: background var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
 .standings tbody tr:hover {
@@ -634,8 +706,16 @@ nav a:focus-visible {
 
 /* Prevent hero parallax on mobile (performance) */
 @media (max-width: 768px) {
-    .hero {
+    .hero-bg {
         background-attachment: scroll;
+        transform: none !important;
+    }
+}
+
+/* Reduce particles on mobile (performance) */
+@media (max-width: 768px) {
+    .particle:nth-child(n+6) {
+        display: none;
     }
 }
 
