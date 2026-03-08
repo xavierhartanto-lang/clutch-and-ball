@@ -26,6 +26,7 @@
   <p>MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</p>
 </section>
 
+
 <h2 id="home">Who are we?</h2>
 
 <p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
@@ -129,9 +130,60 @@
 
 </div>
 
+<h2 id="standings">Standings</h2>
+
+<table class="standings">
+  <tr>
+    <th>#</th>
+    <th>Team</th>
+    <th>Wins</th>
+    <th>Losses</th>
+    <th>PCT</th>
+  </tr>
+  <!-- Rows will be generated automatically by JS -->
+</table>
+
 <h2 id="schedule">Schedule</h2>
 <p> COMING SOON </p>
 
 </main>
+
+<script>
+async function loadStandings() {
+  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpKNTrOZ3HuunOBb17pdLvjBVtXtCV89pjkdjXb6aXnXzvOJ6l_a6zqADX3kW2llt2NStNrTluadzY/pub?output=csv'; // CSV link
+  const res = await fetch(sheetURL);
+  const text = await res.text();
+  const rows = text.split('\n').slice(1); // skip header
+  const table = document.querySelector('.standings');
+
+  // Clear old rows
+  table.querySelectorAll('tr:not(:first-child)').forEach(r => r.remove());
+
+  rows.forEach((row, i) => {
+    if (!row.trim()) return;
+    const cols = row.split(',');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td>${cols[0].trim()}</td>
+      <td>${cols[1].trim()}</td>
+      <td>${cols[2].trim()}</td>
+      <td>${parseFloat(cols[3]).toFixed(3)}</td>
+    `;
+    if(i === 0) tr.classList.add('gold');
+    else if(i === 1) tr.classList.add('silver');
+    else if(i === 2) tr.classList.add('bronze');
+    else if(i === rows.length-1) tr.classList.add('last');
+
+    table.appendChild(tr);
+  });
+}
+
+// initial load
+loadStandings();
+setInterval(loadStandings, 60000); // auto-refresh every 60s
+</script>
+
 </body>
 </html>
+

@@ -1,36 +1,6 @@
-@media (max-width: 800px) {
-  .teams-container {
-    flex-wrap: wrap;  /* allows stacking */
-    justify-content: center;
-  }
-
-  .team-card {
-    width: 90%;       /* full width on mobile */
-  }
-
-}
-
-.team-card {
-  background-color: #111;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 180px;
-  text-align: center;
-  flex-shrink: 0;
-  transition: all 0.25s ease;
-  transform: translateY(0) scale(1);
-  scroll-snap-align: center;
-}
-
-.team-card:hover {
-  transform: translateY(-8px) scale(1.06);
-  box-shadow: 0 10px 20px rgba(255, 165, 0, 0.6);
-}
-.team-card:hover h3{
-  color: orange;
-}
-
+/* ===============================
+   GENERAL STYLES
+   =============================== */
 body {
     background-color: #121212;
     color: white;
@@ -39,32 +9,12 @@ body {
     margin: 0;
 }
 
-.teams-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;            /* space between cards */
-  overflow-x: auto;      /* allows horizontal scrolling if needed */
-  padding: 10px;
-  flex-wrap: nowrap;     /* prevents wrapping */
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory; /* enables snap scrolling */
-
-}
-
-.teams-container::-webkit-scrollbar {
-  display: none;
-}
-
-.team-card p{
-  text-align: left;
-}
-
 h1 {
     color: orange;
     font-size: 80px;
     font-weight: 800;
     letter-spacing: 4px;
+    margin: 0;
 }
 
 h2 {
@@ -75,6 +25,7 @@ h2 {
 
 p {
     font-size: 18px;
+    margin-bottom: 30px;
 }
 
 .motto {
@@ -83,135 +34,262 @@ p {
     color: lightgray;
 }
 
-.navbar {
-  background-color: black;
-  padding: 15px;
-  position: sticky;
-  top: 0;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  margin: 20px;
-  font-size: 18px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.navbar a:hover {
-  color: orange;
-}
-
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
-.bio {
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.player:hover .bio {
-  visibility: visible;
-  opacity: 1;
-}
-
-.player {
-  position: relative;
-  color: lightblue;
-  cursor: pointer;
-}
-
-.bio {
-  visibility: hidden;
-  position: absolute;
-
-  background-color: black;
-  color: orange;
-
-  padding: 8px;
-  border-radius: 8px;
-
-  font-size: 14px;
-  width: 200px;
-  max-width: 200px;
-  line-height: 1.4;
-
-  bottom: 140%;
-  left: 0;
-  transform: translateX(-50%);
-
-  opacity: 0;
-  transition: opacity 0.2s;
-
-  box-shadow: 0 5px 15px rgba(230, 76, 4, 0.6)
-}
-
-.bio::after {
-  content: "";
-  position: absolute;
-
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-
-  border-width: 6px;
-  border-style: solid;
-  border-color: black transparent transparent transparent;
-}
-.player:hover .bio {
-  visibility: visible;
-  opacity: 1;
-}
-
-.player:hover{
-  color:orange;
-}
-
-.hero {
-  background-image: url("images/basketball.png");
-  background-size: cover;
-  background-position: center;
-  height: 600px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  color: white;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("images/basketball.png");
-}
-
-.hero h1 {
-  font-size: 70px;
-  margin: 0;
-}
-
-.hero p {
-  font-size: 20px;
-  opacity: 0.8;
-}
-
+/* ===============================
+   NAVIGATION
+   =============================== */
 nav {
-  background: black;
-  padding: 18px;
-  text-align: center;
+    background: black;
+    padding: 18px;
+    text-align: center;
 }
 
 nav a {
-  color: orange;
-  margin: 0 25px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.3s;
+    color: orange;
+    margin: 0 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;
 }
 
 nav a:hover {
-  color: white;
-  text-shadow: 0 0 10px orange;
+    color: white;
+    text-shadow: 0 0 10px orange;
+}
+
+/* ===============================
+   HERO SECTION
+   =============================== */
+.hero {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background-image:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url("images/basketball.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.hero h1 {
+    font-size: 70px;
+    margin: 0;
+}
+
+.hero p {
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+/* ===============================
+   TEAMS SECTION
+   =============================== */
+.teams-container {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    overflow-x: auto;          /* allow horizontal scroll */
+    flex-wrap: nowrap;          /* keep single row by default */
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    justify-content: center;    /* center cards on desktop */
+    -webkit-overflow-scrolling: touch; /* smooth swipe on iOS */
+}
+
+.teams-container::-webkit-scrollbar {
+    display: none; /* hide scrollbar */
+}
+
+.team-card {
+    flex: 0 0 180px;           /* fixed width, prevents shrinking */
+    scroll-snap-align: start;  /* snap to start */
+    background-color: #111;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 800px) {
+    .teams-container {
+        flex-wrap: nowrap;      /* keep horizontal scroll */
+        justify-content: flex-start; /* left-align for scrolling */
+        overflow-x: auto;
+        gap: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .team-card {
+        flex: 0 0 70%;          /* wider cards on mobile */
+        min-width: 200px;
+        scroll-snap-align: start;
+    }
+}
+
+/* BIO TOOLTIP */
+.player {
+    position: relative;
+    color: lightblue;
+    cursor: pointer;
+}
+
+.bio {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: orange;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 200px;
+    max-width: 200px;
+    line-height: 1.4;
+    box-shadow: 0 5px 15px rgba(230, 76, 4, 0.6);
+    transition: opacity 0.2s;
+}
+
+.bio::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.player:hover .bio {
+    visibility: visible;
+    opacity: 1;
+}
+
+.player:hover {
+    color: orange;
+}
+
+/* ===============================
+   STANDINGS TABLE
+   =============================== */
+.standings {
+    margin: 40px auto;
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 600px;
+    font-size: 18px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.standings th {
+    background: linear-gradient(90deg, #ff8c00, #ffbf00);
+    color: #111;
+    padding: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid orange;
+}
+
+.standings td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    text-align: center;
+}
+
+.standings tr:nth-child(even):not(:first-child) {
+    background-color: #1a1a1a;
+}
+
+.standings tr:hover {
+    background: #222;
+    transform: scale(1.02);
+    transition: 0.2s;
+}
+
+/* Dynamic styling by rank */
+.standings tr.gold {
+    background: linear-gradient(90deg, gold, #ffd700);
+    color: #111;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.standings tr.silver {
+    background: linear-gradient(90deg, silver, #dcdcdc);
+    color: #111;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.standings tr.bronze {
+    background: linear-gradient(90deg, #cd7f32, #d2a679);
+    color: #111;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.standings tr.last {
+    background: #3a0000;
+    color: #ffaaaa;
+    font-weight: bold;
+}
+
+/* ===============================
+   MEDIA QUERIES (RESPONSIVE)
+   =============================== */
+@media (max-width: 800px) {
+    h1 {
+        font-size: 50px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .hero {
+        height: 400px;
+    }
+
+    .standings {
+        font-size: 16px;
+    }
+}
+
+/* ===============================
+   MOBILE NAVBAR FIX
+   =============================== */
+@media (max-width: 800px) {
+    nav {
+        display: flex;
+        flex-wrap: wrap;        /* allow links to go to next line */
+        justify-content: center; /* center links */
+        padding: 15px;
+    }
+
+    nav a {
+        margin: 10px;           /* spacing between links */
+        font-size: 16px;        /* slightly smaller text */
+    }
 }
