@@ -11,6 +11,8 @@
   --orange: #ff8c00;
   --orange-bright: #ffa500;
   --orange-glow: rgba(255, 140, 0, 0.5);
+  --orange-neon: rgba(255, 140, 0, 0.9);
+  --orange-neon-soft: rgba(255, 140, 0, 0.35);
   --bg-dark: #0d0d0d;
   --bg-card: #151515;
   --bg-card-hover: #1a1a1a;
@@ -36,9 +38,32 @@ body {
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   text-align: center;
   margin: 0;
+  position: relative;
   background: radial-gradient(ellipse at top, #1a1a1a 0%, #0d0d0d 50%, #000 100%);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 50%,
+    rgba(255, 140, 0, 0.05) 0%,
+    rgba(255, 100, 0, 0.02) 40%,
+    transparent 70%
+  );
+  background-size: 150% 150%;
+  background-position: 0% 0%;
+  animation: bgDrift 25s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes bgDrift {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
 }
 
 h1 {
@@ -47,6 +72,7 @@ h1 {
     font-weight: 800;
     letter-spacing: clamp(2px, 1vw, 6px);
     margin: 0;
+    text-shadow: 0 0 10px var(--orange-neon-soft), 0 0 20px var(--orange-glow), 0 0 40px rgba(255, 140, 0, 0.15);
 }
 
 h2 {
@@ -57,6 +83,7 @@ h2 {
     font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 700;
     letter-spacing: 1px;
+    text-shadow: 0 0 12px var(--orange-neon-soft), 0 0 24px rgba(255, 140, 0, 0.2);
 }
 
 p {
@@ -114,19 +141,20 @@ nav {
     justify-content: center;
     align-items: center;
     gap: 8px 12px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 1px 0 0 rgba(255, 140, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 140, 0, 0.2);
 }
 
 nav a {
     color: var(--orange);
     margin: 0;
     padding: 10px 18px;
+    text-shadow: 0 0 8px var(--orange-neon-soft);
     text-decoration: none;
     font-weight: 600;
     font-size: clamp(0.9rem, 2.5vw, 16px);
     position: relative;
-    transition: color var(--transition-fast), text-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    transition: color var(--transition-fast), text-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
     font-family: 'Montserrat', sans-serif;
     border-radius: var(--radius-sm);
 }
@@ -145,8 +173,9 @@ nav a::after {
 
 nav a:hover {
     color: #fff;
-    text-shadow: 0 0 12px var(--orange-glow), 0 0 24px var(--orange-glow);
-    background: rgba(255, 140, 0, 0.12);
+    text-shadow: 0 0 8px var(--orange-neon), 0 0 16px var(--orange-glow), 0 0 32px var(--orange-neon-soft);
+    background: rgba(255, 140, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
     transform: translateY(-1px);
 }
 
@@ -190,7 +219,7 @@ nav a:focus-visible {
     margin: 0;
     position: relative;
     overflow: hidden;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 30px var(--orange-glow);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 20px var(--orange-neon-soft), 0 0 40px var(--orange-glow), 0 0 60px rgba(255, 140, 0, 0.2);
 }
 
 .hero p {
@@ -260,10 +289,31 @@ nav a:focus-visible {
   rgba(255,255,255,0.2), transparent 45%);
   opacity:0;
   transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.team-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:var(--radius-md);
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.06) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255,255,255,0.02) 100%);
+  opacity:0;
+  transition: opacity var(--transition-smooth);
+  pointer-events: none;
 }
 
 .team-card:hover::before{
   opacity:1;
+}
+
+.team-card:hover::after{
+  opacity:1;
+  box-shadow: inset 0 1px 0 rgba(255, 140, 0, 0.25), inset 0 0 24px rgba(255, 140, 0, 0.08);
 }
 
 .team-card h3 {
@@ -274,6 +324,7 @@ nav a:focus-visible {
     font-weight: 700;
     letter-spacing: 0.5px;
     color: var(--orange-bright);
+    text-shadow: 0 0 12px var(--orange-neon-soft);
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
@@ -304,21 +355,32 @@ nav a:focus-visible {
 }
 
 .team-card:hover{
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px var(--orange-glow), 0 0 0 1px rgba(255, 140, 0, 0.2);
-  border-color: rgba(255, 140, 0, 0.25);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5),
+    0 0 30px var(--orange-neon-soft),
+    0 0 60px var(--orange-glow),
+    0 0 0 1px rgba(255, 140, 0, 0.3);
+  border-color: rgba(255, 140, 0, 0.35);
   z-index: 10;
 }
 
 /* Team color glow effects */
 
 .green-giants:hover{
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 120, 0.35), 0 0 0 1px rgba(0, 255, 120, 0.2);
-  border-color: rgba(0, 255, 120, 0.25);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 120, 0.3), 0 0 50px rgba(0, 255, 120, 0.2), 0 0 0 1px rgba(0, 255, 120, 0.35);
+  border-color: rgba(0, 255, 120, 0.35);
+}
+
+.green-giants:hover::after{
+  box-shadow: inset 0 1px 0 rgba(0, 255, 120, 0.2), inset 0 0 24px rgba(0, 255, 120, 0.06);
 }
 
 .lochie:hover{
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 20, 147, 0.35), 0 0 0 1px rgba(255, 20, 147, 0.2);
-  border-color: rgba(255, 20, 147, 0.25);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 20, 147, 0.3), 0 0 50px rgba(255, 20, 147, 0.2), 0 0 0 1px rgba(255, 20, 147, 0.35);
+  border-color: rgba(255, 20, 147, 0.35);
+}
+
+.lochie:hover::after{
+  box-shadow: inset 0 1px 0 rgba(255, 20, 147, 0.2), inset 0 0 24px rgba(255, 20, 147, 0.06);
 }
 
 /* MOBILE: 1 per row (stacked) on small phones */
@@ -368,7 +430,7 @@ nav a:focus-visible {
     padding: 8px 4px;
     margin: 4px 0;
     border-radius: var(--radius-sm);
-    transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast), text-shadow var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .player:focus {
@@ -433,6 +495,8 @@ nav a:focus-visible {
 .player:hover {
     color: var(--orange);
     background: rgba(255, 140, 0, 0.08);
+    text-shadow: 0 0 8px var(--orange-neon-soft), 0 0 16px rgba(255, 140, 0, 0.2);
+    box-shadow: 0 0 12px rgba(255, 140, 0, 0.15);
 }
 
 /* ===============================
@@ -457,8 +521,8 @@ nav a:focus-visible {
     background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
     border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: var(--shadow-soft), 0 0 0 1px rgba(255, 140, 0, 0.08);
-    border: 1px solid rgba(255, 140, 0, 0.06);
+    box-shadow: var(--shadow-soft), 0 0 20px var(--orange-neon-soft), 0 0 0 1px rgba(255, 140, 0, 0.08);
+    border: 1px solid rgba(255, 140, 0, 0.08);
 }
 
 .standings th {
@@ -669,16 +733,18 @@ nav a:focus-visible {
   margin-top: 8px;
   background: linear-gradient(145deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05));
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 140, 0, 0.25);
+  border: 1px solid rgba(255, 140, 0, 0.3);
   color: var(--orange-bright);
   font-weight: 600;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 140, 0, 0.1);
-  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  text-shadow: 0 0 12px var(--orange-neon-soft);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 24px var(--orange-neon-soft), 0 0 0 1px rgba(255, 140, 0, 0.1);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast), text-shadow var(--transition-fast);
 }
 
 #next-game:hover {
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4), 0 0 30px var(--orange-glow);
-  border-color: rgba(255, 140, 0, 0.4);
+  text-shadow: 0 0 12px var(--orange-neon), 0 0 24px var(--orange-glow);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4), 0 0 30px var(--orange-glow), 0 0 50px var(--orange-neon-soft), 0 0 0 1px rgba(255, 140, 0, 0.3);
+  border-color: rgba(255, 140, 0, 0.5);
 }
 
 .team-card:nth-child(1).animate { animation-delay: 0.05s; }
