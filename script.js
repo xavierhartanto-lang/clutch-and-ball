@@ -7,8 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
     loadStandings();
     setupSmoothScroll();
     startCountdown();
+    setupScrollReveal();
 
     setInterval(loadStandings, 60000);
+
+    /* Hero entrance animation on initial load */
+    const heroH1 = document.querySelector(".hero h1");
+    const heroP = document.querySelector(".hero p");
+    if (heroH1) heroH1.classList.add("animate");
+    if (heroP) heroP.classList.add("animate");
 
     /* TEAM CARD 3D TILT */
 
@@ -94,6 +101,29 @@ async function loadStandings() {
 
 }
 
+
+/* ============================
+   SCROLL REVEAL
+============================ */
+
+function setupScrollReveal() {
+    const sections = document.querySelectorAll(".section-reveal");
+    const options = {
+        root: null,
+        rootMargin: "0px 0px -80px 0px",
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, options);
+
+    sections.forEach((section) => observer.observe(section));
+}
 
 /* ============================
    SMOOTH SCROLL NAV

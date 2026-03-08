@@ -1,6 +1,12 @@
 /* ===============================
    GENERAL STYLES
    =============================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --orange: #ff8c00;
   --orange-bright: #ffa500;
@@ -20,7 +26,8 @@
 
 main {
   max-width: 1000px;
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
   padding: 32px 24px 48px;
 }
 
@@ -31,6 +38,7 @@ body {
   margin: 0;
   background: radial-gradient(ellipse at top, #1a1a1a 0%, #0d0d0d 50%, #000 100%);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -68,6 +76,25 @@ p {
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
+    overflow-x: hidden;
+}
+
+/* ===============================
+   SCROLL REVEAL ANIMATIONS
+   =============================== */
+.section-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section.section-reveal {
+    margin-bottom: 16px;
 }
 
 /* ===============================
@@ -98,9 +125,22 @@ nav a {
     text-decoration: none;
     font-weight: 600;
     font-size: clamp(0.9rem, 2.5vw, 16px);
+    position: relative;
     transition: color var(--transition-fast), text-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
     font-family: 'Montserrat', sans-serif;
     border-radius: var(--radius-sm);
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange-bright), transparent);
+    transform: translateX(-50%);
+    transition: width var(--transition-smooth);
 }
 
 nav a:hover {
@@ -108,6 +148,10 @@ nav a:hover {
     text-shadow: 0 0 12px var(--orange-glow), 0 0 24px var(--orange-glow);
     background: rgba(255, 140, 0, 0.12);
     transform: translateY(-1px);
+}
+
+nav a:hover::after {
+    width: calc(100% - 20px);
 }
 
 nav a:focus-visible {
@@ -131,7 +175,7 @@ nav a:focus-visible {
     padding: 40px 24px;
     margin-bottom: 48px;
     background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.75) 100%),
         url("images/basketball.png");
     background-size: cover;
     background-position: center;
@@ -450,24 +494,27 @@ nav a:focus-visible {
 
 /* Dynamic styling by rank */
 .standings tr.gold {
-    background: linear-gradient(90deg, gold, #ffd700);
-    color: #111;
-    font-weight: bold;
+    background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+    color: #1a1a1a;
+    font-weight: 700;
     font-size: 19px;
+    box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 .standings tr.silver {
-    background: linear-gradient(90deg, silver, #dcdcdc);
-    color: #111;
-    font-weight: bold;
+    background: linear-gradient(90deg, #c0c0c0 0%, #e8e8e8 50%, #c0c0c0 100%);
+    color: #1a1a1a;
+    font-weight: 700;
     font-size: 19px;
+    box-shadow: inset 0 0 15px rgba(192, 192, 192, 0.3);
 }
 
 .standings tr.bronze {
-    background: linear-gradient(90deg, #cd7f32, #d2a679);
-    color: #111;
-    font-weight: bold;
+    background: linear-gradient(90deg, #cd7f32 0%, #e8a857 50%, #cd7f32 100%);
+    color: #1a1a1a;
+    font-weight: 700;
     font-size: 19px;
+    box-shadow: inset 0 0 15px rgba(205, 127, 50, 0.3);
 }
 
 .standings tr.last {
@@ -510,6 +557,7 @@ nav a:focus-visible {
 /* Small phones */
 @media (max-width: 480px) {
     main { padding: 20px 12px 32px; }
+    .teams-container { padding: 12px 12px 20px; }
     h2 { font-size: 1.35rem; margin-top: 24px; }
     p { font-size: 15px; }
     .standings { font-size: 14px; min-width: 280px; }
