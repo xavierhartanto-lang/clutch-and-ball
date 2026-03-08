@@ -1,37 +1,62 @@
 /* ===============================
    GENERAL STYLES
    =============================== */
+:root {
+  --orange: #ff8c00;
+  --orange-bright: #ffa500;
+  --orange-glow: rgba(255, 140, 0, 0.5);
+  --bg-dark: #0d0d0d;
+  --bg-card: #151515;
+  --bg-card-hover: #1a1a1a;
+  --text-muted: #a3a3a3;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 8px 32px rgba(255, 140, 0, 0.25);
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 main {
   max-width: 1000px;
   margin: auto;
-  padding: 20px;
+  padding: 32px 24px 48px;
 }
 
 body {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  color: #e8e8e8;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   text-align: center;
   margin: 0;
-  background: radial-gradient(circle at top, #1a1a1a, #000);
+  background: radial-gradient(ellipse at top, #1a1a1a 0%, #0d0d0d 50%, #000 100%);
+  line-height: 1.6;
 }
 
 h1 {
-    color: orange;
+    color: var(--orange);
     font-size: clamp(2rem, 8vw, 80px);
     font-weight: 800;
-    letter-spacing: clamp(1px, 0.5vw, 4px);
+    letter-spacing: clamp(2px, 1vw, 6px);
     margin: 0;
 }
 
 h2 {
-    color: rgb(255, 165, 0);
+    color: var(--orange-bright);
     text-align: center;
-    margin-top: 40px;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
 p {
-    font-size: 18px;
-    margin-bottom: 30px;
+    font-size: 17px;
+    margin-bottom: 32px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .motto {
@@ -52,30 +77,43 @@ nav {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: black;
-    padding: 14px 10px;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 16px 20px;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 8px 4px;
+    gap: 8px 12px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 140, 0, 0.15);
 }
 
 nav a {
-    color: orange;
+    color: var(--orange);
     margin: 0;
-    padding: 8px 12px;
+    padding: 10px 18px;
     text-decoration: none;
-    font-weight: bold;
-    font-size: clamp(0.9rem, 2.5vw, 18px);
-    transition: 0.3s;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.5vw, 16px);
+    transition: color var(--transition-fast), text-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
     font-family: 'Montserrat', sans-serif;
+    border-radius: var(--radius-sm);
 }
 
 nav a:hover {
-    color: white;
-    text-shadow: 0 0 10px orange;
+    color: #fff;
+    text-shadow: 0 0 12px var(--orange-glow), 0 0 24px var(--orange-glow);
+    background: rgba(255, 140, 0, 0.12);
+    transform: translateY(-1px);
+}
+
+nav a:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
 }
 
 /* ===============================
@@ -90,13 +128,15 @@ nav a:hover {
     align-items: center;
     text-align: center;
     color: white;
-    padding: 20px;
+    padding: 40px 24px;
+    margin-bottom: 48px;
     background-image:
-        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%),
         url("images/basketball.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    box-shadow: inset 0 -2px 40px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .hero h1 {
@@ -106,11 +146,14 @@ nav a:hover {
     margin: 0;
     position: relative;
     overflow: hidden;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 30px var(--orange-glow);
 }
 
 .hero p {
     font-size: clamp(0.95rem, 3vw, 20px);
     opacity: 0;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes fadeIn {
@@ -129,8 +172,8 @@ nav a:hover {
    =============================== */
 .teams-container {
     display: flex;
-    gap: 20px;
-    padding: 10px 60px;
+    gap: 24px;
+    padding: 16px 60px 24px;
     overflow-x: auto;          /* allow horizontal scroll */
     overflow-y: visible;
     flex-wrap: nowrap;          /* keep single row by default */
@@ -151,26 +194,28 @@ nav a:hover {
     min-width: 0;
 
     flex: 0 0 220px;
-    padding: 30px 20px 20px 20px;  /* more space at top */
+    padding: 32px 22px 24px;
 
     scroll-snap-align: start;
-    background-color: #111;
+    background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
     color: white;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     text-align: center;
+    border: 1px solid rgba(255, 140, 0, 0.08);
 
-    transition: transform 0.2s ease, box-shadow 0.25s ease;
+    box-shadow: var(--shadow-soft), 0 0 0 1px rgba(255, 255, 255, 0.03);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-fast);
 }
 
 .team-card::before{
   content:"";
   position:absolute;
   inset:0;
-  border-radius:10px;
+  border-radius:var(--radius-md);
   background: radial-gradient(circle at var(--x) var(--y),
-  rgba(255,255,255,0.25), transparent 40%);
+  rgba(255,255,255,0.2), transparent 45%);
   opacity:0;
-  transition:opacity .2s;
+  transition: opacity var(--transition-fast);
 }
 
 .team-card:hover::before{
@@ -179,10 +224,16 @@ nav a:hover {
 
 .team-card h3 {
     transform: translateZ(40px);
-    margin-bottom: 35px;
+    margin-bottom: 28px;
+    margin-top: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--orange-bright);
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    line-height: 1.4;
 }
 
 .player{
@@ -209,18 +260,21 @@ nav a:hover {
 }
 
 .team-card:hover{
-  box-shadow: 0 15px 35px rgba(255,140,0,0.4);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px var(--orange-glow), 0 0 0 1px rgba(255, 140, 0, 0.2);
+  border-color: rgba(255, 140, 0, 0.25);
   z-index: 10;
 }
 
 /* Team color glow effects */
 
 .green-giants:hover{
-  box-shadow: 0 15px 40px rgba(0,255,120,0.6);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 255, 120, 0.35), 0 0 0 1px rgba(0, 255, 120, 0.2);
+  border-color: rgba(0, 255, 120, 0.25);
 }
 
 .lochie:hover{
-  box-shadow: 0 15px 40px rgba(255,20,147,0.6);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 20, 147, 0.35), 0 0 0 1px rgba(255, 20, 147, 0.2);
+  border-color: rgba(255, 20, 147, 0.25);
 }
 
 /* MOBILE: 1 per row (stacked) on small phones */
@@ -265,8 +319,12 @@ nav a:hover {
 /* BIO TOOLTIP */
 .player {
     position: relative;
-    color: lightblue;
+    color: #7dd3fc;
     cursor: pointer;
+    padding: 8px 4px;
+    margin: 4px 0;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
 }
 
 .player:focus {
@@ -287,11 +345,12 @@ nav a:hover {
     left: 50%;
     transform: translateX(-50%);
 
-    background-color: black;
-    color: orange;
+    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    color: var(--orange);
+    border: 1px solid rgba(255, 140, 0, 0.2);
 
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
 
     font-size: 13px;
     max-width: min(230px, calc(100vw - 40px));
@@ -300,10 +359,10 @@ nav a:hover {
     overflow-wrap: break-word;
     hyphens: auto;
 
-    line-height: 1.4;
+    line-height: 1.5;
 
-    box-shadow: 0 6px 18px rgba(255,140,0,0.6);
-    transition: opacity 0.2s;
+    box-shadow: var(--shadow-soft), 0 0 24px var(--orange-glow), 0 0 0 1px rgba(255, 140, 0, 0.1);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
 
     z-index: 999;
 }
@@ -318,7 +377,7 @@ nav a:hover {
 
     border-width: 7px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
+    border-color: #1a1a1a transparent transparent transparent;
 }
 
 .player:hover .bio {
@@ -328,19 +387,21 @@ nav a:hover {
 }
 
 .player:hover {
-    color: orange;
+    color: var(--orange);
+    background: rgba(255, 140, 0, 0.08);
 }
 
 /* ===============================
    STANDINGS TABLE
    =============================== */
 .standings-wrapper {
-    margin: 40px auto;
+    margin: 48px auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 640px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
+    padding: 4px;
 }
 
 .standings {
@@ -348,36 +409,43 @@ nav a:hover {
     border-collapse: collapse;
     width: 100%;
     min-width: 320px;
-    font-size: 18px;
-    background: #111;
-    border-radius: 10px;
+    font-size: 17px;
+    background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-soft), 0 0 0 1px rgba(255, 140, 0, 0.08);
+    border: 1px solid rgba(255, 140, 0, 0.06);
 }
 
 .standings th {
-    background: linear-gradient(90deg, #ff8c00, #ffbf00);
+    background: linear-gradient(90deg, #ff8c00, #ffa500);
     color: #111;
-    padding: 14px;
+    padding: 16px 14px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid orange;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .standings td {
-    padding: 12px;
-    border-bottom: 1px solid #333;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     text-align: center;
+    transition: background var(--transition-fast);
 }
 
 .standings tr:nth-child(even):not(:first-child) {
-    background-color: #1a1a1a;
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
-.standings tr:hover {
-    background: #222;
-    transform: scale(1.02);
-    transition: 0.2s;
+.standings tbody tr {
+    transition: background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.standings tbody tr:hover {
+    background: rgba(255, 140, 0, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 140, 0, 0.15);
 }
 
 /* Dynamic styling by rank */
@@ -403,7 +471,7 @@ nav a:hover {
 }
 
 .standings tr.last {
-    background: #3a0000;
+    background: linear-gradient(90deg, rgba(80, 0, 0, 0.6), rgba(60, 0, 0, 0.4));
     color: #ffaaaa;
     font-weight: bold;
 }
@@ -428,7 +496,7 @@ nav a:hover {
 
 /* Tablet and below */
 @media (max-width: 800px) {
-    main { padding: 16px; }
+    main { padding: 24px 16px 40px; }
     h2 { font-size: 1.5rem; margin-top: 28px; }
     p { font-size: 16px; }
     .standings { font-size: 15px; }
@@ -441,7 +509,7 @@ nav a:hover {
 
 /* Small phones */
 @media (max-width: 480px) {
-    main { padding: 12px; }
+    main { padding: 20px 12px 32px; }
     h2 { font-size: 1.35rem; margin-top: 24px; }
     p { font-size: 15px; }
     .standings { font-size: 14px; min-width: 280px; }
@@ -542,6 +610,27 @@ nav a:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ===============================
+   NEXT GAME / CTA
+   =============================== */
+#next-game {
+  display: inline-block;
+  padding: 16px 24px;
+  margin-top: 8px;
+  background: linear-gradient(145deg, rgba(255, 140, 0, 0.15), rgba(255, 140, 0, 0.05));
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  color: var(--orange-bright);
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 140, 0, 0.1);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+#next-game:hover {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4), 0 0 30px var(--orange-glow);
+  border-color: rgba(255, 140, 0, 0.4);
 }
 
 .team-card:nth-child(1).animate { animation-delay: 0.05s; }
