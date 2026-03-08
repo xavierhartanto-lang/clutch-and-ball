@@ -9,11 +9,35 @@ document.addEventListener("DOMContentLoaded", () => {
     startCountdown();
 
     setInterval(loadStandings, 60000);
-});
 
-window.addEventListener("load", () => {
-  restartAnimation(".hero h1");
-  restartAnimation(".hero p");
+    /* TEAM CARD 3D TILT */
+
+    const cards = document.querySelectorAll(".team-card");
+
+    cards.forEach(card => {
+
+      card.addEventListener("mousemove", (e) => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const rotateY = (x - rect.width / 2) / 15;
+        const rotateX = -(y - rect.height / 2) / 15;
+
+        card.style.transform =
+          `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform =
+          `perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)`;
+      });
+
+    });
+
 });
 
 
@@ -118,7 +142,8 @@ document.getElementById("teams-link").addEventListener("click", () => {
 });
 
 document.getElementById("rules-link").addEventListener("click", () => {
-  restartAnimation("#home");
+  restartAnimation(".hero h1");
+  restartAnimation(".hero p");
 });
 
 
@@ -214,5 +239,7 @@ function startCountdown(){
 
 }
 
-
+/* ============================
+   TEAM CARD 3D TILT EFFECT
+============================ */
 

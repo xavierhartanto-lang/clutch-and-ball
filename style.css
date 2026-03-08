@@ -1,16 +1,18 @@
 /* ===============================
    GENERAL STYLES
    =============================== */
-body {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    margin: 0;
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
 }
 
 body {
-  background:
-  radial-gradient(circle at top, #1a1a1a, #000)
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  margin: 0;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
 }
 
 h1 {
@@ -90,7 +92,7 @@ nav a:hover {
 }
 
 .hero h1 {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(30px);
     font-size: 70px;
     margin: 0;
@@ -120,13 +122,15 @@ nav a:hover {
 .teams-container {
     display: flex;
     gap: 20px;
-    padding: 10px;
+    padding: 10px 60px;
     overflow-x: auto;          /* allow horizontal scroll */
+    overflow-y: visible;
     flex-wrap: nowrap;          /* keep single row by default */
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    justify-content: center;    /* center cards on desktop */
     -webkit-overflow-scrolling: touch; /* smooth swipe on iOS */
+    perspective: 900px;
+    scroll-padding-left: 60px;
 }
 
 .teams-container::-webkit-scrollbar {
@@ -134,17 +138,43 @@ nav a:hover {
 }
 
 .team-card {
-    flex: 0 0 180px;
+    position: relative;
+    overflow: visible;
+
+    flex: 0 0 220px;
+    padding: 30px 20px 20px 20px;  /* more space at top */
+
     scroll-snap-align: start;
     background-color: #111;
     color: white;
-    padding: 20px;
     border-radius: 10px;
     text-align: center;
-    transition: all 0.25s ease;
 
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.team-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:10px;
+  background: radial-gradient(circle at var(--x) var(--y),
+  rgba(255,255,255,0.25), transparent 40%);
+  opacity:0;
+  transition:opacity .2s;
+}
+
+.team-card:hover::before{
+  opacity:1;
+}
+
+.team-card h3 {
+    transform: translateZ(40px);
+    margin-bottom: 35px;
+}
+
+.player{
+  transform: translateZ(25px);
 }
 
 .team-card:nth-child(2) {
@@ -167,8 +197,18 @@ nav a:hover {
 }
 
 .team-card:hover{
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(255,140,0,0.5);
+  box-shadow: 0 15px 35px rgba(255,140,0,0.4);
+  z-index: 10;
+}
+
+/* Team color glow effects */
+
+.green-giants:hover{
+  box-shadow: 0 15px 40px rgba(0,255,120,0.6);
+}
+
+.lochie:hover{
+  box-shadow: 0 15px 40px rgba(255,20,147,0.6);
 }
 
 /* MOBILE RESPONSIVE */
@@ -200,28 +240,37 @@ nav a:hover {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    bottom: 140%;
-    left: 50%;
-    transform: translateX(-50%);
+
+    bottom: 140%;        /* above player */
+    left: 50%;           /* align with player */
+    transform: translateX(-20%);  /* slight right shift */
+
     background-color: black;
     color: orange;
-    padding: 8px;
-    border-radius: 8px;
+
+    padding: 10px 14px;
+    border-radius: 10px;
+
     font-size: 14px;
-    width: 200px;
-    max-width: 200px;
+    max-width: 230px;
+    width: max-content;
+
     line-height: 1.4;
-    box-shadow: 0 5px 15px rgba(230, 76, 4, 0.6);
+
+    box-shadow: 0 6px 18px rgba(255,140,0,0.6);
     transition: opacity 0.2s;
+
+    z-index: 999;
 }
 
 .bio::after {
     content: "";
     position: absolute;
+
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 6px;
+    left: 25%;
+
+    border-width: 7px;
     border-style: solid;
     border-color: black transparent transparent transparent;
 }
@@ -229,6 +278,7 @@ nav a:hover {
 .player:hover .bio {
     visibility: visible;
     opacity: 1;
+    transform: translateX(-20%) translateY(-4px);
 }
 
 .player:hover {
@@ -303,7 +353,7 @@ nav a:hover {
     font-weight: bold;
 }
 
-table {
+.standings {
   opacity: 0;
   transform: translateY(20px);
   animation: tableFade 1.2s ease forwards;
@@ -396,6 +446,11 @@ table {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+.team-card.animate {
+  animation: teamReveal 0.7s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-fill-mode: forwards;
 }
 
 @keyframes heroReveal {
