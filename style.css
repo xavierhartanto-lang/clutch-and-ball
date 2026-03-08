@@ -1,0 +1,217 @@
+@media (max-width: 800px) {
+  .teams-container {
+    flex-wrap: wrap;  /* allows stacking */
+    justify-content: center;
+  }
+
+  .team-card {
+    width: 90%;       /* full width on mobile */
+  }
+
+}
+
+.team-card {
+  background-color: #111;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  transform: translateY(0) scale(1);
+  scroll-snap-align: center;
+}
+
+.team-card:hover {
+  transform: translateY(-8px) scale(1.06);
+  box-shadow: 0 10px 20px rgba(255, 165, 0, 0.6);
+}
+.team-card:hover h3{
+  color: orange;
+}
+
+body {
+    background-color: #121212;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+.teams-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;            /* space between cards */
+  overflow-x: auto;      /* allows horizontal scrolling if needed */
+  padding: 10px;
+  flex-wrap: nowrap;     /* prevents wrapping */
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory; /* enables snap scrolling */
+
+}
+
+.teams-container::-webkit-scrollbar {
+  display: none;
+}
+
+.team-card p{
+  text-align: left;
+}
+
+h1 {
+    color: orange;
+    font-size: 80px;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+h2 {
+    color: rgb(255, 165, 0);
+    text-align: center;
+    margin-top: 40px;
+}
+
+p {
+    font-size: 18px;
+}
+
+.motto {
+    font-family: Impact;
+    font-size: 22px;
+    color: lightgray;
+}
+
+.navbar {
+  background-color: black;
+  padding: 15px;
+  position: sticky;
+  top: 0;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 20px;
+  font-size: 18px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.navbar a:hover {
+  color: orange;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.bio {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.player:hover .bio {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player {
+  position: relative;
+  color: lightblue;
+  cursor: pointer;
+}
+
+.bio {
+  visibility: hidden;
+  position: absolute;
+
+  background-color: black;
+  color: orange;
+
+  padding: 8px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  width: 200px;
+  max-width: 200px;
+  line-height: 1.4;
+
+  bottom: 140%;
+  left: 0;
+  transform: translateX(-50%);
+
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  box-shadow: 0 5px 15px rgba(230, 76, 4, 0.6)
+}
+
+.bio::after {
+  content: "";
+  position: absolute;
+
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+.player:hover .bio {
+  visibility: visible;
+  opacity: 1;
+}
+
+.player:hover{
+  color:orange;
+}
+
+.hero {
+  background-image: url("images/basketball.png");
+  background-size: cover;
+  background-position: center;
+  height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: white;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("images/basketball.png");
+}
+
+.hero h1 {
+  font-size: 70px;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+nav {
+  background: black;
+  padding: 18px;
+  text-align: center;
+}
+
+nav a {
+  color: orange;
+  margin: 0 25px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: white;
+  text-shadow: 0 0 10px orange;
+}
