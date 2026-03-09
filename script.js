@@ -86,11 +86,7 @@ function setMessage(id, text) {
 }
 
 function setupAuth() {
-    const signedOut = document.getElementById("auth-signed-out");
-    const signedIn = document.getElementById("auth-signed-in");
     const authEmail = document.getElementById("auth-email");
-    const createLeagueForm = document.getElementById("create-league-form");
-    const myLeagues = document.getElementById("my-leagues");
 
     function updateAuthUI(session) {
         const isSignedIn = !!session?.user;
@@ -110,27 +106,47 @@ function setupAuth() {
         updateAuthUI(session);
     });
 
-    document.getElementById("tab-signin")?.addEventListener("click", () => {
-        document.getElementById("form-signin").classList.remove("hidden");
-        document.getElementById("form-signup").classList.add("hidden");
-        document.getElementById("tab-signin").classList.add("active");
-        document.getElementById("tab-signup").classList.remove("active");
-        setMessage("auth-message", "");
+    document.getElementById("tab-signin")?.addEventListener("click", () => switchAuthTab("signin"));
+    document.getElementById("tab-signup")?.addEventListener("click", () => switchAuthTab("signup"));
+
+    document.querySelector(".auth-tabs")?.addEventListener("keydown", (e) => {
+        const tabs = e.currentTarget.querySelectorAll("[role=tab]");
+        const idx = Array.from(tabs).indexOf(document.activeElement);
+        if (idx === -1) return;
+        if (e.key === "ArrowRight" && idx < tabs.length - 1) {
+            e.preventDefault();
+            switchAuthTab("signup");
+            tabs[idx + 1].focus();
+        } else if (e.key === "ArrowLeft" && idx > 0) {
+            e.preventDefault();
+            switchAuthTab("signin");
+            tabs[idx - 1].focus();
+        }
     });
-    document.getElementById("tab-signup")?.addEventListener("click", () => {
-        document.getElementById("form-signup").classList.remove("hidden");
-        document.getElementById("form-signin").classList.add("hidden");
-        document.getElementById("tab-signup").classList.add("active");
-        document.getElementById("tab-signin").classList.remove("active");
+
+    function switchAuthTab(which) {
+        const isSignin = which === "signin";
+        const signinForm = document.getElementById("form-signin");
+        const signupForm = document.getElementById("form-signup");
+        const tabSignin = document.getElementById("tab-signin");
+        const tabSignup = document.getElementById("tab-signup");
+        signinForm?.classList.toggle("hidden", !isSignin);
+        signupForm?.classList.toggle("hidden", isSignin);
+        tabSignin?.classList.toggle("active", isSignin);
+        tabSignup?.classList.toggle("active", !isSignin);
+        tabSignin?.setAttribute("aria-selected", isSignin ? "true" : "false");
+        tabSignup?.setAttribute("aria-selected", !isSignin ? "true" : "false");
+        signinForm?.setAttribute("aria-hidden", isSignin ? "false" : "true");
+        signupForm?.setAttribute("aria-hidden", !isSignin ? "false" : "true");
         setMessage("auth-message", "");
-    });
+    }
 
     document.getElementById("form-signin")?.addEventListener("submit", async (e) => {
         e.preventDefault();
         setMessage("auth-message", "");
         const email = document.getElementById("signin-email").value.trim();
         const password = document.getElementById("signin-password").value;
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
             setMessage("auth-message", error.message);
             return;
@@ -143,7 +159,7 @@ function setupAuth() {
         setMessage("auth-message", "");
         const email = document.getElementById("signup-email").value.trim();
         const password = document.getElementById("signup-password").value;
-        const { data, error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({ email, password });
         if (error) {
             setMessage("auth-message", error.message);
             return;

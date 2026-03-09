@@ -854,15 +854,17 @@ nav a:focus-visible {
 }
 
 .section-league {
-  max-width: 420px;
+  max-width: 440px;
   margin-left: auto;
   margin-right: auto;
   text-align: left;
 }
 
 .section-league-intro {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .auth-state {
@@ -870,84 +872,166 @@ nav a:focus-visible {
 }
 
 .auth-panel {
-  background: var(--bg-card);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 140, 0, 0.2);
+  background: linear-gradient(165deg, var(--bg-card) 0%, #121212 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  box-shadow: var(--shadow-soft), 0 0 40px rgba(255, 140, 0, 0.06);
+  transition: box-shadow var(--transition-smooth), border-color var(--transition-fast);
+}
+
+.auth-panel:focus-within {
+  box-shadow: var(--shadow-soft), 0 0 48px var(--orange-neon-soft), 0 0 0 1px rgba(255, 140, 0, 0.15);
+  border-color: rgba(255, 140, 0, 0.35);
 }
 
 .auth-tabs {
   display: flex;
   gap: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .auth-tab {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid rgba(255, 140, 0, 0.3);
+  flex: 1;
+  padding: 0.65rem 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 140, 0, 0.2);
   color: var(--text-muted);
-  font-family: inherit;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   border-radius: var(--radius-sm);
-  margin-right: 0.5rem;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), text-shadow var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .auth-tab:first-child {
-  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-}
-
-.auth-tab:last-child {
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin-right: 0;
+  margin-right: 6px;
 }
 
 .auth-tab.active {
-  background: rgba(255, 140, 0, 0.2);
+  background: linear-gradient(145deg, rgba(255, 140, 0, 0.22), rgba(255, 140, 0, 0.12));
   color: var(--orange-bright);
+  border-color: rgba(255, 140, 0, 0.4);
+  text-shadow: 0 0 12px var(--orange-neon-soft);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.auth-tab:hover:not(.active) {
+  color: #e8e8e8;
+  border-color: rgba(255, 140, 0, 0.3);
+  background: rgba(255, 140, 0, 0.08);
+}
+
+.auth-tab:focus-visible {
+  outline: 2px solid var(--orange-bright);
+  outline-offset: 2px;
+}
+
+.auth-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--orange);
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 0 0 8px var(--orange-neon-soft);
 }
 
 .auth-form input {
   display: block;
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  margin-bottom: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
   background: var(--bg-dark);
-  border: 1px solid rgba(255, 140, 0, 0.25);
+  border: 1px solid rgba(255, 140, 0, 0.28);
   border-radius: var(--radius-sm);
   color: #e8e8e8;
-  font-family: inherit;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .auth-form input::placeholder {
   color: var(--text-muted);
 }
 
-.auth-form button,
-#btn-signout {
-  padding: 0.6rem 1.25rem;
+.auth-form input:hover {
+  border-color: rgba(255, 140, 0, 0.4);
+}
+
+.auth-form input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+  outline: none;
+}
+
+.auth-form input:focus-visible {
+  outline: 2px solid var(--orange-bright);
+  outline-offset: 2px;
+}
+
+.auth-hint {
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  margin-top: 0.25rem;
   background: linear-gradient(145deg, var(--orange), var(--orange-bright));
   border: none;
   border-radius: var(--radius-sm);
   color: #0d0d0d;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 140, 0, 0.35), 0 0 24px var(--orange-neon-soft);
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
-.auth-form button:hover,
-#btn-signout:hover {
+.auth-submit:hover {
   opacity: 0.95;
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 6px 24px rgba(255, 140, 0, 0.4), 0 0 32px var(--orange-glow);
+  transform: translateY(-1px);
+}
+
+.auth-submit:focus-visible {
+  outline: 2px solid var(--orange-bright);
+  outline-offset: 3px;
+}
+
+.auth-submit-secondary {
+  background: transparent;
+  color: var(--orange-bright);
+  border: 1px solid rgba(255, 140, 0, 0.5);
+  text-shadow: 0 0 10px var(--orange-neon-soft);
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.15);
+}
+
+.auth-submit-secondary:hover {
+  background: rgba(255, 140, 0, 0.12);
+  box-shadow: 0 0 24px var(--orange-neon-soft);
+}
+
+#btn-signout {
+  width: 100%;
 }
 
 .auth-welcome {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.auth-welcome strong {
+  color: var(--orange-bright);
+  text-shadow: 0 0 10px var(--orange-neon-soft);
 }
 
 .auth-message {
@@ -955,6 +1039,10 @@ nav a:focus-visible {
   font-size: 0.9rem;
   color: var(--text-muted);
   min-height: 1.25em;
+}
+
+.auth-message:not(:empty) {
+  padding: 0.5rem 0;
 }
 
 .create-league-form {
@@ -965,19 +1053,37 @@ nav a:focus-visible {
 .my-leagues h3 {
   margin-bottom: 1rem;
   color: var(--orange-bright);
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 0 0 12px var(--orange-neon-soft);
 }
 
 .create-league-form input {
   display: block;
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  margin-bottom: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.5rem;
   background: var(--bg-dark);
-  border: 1px solid rgba(255, 140, 0, 0.25);
+  border: 1px solid rgba(255, 140, 0, 0.28);
   border-radius: var(--radius-sm);
   color: #e8e8e8;
-  font-family: inherit;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.create-league-form input:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+  outline: none;
+}
+
+.create-league-form input:focus-visible {
+  outline: 2px solid var(--orange-bright);
+  outline-offset: 2px;
+}
+
+.create-league-form .auth-submit {
+  margin-top: 0.5rem;
 }
 
 .my-leagues ul {
@@ -987,7 +1093,7 @@ nav a:focus-visible {
 }
 
 .my-leagues li {
-  padding: 0.6rem 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-muted);
   font-size: 0.95rem;
@@ -1000,6 +1106,7 @@ nav a:focus-visible {
 .league-slug {
   color: var(--orange);
   font-size: 0.9em;
+  text-shadow: 0 0 8px var(--orange-neon-soft);
 }
 
 .league-date {
