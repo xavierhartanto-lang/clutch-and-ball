@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setupScrollReveal();
     setupParallaxHero();
     setupParticles();
+    setupAuth();
+    setupLeagues();
 
     setInterval(loadStandings, 60000);
 
@@ -67,6 +69,152 @@ async function testSupabaseConnection() {
         console.error("Supabase connection failed:", err);
         return false;
     }
+}
+
+/* ============================
+   AUTH & LEAGUES
+============================ */
+
+function showEl(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("hidden", !show);
+}
+
+function setMessage(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+}
+
+function setupAuth() {
+    const signedOut = document.getElementById("auth-signed-out");
+    const signedIn = document.getElementById("auth-signed-in");
+    const authEmail = document.getElementById("auth-email");
+    const createLeagueForm = document.getElementById("create-league-form");
+    const myLeagues = document.getElementById("my-leagues");
+
+    function updateAuthUI(session) {
+        const isSignedIn = !!session?.user;
+        showEl("auth-signed-out", !isSignedIn);
+        showEl("auth-signed-in", isSignedIn);
+        showEl("create-league-form", isSignedIn);
+        showEl("my-leagues", isSignedIn);
+        if (authEmail && session?.user?.email) authEmail.textContent = session.user.email;
+        if (isSignedIn) loadMyLeagues();
+    }
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+        updateAuthUI(session);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        updateAuthUI(session);
+    });
+
+    document.getElementById("tab-signin")?.addEventListener("click", () => {
+        document.getElementById("form-signin").classList.remove("hidden");
+        document.getElementById("form-signup").classList.add("hidden");
+        document.getElementById("tab-signin").classList.add("active");
+        document.getElementById("tab-signup").classList.remove("active");
+        setMessage("auth-message", "");
+    });
+    document.getElementById("tab-signup")?.addEventListener("click", () => {
+        document.getElementById("form-signup").classList.remove("hidden");
+        document.getElementById("form-signin").classList.add("hidden");
+        document.getElementById("tab-signup").classList.add("active");
+        document.getElementById("tab-signin").classList.remove("active");
+        setMessage("auth-message", "");
+    });
+
+    document.getElementById("form-signin")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setMessage("auth-message", "");
+        const email = document.getElementById("signin-email").value.trim();
+        const password = document.getElementById("signin-password").value;
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            setMessage("auth-message", error.message);
+            return;
+        }
+        setMessage("auth-message", "Signed in.");
+    });
+
+    document.getElementById("form-signup")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setMessage("auth-message", "");
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value;
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+            setMessage("auth-message", error.message);
+            return;
+        }
+        setMessage("auth-message", "Check your email to confirm sign up (or sign in if already confirmed).");
+    });
+
+    document.getElementById("btn-signout")?.addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        setMessage("auth-message", "");
+    });
+}
+
+function setupLeagues() {
+    document.getElementById("form-create-league")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setMessage("league-form-message", "");
+        const name = document.getElementById("league-name").value.trim();
+        let slug = document.getElementById("league-slug").value.trim().toLowerCase().replace(/\s+/g, "-");
+        if (!name || !slug) {
+            setMessage("league-form-message", "Name and slug are required.");
+            return;
+        }
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            setMessage("league-form-message", "You must be signed in to create a league.");
+            return;
+        }
+        const { data, error } = await supabase
+            .from("leagues")
+            .insert({ name, slug, owner_id: user.id })
+            .select()
+            .single();
+        if (error) {
+            setMessage("league-form-message", error.message || "Failed to create league.");
+            return;
+        }
+        setMessage("league-form-message", "League created.");
+        document.getElementById("league-name").value = "";
+        document.getElementById("league-slug").value = "";
+        loadMyLeagues();
+    });
+}
+
+async function loadMyLeagues() {
+    const list = document.getElementById("my-leagues-list");
+    if (!list) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        list.innerHTML = "";
+        return;
+    }
+    const { data, error } = await supabase
+        .from("leagues")
+        .select("id, name, slug, created_at")
+        .eq("owner_id", user.id)
+        .order("created_at", { ascending: false });
+    if (error) {
+        list.innerHTML = "<li>Could not load leagues.</li>";
+        return;
+    }
+    list.innerHTML = (data || []).map((l) => {
+        const date = new Date(l.created_at).toLocaleDateString();
+        return `<li><strong>${escapeHtml(l.name)}</strong> <span class="league-slug">/${escapeHtml(l.slug)}</span> <span class="league-date">${date}</span></li>`;
+    }).join("") || "<li>No leagues yet. Create one above.</li>";
+}
+
+function escapeHtml(s) {
+    const div = document.createElement("div");
+    div.textContent = s;
+    return div.innerHTML;
 }
 
 /* ============================

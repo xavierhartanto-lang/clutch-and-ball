@@ -845,3 +845,166 @@ nav a:focus-visible {
         transform: translateX(-50%) translateY(-4px);
     }
 }
+
+/* ===============================
+   CREATE LEAGUE / AUTH
+   =============================== */
+.hidden {
+  display: none !important;
+}
+
+.section-league {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.section-league-intro {
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+
+.auth-state {
+  margin-bottom: 2rem;
+}
+
+.auth-panel {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1rem;
+}
+
+.auth-tab {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  margin-right: 0.5rem;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.auth-tab:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.auth-tab:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-right: 0;
+}
+
+.auth-tab.active {
+  background: rgba(255, 140, 0, 0.2);
+  color: var(--orange-bright);
+}
+
+.auth-form input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  border-radius: var(--radius-sm);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.auth-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-form button,
+#btn-signout {
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(145deg, var(--orange), var(--orange-bright));
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #0d0d0d;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.auth-form button:hover,
+#btn-signout:hover {
+  opacity: 0.95;
+  box-shadow: var(--shadow-glow);
+}
+
+.auth-welcome {
+  margin-bottom: 1rem;
+}
+
+.auth-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  min-height: 1.25em;
+}
+
+.create-league-form {
+  margin-bottom: 2rem;
+}
+
+.create-league-form h3,
+.my-leagues h3 {
+  margin-bottom: 1rem;
+  color: var(--orange-bright);
+}
+
+.create-league-form input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  border-radius: var(--radius-sm);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.my-leagues ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-leagues li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.my-leagues li:last-child {
+  border-bottom: none;
+}
+
+.league-slug {
+  color: var(--orange);
+  font-size: 0.9em;
+}
+
+.league-date {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
