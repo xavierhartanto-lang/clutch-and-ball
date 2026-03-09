@@ -241,15 +241,13 @@ const sheetURL =
 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpKNTrOZ3HuunOBb17pdLvjBVtXtCV89pjkdjXb6aXnXzvOJ6l_a6zqADX3kW2llt2NStNrTluadzY/pub?output=csv';
 
 async function loadStandings() {
+    const table = document.querySelector(".standings");
+    if (!table) return;
 
     try {
-
         const res = await fetch(sheetURL);
         const text = await res.text();
-
         const rows = text.split('\n').slice(1);
-
-        const table = document.querySelector(".standings");
 
         table.querySelectorAll("tr:not(:first-child)").forEach(r => r.remove());
 
@@ -350,27 +348,19 @@ function setupScrollReveal() {
    SMOOTH SCROLL NAV
 ============================ */
 
-function setupSmoothScroll(){
-
+function setupSmoothScroll() {
     document.querySelectorAll("nav a").forEach(link => {
-
-        link.addEventListener("click", e => {
-
-            e.preventDefault();
-
-            const target = document.querySelector(link.getAttribute("href"));
-
-            if(target){
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
+        link.addEventListener("click", (e) => {
+            const href = link.getAttribute("href") || "";
+            if (href.startsWith("#")) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
             }
-
         });
-
     });
-
 }
 
 function restartAnimation(selector) {
@@ -383,18 +373,15 @@ function restartAnimation(selector) {
   });
 }
 
-document.getElementById("home-link").addEventListener("click", () => {
+document.getElementById("home-link")?.addEventListener("click", () => {
   restartAnimation(".hero h1");
   restartAnimation(".hero p");
 });
 
 const TEAM_REVEAL_DURATION_MS = 700;
 
-document.getElementById("teams-link").addEventListener("click", () => {
+document.getElementById("teams-link")?.addEventListener("click", () => {
   restartAnimation(".team-card");
-
-  // Remove .animate after animation ends so CSS no longer controls transform.
-  // This restores 3D tilt (mousemove/mouseleave) which uses inline transform.
   setTimeout(() => {
     document.querySelectorAll(".team-card").forEach((card) => {
       card.classList.remove("animate");
@@ -402,7 +389,7 @@ document.getElementById("teams-link").addEventListener("click", () => {
   }, TEAM_REVEAL_DURATION_MS);
 });
 
-document.getElementById("rules-link").addEventListener("click", () => {
+document.getElementById("rules-link")?.addEventListener("click", () => {
   restartAnimation(".hero h1");
   restartAnimation(".hero p");
 });

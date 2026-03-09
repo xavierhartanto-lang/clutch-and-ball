@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clutch and Ball</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="particles" class="particles" aria-hidden="true"></div>
+<div id="top"></div>
+
+<nav>
+  <a id="home-link" href="#top">Clutch and Ball</a>
+  <a id="rules-link" href="#rules">Rules</a>
+  <a id="teams-link" href="#teams">Teams</a>
+  <a id="schedule-link" href="#schedule">Schedule</a>
+  <a id="league-link" href="index.html">Create League</a>
+</nav>
+
+<main>
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1>CLUTCH AND BALL</h1>
+    <p>MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</p>
+  </div>
+</section>
+
+<section class="section-reveal" id="rules">
+  <h2>Who are we?</h2>
+  <p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
+</section>
+
+<section class="section-reveal" id="teams">
+  <h2>Teams</h2>
+  <div class="teams-container">
+
+  <div class="team-card">
+    <h3>Homeless Belly Dancers (HBD)</h3>
+      <div class="player" tabindex="0">
+        Jack Griffin,
+        <span class="bio">"The King". Lightning fast driver and underrated shooter.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Kyle Enersen,
+        <span class="bio">"The Passer". Elite passer and left wing expert.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Gregory Louridas
+        <span class="bio">"The Marvelous". Undersized big man and defensive stalwart.</span>
+      </div>
+  </div>
+
+  <div class="team-card lochie">
+    <h3>Lochie Xavi's (LOC)</h3>
+      <div class="player" tabindex="0">
+        Xavier Hartanto,
+        <span class="bio">"The Arc". Ceiling high arc and stepback specialist.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Mason Askari,
+        <span class="bio">"The Hustle". Amazing hustler and multisport athlete.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Zach Silk
+        <span class="bio">"The Giant". Never-before-seen height and insurmountable rebounder.</span>
+      </div>
+  </div>
+
+  <div class="team-card">
+    <h3>Showtime Elite (STE)</h3>
+      <div class="player" tabindex="0">
+        Vivek Moorthy,
+        <span class="bio">"The Grandpa". High IQ playmaker and shifty guard.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Zairaan Kazi,
+        <span class="bio">"The Warning". Consistent shooter and rizz shamgod.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Jack Beser
+        <span class="bio">"The Crazy". Wild shot selection and reckless driver.</span>
+      </div>
+  </div>
+
+  <div class="team-card green-giants">
+    <h3>The Green Giants (TGG)</h3>
+      <div class="player" tabindex="0">
+        Graham Dunn,
+        <span class="bio">"The Truth". This isn't his main sport.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Vikram Singh,
+        <span class="bio">"The Nonchalant". Midrange master and nonchalance beyond belief.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Chris Abraham
+        <span class="bio">"The Schedule". Ball mover and underrated in the clutch.</span>
+      </div>
+  </div>
+
+  <div class="team-card">
+    <h3>The Adentujis (ADE)</h3>
+      <div class="player" tabindex="0">
+        Amar Mujumdar,
+        <span class="bio">"The Monkey". Gorilla of the league and underestimated dribbler.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Vedaant Sud,
+        <span class="bio">"The Vertical". Fantastic jumper and leaves the ground before thinking.</span>
+      </div>
+      <div class="player" tabindex="0">
+        Owen Enersen
+        <span class="bio">"The Rookie". Bio coming soon.</span>
+      </div>
+  </div>
+
+  </div>
+</section>
+
+<section class="section-reveal" id="standings">
+  <h2>Standings</h2>
+<div class="standings-wrapper">
+<table class="standings">
+  <tr>
+    <th>#</th>
+    <th>Team</th>
+    <th>Wins</th>
+    <th>Losses</th>
+    <th>PCT</th>
+  </tr>
+  <!-- JS will populate standings -->
+  </table>
+</div>
+</section>
+
+<section class="section-reveal" id="schedule">
+  <h2>Schedule</h2>
+  <p>COMING SOON</p>
+</section>
+
+<section class="section-reveal" id="next-game-section">
+  <h2>Next Game</h2>
+  <p id="next-game">Loading countdown...</p>
+</section>
+</main>
+
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
