@@ -200,10 +200,9 @@ function setupLeagues() {
             setMessage("league-form-message", error.message || "Failed to create league.");
             return;
         }
-        setMessage("league-form-message", "League created.");
-        document.getElementById("league-name").value = "";
-        document.getElementById("league-slug").value = "";
-        loadMyLeagues();
+        setMessage("league-form-message", "League created. Opening league...");
+
+        window.location.href = `/league.html?id=${data.id}`;
     });
 }
 
