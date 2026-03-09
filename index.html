@@ -17,6 +17,7 @@
   <a id="rules-link" href="#rules">Rules</a>
   <a id="teams-link" href="#teams">Teams</a>
   <a id="schedule-link" href="#schedule">Schedule</a>
+  <a id="league-link" href="#create-league">Create League</a>
 </nav>
 
 <main>
@@ -144,6 +145,50 @@
 <section class="section-reveal" id="next-game-section">
   <h2>Next Game</h2>
   <p id="next-game">Loading countdown...</p>
+</section>
+
+<section class="section-reveal section-league" id="create-league">
+  <h2>Create your league</h2>
+  <p class="section-league-intro">Sign in to create and manage your own league.</p>
+
+  <div id="auth-state" class="auth-state">
+    <div id="auth-signed-out" class="auth-panel">
+      <div class="auth-tabs">
+        <button type="button" id="tab-signin" class="auth-tab active" aria-selected="true">Sign in</button>
+        <button type="button" id="tab-signup" class="auth-tab" aria-selected="false">Sign up</button>
+      </div>
+      <form id="form-signin" class="auth-form">
+        <input type="email" id="signin-email" placeholder="Email" required autocomplete="email">
+        <input type="password" id="signin-password" placeholder="Password" required autocomplete="current-password">
+        <button type="submit">Sign in</button>
+      </form>
+      <form id="form-signup" class="auth-form hidden">
+        <input type="email" id="signup-email" placeholder="Email" required autocomplete="email">
+        <input type="password" id="signup-password" placeholder="Password (min 6 characters)" required autocomplete="new-password" minlength="6">
+        <button type="submit">Sign up</button>
+      </form>
+      <p id="auth-message" class="auth-message" aria-live="polite"></p>
+    </div>
+    <div id="auth-signed-in" class="auth-panel hidden">
+      <p class="auth-welcome">Signed in as <strong id="auth-email"></strong></p>
+      <button type="button" id="btn-signout">Sign out</button>
+    </div>
+  </div>
+
+  <div id="create-league-form" class="create-league-form hidden">
+    <h3>New league</h3>
+    <form id="form-create-league">
+      <input type="text" id="league-name" placeholder="League name" required>
+      <input type="text" id="league-slug" placeholder="URL slug (e.g. my-league)" required pattern="[a-z0-9-]+" title="Lowercase letters, numbers, and hyphens only">
+      <button type="submit">Create league</button>
+    </form>
+    <p id="league-form-message" class="auth-message" aria-live="polite"></p>
+  </div>
+
+  <div id="my-leagues" class="my-leagues hidden">
+    <h3>My leagues</h3>
+    <ul id="my-leagues-list"></ul>
+  </div>
 </section>
 </main>
 
