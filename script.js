@@ -1,9 +1,12 @@
 "use strict";
+import supabase from "./supabase.js";
+
 /* ============================
    PAGE LOAD
 ============================ */
 
 document.addEventListener("DOMContentLoaded", () => {
+    testSupabaseConnection();
     loadStandings();
     setupSmoothScroll();
     startCountdown();
@@ -49,6 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+/* ============================
+   SUPABASE CONNECTION TEST
+============================ */
+
+async function testSupabaseConnection() {
+    try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        console.log("Supabase connection OK");
+        return true;
+    } catch (err) {
+        console.error("Supabase connection failed:", err);
+        return false;
+    }
+}
 
 /* ============================
    STANDINGS SYSTEM
