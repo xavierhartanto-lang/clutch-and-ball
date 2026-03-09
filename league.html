@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>League</title>
+</head>
+<body>
+
+<h1 id="league-title">Loading league...</h1>
+
+<script type="module">
+
+import supabase from "./supabase.js";
+
+/* get league id from url */
+
+const params = new URLSearchParams(window.location.search);
+const leagueId = params.get("id");
+
+async function loadLeague() {
+
+  if (!leagueId) {
+    document.getElementById("league-title").textContent = "League not found";
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("leagues")
+    .select("*")
+    .eq("id", leagueId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    document.getElementById("league-title").textContent = "Error loading league";
+    return;
+  }
+
+  document.getElementById("league-title").textContent = data.name;
+}
+
+loadLeague();
+
+</script>
+
+</body>
+</html>
