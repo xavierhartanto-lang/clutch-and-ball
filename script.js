@@ -159,13 +159,16 @@ function setupAuth() {
         setMessage("auth-message", "");
         const email = document.getElementById("signup-email").value.trim();
         const password = document.getElementById("signup-password").value;
-        const { error } = await supabase.auth.signUp({ email, password });
-        if (error) {
+        
+        const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
+    if (error) {
             setMessage("auth-message", error.message);
             return;
         }
-        setMessage("auth-message", "Check your email to confirm sign up (or sign in if already confirmed).");
-    });
+        setMessage("auth-message", "Account created. Signing you in...");    });
 
     document.getElementById("btn-signout")?.addEventListener("click", async () => {
         await supabase.auth.signOut();
