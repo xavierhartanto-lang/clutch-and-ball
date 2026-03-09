@@ -147,47 +147,55 @@
   <p id="next-game">Loading countdown...</p>
 </section>
 
-<section class="section-reveal section-league" id="create-league">
-  <h2>Create your league</h2>
-  <p class="section-league-intro">Sign in to create and manage your own league.</p>
+<section class="section-reveal section-league" id="create-league" aria-labelledby="create-league-heading">
+  <h2 id="create-league-heading">Create your league</h2>
+  <p class="section-league-intro">Sign in to create and manage your own league. Use any email—no GitHub or Google sign-in required.</p>
 
   <div id="auth-state" class="auth-state">
     <div id="auth-signed-out" class="auth-panel">
-      <div class="auth-tabs">
-        <button type="button" id="tab-signin" class="auth-tab active" aria-selected="true">Sign in</button>
-        <button type="button" id="tab-signup" class="auth-tab" aria-selected="false">Sign up</button>
+      <div class="auth-tabs" role="tablist" aria-label="Sign in or sign up">
+        <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true" aria-controls="form-signin" aria-label="Sign in to your account">Sign in</button>
+        <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false" aria-controls="form-signup" aria-label="Create a new account">Sign up</button>
       </div>
-      <form id="form-signin" class="auth-form">
-        <input type="email" id="signin-email" placeholder="Email" required autocomplete="email">
-        <input type="password" id="signin-password" placeholder="Password" required autocomplete="current-password">
-        <button type="submit">Sign in</button>
+      <form id="form-signin" class="auth-form" role="tabpanel" aria-labelledby="tab-signin">
+        <label for="signin-email" class="auth-label">Email</label>
+        <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
+        <label for="signin-password" class="auth-label">Password</label>
+        <input type="password" id="signin-password" placeholder="Your password" required autocomplete="current-password" aria-describedby="auth-message">
+        <button type="submit" class="auth-submit">Sign in</button>
       </form>
-      <form id="form-signup" class="auth-form hidden">
-        <input type="email" id="signup-email" placeholder="Email" required autocomplete="email">
-        <input type="password" id="signup-password" placeholder="Password (min 6 characters)" required autocomplete="new-password" minlength="6">
-        <button type="submit">Sign up</button>
+      <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="tab-signup" aria-hidden="true">
+        <label for="signup-email" class="auth-label">Email</label>
+        <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message signup-password-hint">
+        <label for="signup-password" class="auth-label">Password</label>
+        <input type="password" id="signup-password" placeholder="At least 6 characters" required autocomplete="new-password" minlength="6" aria-describedby="auth-message signup-password-hint">
+        <span id="signup-password-hint" class="auth-hint">Minimum 6 characters</span>
+        <button type="submit" class="auth-submit">Sign up</button>
       </form>
-      <p id="auth-message" class="auth-message" aria-live="polite"></p>
+      <p id="auth-message" class="auth-message" aria-live="polite" role="status"></p>
     </div>
     <div id="auth-signed-in" class="auth-panel hidden">
       <p class="auth-welcome">Signed in as <strong id="auth-email"></strong></p>
-      <button type="button" id="btn-signout">Sign out</button>
+      <button type="button" id="btn-signout" class="auth-submit auth-submit-secondary">Sign out</button>
     </div>
   </div>
 
   <div id="create-league-form" class="create-league-form hidden">
     <h3>New league</h3>
     <form id="form-create-league">
-      <input type="text" id="league-name" placeholder="League name" required>
-      <input type="text" id="league-slug" placeholder="URL slug (e.g. my-league)" required pattern="[a-z0-9-]+" title="Lowercase letters, numbers, and hyphens only">
-      <button type="submit">Create league</button>
+      <label for="league-name" class="auth-label">League name</label>
+      <input type="text" id="league-name" placeholder="e.g. Tuesday Night League" required aria-describedby="league-form-message">
+      <label for="league-slug" class="auth-label">URL slug</label>
+      <input type="text" id="league-slug" placeholder="e.g. tuesday-night" required pattern="[a-z0-9-]+" title="Lowercase letters, numbers, and hyphens only" aria-describedby="league-form-message league-slug-hint">
+      <span id="league-slug-hint" class="auth-hint">Lowercase letters, numbers, hyphens only</span>
+      <button type="submit" class="auth-submit">Create league</button>
     </form>
-    <p id="league-form-message" class="auth-message" aria-live="polite"></p>
+    <p id="league-form-message" class="auth-message" aria-live="polite" role="status"></p>
   </div>
 
   <div id="my-leagues" class="my-leagues hidden">
     <h3>My leagues</h3>
-    <ul id="my-leagues-list"></ul>
+    <ul id="my-leagues-list" aria-label="Leagues you created"></ul>
   </div>
 </section>
 </main>
