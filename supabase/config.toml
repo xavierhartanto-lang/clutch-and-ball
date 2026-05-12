@@ -1,0 +1,14 @@
+# Supabase CLI — project ref from Dashboard URL.
+# verify_jwt = false: browser sends OPTIONS without a Bearer token; POST still checked in index.ts.
+#
+# If CORS/preflight still fails after deploy, run explicitly:
+#   supabase functions deploy delete-account --no-verify-jwt
+#
+# Docker is optional — remote deploy bundles without it. WARNING: Docker is not running = OK.
+project_id = "esktjpklhtjfomraehgt"
+
+[functions.delete-account]
+verify_jwt = false
+
+[functions.notify-rsvp-email]
+verify_jwt = false

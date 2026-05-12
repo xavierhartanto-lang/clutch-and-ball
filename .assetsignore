@@ -1,0 +1,19 @@
+# Files and folders here must NOT be uploaded as public static assets
+# (anything listed could be fetched from your domain).
+
+# npm / CLI (e.g. supabase devDependency includes a ~90MB binary — breaks Workers 25 MiB/file limit)
+node_modules/**
+
+.git/**
+.wrangler/**
+.vscode/**
+.cursor/**
+
+supabase/**
+
+*.md
+.gitignore
+.gitattributes
+
+wrangler.toml
+cloudflare-worker.js

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+
+<div id="top"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="coach-page app-main">
+  <div id="loading" class="section-card auth-hint" role="status" aria-live="polite">Loading team…</div>
+
+  <div id="content" class="hidden">
+    <nav class="team-quick-nav" aria-label="Team sections">
+      <a href="#team-up-next-section">Up Next</a>
+      <a href="#team-attendance-section">RSVP</a>
+      <a href="#team-focus-section">Focus</a>
+      <a href="#team-links-section">Links</a>
+      <a href="#team-season-goals-section">Goals</a>
+      <a href="#practice-plans-section">Practice</a>
+      <a href="#team-chat-section">Chat</a>
+      <a href="#player-list">Roster</a>
+    </nav>
+    <p id="player-team-note" class="section-card auth-hint hidden">You are on this roster as a player. Coaches manage the invite code.</p>
+
+    <div id="coach-team-tools" class="hidden">
+      <section class="section-card">
+        <h2>Invite Players</h2>
+        <p class="auth-hint" style="margin-top:0">Share this code so players can join from the home page.</p>
+        <p class="invite-code-display" id="team-invite-code" aria-live="polite">------</p>
+        <button type="button" id="btn-copy-invite" class="auth-submit auth-submit-secondary">Copy code</button>
+        <p id="invite-copy-msg" class="auth-message" role="status"></p>
+      </section>
+
+      <section class="section-card coach-danger-card">
+        <h2>Team Administration</h2>
+        <p class="auth-hint" style="margin-top:0">Permanently remove this team, its roster, and linked games. This cannot be undone.</p>
+        <button type="button" id="btn-delete-team" class="auth-submit btn-danger">Delete Team…</button>
+        <p id="delete-team-msg" class="auth-message" role="status"></p>
+      </section>
+    </div>
+
+    <div class="app-team-highlight">
+      <section class="section-card app-team-identity">
+        <div class="team-identity-head">
+          <h2 id="team-name">Team</h2>
+          <button type="button" id="team-settings-btn" class="team-settings-btn hidden" aria-label="Team settings">⚙</button>
+        </div>
+        <p id="team-record" class="coach-record" style="font-size:1.1rem;margin:0"></p>
+      </section>
+
+      <section class="section-card team-up-next-card" id="team-up-next-section">
+        <h2>Up Next</h2>
+        <div id="team-up-next-body" class="team-up-next-body">
+          <p class="auth-hint team-up-next-loading">Loading schedule…</p>
+        </div>
+        <p class="auth-hint hidden" id="team-up-next-hint-coach">Add games and practices on the calendar so your team sees what’s next.</p>
+        <a href="calendar.html" id="team-calendar-link" class="nav-btn team-up-next-cal-link">Open Calendar</a>
+      </section>
+    </div>
+
+    <section class="section-card hidden" id="team-attendance-section" aria-live="polite">
+      <h2>RSVP snapshot</h2>
+      <p class="auth-hint" style="margin-top:0">Who responded for the next team event on the calendar.</p>
+      <div id="team-attendance-body" class="team-attendance-body"></div>
+    </section>
+
+    <section class="section-card" id="team-focus-section">
+      <h2>Team focus</h2>
+      <p class="auth-hint" style="margin-top:0">What the group is emphasizing right now — everyone on the roster can read this.</p>
+      <div id="team-focus-display" class="team-focus-display"></div>
+      <form id="team-focus-form" class="auth-form team-focus-edit-form hidden">
+        <label class="auth-label" for="team-focus-textarea">Edit team focus</label>
+        <textarea id="team-focus-textarea" rows="5" maxlength="4000" placeholder="e.g. This week: closeouts, rebounding, sharing the ball…"></textarea>
+        <button type="submit" class="auth-submit">Save team focus</button>
+      </form>
+      <p id="team-focus-msg" class="auth-message" role="status"></p>
+    </section>
+
+    <section class="section-card hidden" id="team-links-section">
+      <h2>Team links</h2>
+      <p class="auth-hint" style="margin-top:0">Film, playbook pages, or other URLs — quick access for the whole team.</p>
+      <ul id="team-links-list" class="team-links-list"></ul>
+      <form id="team-link-add-form" class="auth-form team-link-add-form hidden">
+        <label class="auth-label" for="team-link-label-input">Name</label>
+        <input type="text" id="team-link-label-input" maxlength="80" placeholder="Hudl, playbook, …" autocomplete="off">
+        <label class="auth-label" for="team-link-url-input">URL</label>
+        <input type="url" id="team-link-url-input" maxlength="2000" placeholder="https://…" autocomplete="off">
+        <button type="submit" class="auth-submit">Add link</button>
+      </form>
+      <p id="team-links-msg" class="auth-message" role="status"></p>
+    </section>
+
+    <section class="section-card hidden" id="team-season-goals-section">
+      <h2>Season goals</h2>
+      <p class="auth-hint" style="margin-top:0">Big-picture goals for the season — players and staff can see them; staff can edit.</p>
+      <ul id="team-season-goals-list" class="team-season-goals-list"></ul>
+      <form id="team-season-goal-form" class="auth-form hidden">
+        <label class="auth-label" for="team-season-goal-input">Add a season goal</label>
+        <input type="text" id="team-season-goal-input" maxlength="500" placeholder="e.g. Top-four finish, team-first culture…">
+        <button type="submit" class="auth-submit">Add goal</button>
+      </form>
+      <p id="team-season-goals-msg" class="auth-message" role="status"></p>
+    </section>
+
+    <section class="section-card">
+      <div class="roster-section-head">
+        <h2 class="roster-section-title">Roster</h2>
+        <button type="button" id="btn-export-roster" class="auth-submit auth-submit-secondary hidden" aria-label="Download roster as CSV">Export CSV</button>
+      </div>
+      <p id="roster-msg" class="auth-message" role="status"></p>
+      <ul id="player-list" class="coach-list"></ul>
+      <p id="no-players" class="auth-hint hidden">No players have joined yet — share your team code.</p>
+    </section>
+
+    <section class="section-card hidden" id="practice-plans-section">
+      <h2>Practice plans</h2>
+      <p class="auth-hint" style="margin-top:0">Reusable outlines for practices — warmup, drills, and closing blocks. Everyone on the team can read them; staff can edit.</p>
+      <ul id="practice-plans-list" class="practice-plans-list"></ul>
+      <form id="practice-plan-form" class="auth-form hidden">
+        <input type="hidden" id="practice-plan-edit-id" value="">
+        <label class="auth-label" for="practice-plan-title">Plan name</label>
+        <input type="text" id="practice-plan-title" maxlength="120" placeholder="e.g. Shell defense + transition">
+        <label class="auth-label" for="practice-plan-content">Plan details</label>
+        <textarea id="practice-plan-content" rows="8" maxlength="8000" placeholder="15m warmup…&#10;20m shell…&#10;15m scrimmage…"></textarea>
+        <div class="practice-plan-form-actions">
+          <button type="submit" class="auth-submit" id="practice-plan-submit">Save plan</button>
+          <button type="button" class="auth-submit auth-submit-secondary hidden" id="practice-plan-cancel-edit">Cancel edit</button>
+        </div>
+      </form>
+      <p id="practice-plans-msg" class="auth-message" role="status"></p>
+    </section>
+
+    <section class="section-card" id="team-chat-section">
+      <h2>Team Chat</h2>
+      <p class="auth-hint" style="margin-top:0">Coaches and roster members can post here.</p>
+      <div id="team-chat-log" class="team-chat-log" role="log" aria-live="polite"></div>
+      <form id="team-chat-form" class="team-chat-form">
+        <input type="text" id="team-chat-input" maxlength="800" placeholder="Type a message…" autocomplete="off" aria-label="Message">
+        <button type="submit" class="auth-submit">Send</button>
+      </form>
+      <p id="team-chat-msg" class="auth-message" role="status"></p>
+    </section>
+  </div>
+
+  <p id="error-full" class="auth-message auth-message--error hidden" style="text-align:center"></p>
+</main>
+
+<div id="player-bottom-sheet" class="player-bottom-sheet hidden" aria-hidden="true">
+  <div class="player-bottom-sheet-backdrop" id="player-bottom-sheet-backdrop" tabindex="-1"></div>
+  <div class="player-bottom-sheet-panel">
+    <div class="player-bottom-sheet-handle" aria-hidden="true"></div>
+    <button type="button" class="player-bottom-sheet-close" id="player-bottom-sheet-close" aria-label="Close">&times;</button>
+    <div id="player-sheet-compact" class="player-sheet-compact"></div>
+    <button type="button" class="auth-submit auth-submit-secondary hidden" id="player-sheet-full-btn">View Full Profile</button>
+    <div id="player-sheet-full" class="player-sheet-full hidden"></div>
+  </div>
+</div>
+
+<div id="team-settings-modal" class="player-bottom-sheet hidden" aria-hidden="true">
+  <div class="player-bottom-sheet-backdrop" id="team-settings-backdrop" tabindex="-1"></div>
+  <div class="player-bottom-sheet-panel">
+    <div class="player-bottom-sheet-handle" aria-hidden="true"></div>
+    <button type="button" class="player-bottom-sheet-close" id="team-settings-close" aria-label="Close">&times;</button>
+    <div class="player-sheet-compact">
+      <p class="player-sheet-name">Team Settings</p>
+      <ul class="player-sheet-facts team-settings-facts">
+        <li><span class="player-sheet-label">Created</span> <span id="team-settings-created">—</span></li>
+        <li><span class="player-sheet-label">Record</span> <span id="team-settings-record">—</span></li>
+        <li><span class="player-sheet-label">Coach</span> <span id="team-settings-coach">—</span></li>
+        <li><span class="player-sheet-label">Assistant Coach</span> <span id="team-settings-assistant">—</span></li>
+      </ul>
+      <div class="team-settings-assistant-code">
+        <p class="auth-label">Assistant Coach Join Code</p>
+        <p class="invite-code-display" id="assistant-invite-code">------</p>
+        <button type="button" id="btn-copy-assistant-invite" class="auth-submit auth-submit-secondary">Copy assistant code</button>
+        <p id="assistant-invite-copy-msg" class="auth-message" role="status"></p>
+      </div>
+      <div class="team-settings-assistant-code">
+        <p class="auth-label">Banned Players</p>
+        <ul id="team-banned-list" class="coach-list"></ul>
+        <p id="team-banned-empty" class="auth-hint">No banned players.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="coach-team.js"></script>
+</body>
+</html>

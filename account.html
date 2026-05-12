@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+<div id="top"></div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+  <a href="index.html">Home</a>
+  <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+  <a href="account.html" class="nav-current">Account</a>
+  <a href="my-teams.html">My Teams</a>
+  <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="account-page app-main">
+  <div id="account-signed-out" class="account-panel">
+    <p class="account-message">Sign in to view your account.</p>
+    <a href="index.html" class="orange-action">Go to Create League</a>
+  </div>
+
+  <div id="account-signed-in" class="account-panel hidden">
+    <h1>Your Account</h1>
+
+    <section class="account-section">
+      <h2>Profile</h2>
+      <p class="auth-hint" style="margin-top:0">Your name appears on team rosters. Add contact info teammates can see when they open your name.</p>
+      <div class="account-field">
+        <label for="account-full-name" class="auth-label">Name</label>
+        <input type="text" id="account-full-name" placeholder="First and last name" maxlength="80" aria-describedby="account-message">
+        <span id="account-save-name" class="orange-action" role="button" tabindex="0">Save</span>
+      </div>
+      <div class="account-field account-field-block">
+        <label for="account-birthday" class="auth-label">Birthday</label>
+        <input type="date" id="account-birthday" class="account-input-full" aria-describedby="account-message">
+      </div>
+      <div class="account-field account-field-block">
+        <label for="account-phone" class="auth-label">Phone</label>
+        <input type="tel" id="account-phone" placeholder="Optional" maxlength="32" class="account-input-full" aria-describedby="account-message">
+      </div>
+      <p class="account-email-line">Email (login): <span id="account-email"></span></p>
+      <button type="button" id="account-save-profile" class="auth-submit">Save profile &amp; contact</button>
+    </section>
+
+    <section id="account-athlete-showcase" class="account-section hidden">
+      <h2>Showcase</h2>
+      <p class="auth-hint" style="margin-top:0">Short bio and highlight reel links (YouTube URLs). Shown when teammates open your full profile from the roster.</p>
+      <label for="account-bio" class="auth-label">Bio</label>
+      <textarea id="account-bio" class="account-input-full" rows="3" maxlength="800" placeholder="Position, school year, goals…"></textarea>
+      <label for="account-highlights" class="auth-label">Highlight reels</label>
+      <textarea id="account-highlights" class="account-input-full" rows="4" maxlength="2000" placeholder="One YouTube link per line"></textarea>
+      <button type="button" id="account-save-showcase" class="auth-submit auth-submit-secondary">Save showcase</button>
+    </section>
+
+    <section class="account-section">
+      <h2>Statistics</h2>
+      <div class="account-stats">
+        <div class="account-stat">
+          <span id="stat-leagues" class="account-stat-value">—</span>
+          <span class="account-stat-label">Leagues created</span>
+        </div>
+        <div class="account-stat">
+          <span id="stat-messages" class="account-stat-value">—</span>
+          <span class="account-stat-label">Messages sent</span>
+        </div>
+        <div class="account-stat">
+          <span id="stat-leagues-joined" class="account-stat-value">—</span>
+          <span class="account-stat-label">Leagues joined</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="account-section account-section--danger" aria-labelledby="account-delete-heading">
+      <h2 id="account-delete-heading">Delete account</h2>
+      <p class="auth-hint" style="margin-top:0">Permanently remove your login and associated data. This cannot be undone.</p>
+      <button type="button" id="account-delete-start" class="auth-submit auth-submit-secondary">Delete my account</button>
+      <div id="account-delete-confirm-panel" class="account-delete-confirm-panel hidden" aria-hidden="true">
+        <p class="auth-hint account-delete-confirm-warning">Are you sure? Your teams, rosters, and messages tied to this account will be removed.</p>
+        <div class="account-delete-confirm-actions">
+          <button type="button" id="account-delete-cancel" class="auth-submit auth-submit-secondary">Cancel</button>
+          <button type="button" id="account-delete-confirm" class="auth-submit account-delete-confirm-btn">Confirm deletion</button>
+        </div>
+      </div>
+      <p id="account-delete-message" class="auth-message account-delete-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <p id="account-message" class="auth-message" aria-live="polite" role="status"></p>
+    <button type="button" id="account-signout" class="auth-submit auth-submit-secondary">Sign out</button>
+  </div>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="account.js"></script>
+</body>
+</html>

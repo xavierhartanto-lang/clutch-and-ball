@@ -1,0 +1,834 @@
+/* Public preview (clutch-and-ball.html) — second hook; complements landing.css */
+
+body.preview-page {
+  margin: 0;
+  min-height: 100vh;
+  background: #020617;
+  color: #e2e8f0;
+}
+
+.preview-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 70% at 50% -10%, rgba(251, 191, 36, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 50%, rgba(234, 88, 12, 0.08), transparent 45%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, rgba(59, 130, 246, 0.06), transparent 40%),
+    linear-gradient(180deg, #0a0f1e 0%, #020617 50%, #010409 100%);
+  animation: cabPreviewMeshDrift 24s ease-in-out infinite alternate;
+}
+
+.preview-page .particles {
+  opacity: 0.28;
+  z-index: -1;
+}
+
+/* Minimal top bar (this page only) */
+.preview-page .site-top-bar.cab-preview-topbar {
+  justify-content: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.preview-page .site-top-bar.cab-preview-topbar nav {
+  flex: 0 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+  padding: 0.35rem 0;
+}
+
+.preview-page .site-top-bar.cab-preview-topbar nav a {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.preview-page .site-top-bar.cab-preview-topbar nav a.nav-current {
+  background: rgba(251, 191, 36, 0.18);
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.2);
+}
+
+.preview-page .site-top-bar.cab-preview-topbar nav a:hover {
+  transform: translateY(-1px);
+}
+
+@keyframes cabPreviewMeshDrift {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0.92;
+    transform: scale(1.04) translate3d(-1.5%, 1%, 0);
+  }
+}
+
+.preview-main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 1.5rem) 4rem;
+}
+
+/* Hero */
+.cab-preview-hero {
+  position: relative;
+  padding: clamp(2.5rem, 8vw, 4.5rem) 0 clamp(2rem, 5vw, 3rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cab-preview-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cab-preview-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(36px);
+  opacity: 0.45;
+  animation: cabPreviewOrbFloat 14s ease-in-out infinite;
+}
+
+.cab-preview-orb:nth-child(1) {
+  width: min(280px, 55vw);
+  height: min(280px, 55vw);
+  left: -8%;
+  top: 10%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.5) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.cab-preview-orb:nth-child(2) {
+  width: min(220px, 45vw);
+  height: min(220px, 45vw);
+  right: -5%;
+  top: 35%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.35) 0%, transparent 70%);
+  animation-delay: -4s;
+  animation-duration: 18s;
+}
+
+.cab-preview-orb:nth-child(3) {
+  width: min(180px, 40vw);
+  height: min(180px, 40vw);
+  left: 35%;
+  bottom: 5%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+  animation-delay: -7s;
+  animation-duration: 16s;
+}
+
+@keyframes cabPreviewOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12px, -18px, 0) scale(1.08);
+  }
+}
+
+.cab-preview-hero-badge,
+.cab-preview-hero h1,
+.cab-preview-hero-lead,
+.cab-preview-hero-cta {
+  position: relative;
+  z-index: 1;
+}
+
+.cab-preview-hero-badge {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 999px;
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.cab-preview-hero.visible .cab-preview-hero-badge {
+  animation: cabPreviewFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cab-preview-hero.visible .cab-preview-hero-lead {
+  animation: cabPreviewFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+.cab-preview-hero.visible .cab-preview-hero-cta {
+  animation: cabPreviewFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.cab-preview-hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    #fde68a 25%,
+    #f59e0b 50%,
+    #fde68a 75%,
+    #fff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: cabPreviewTitleShimmer 7s ease-in-out infinite;
+}
+
+.cab-preview-hero.visible h1 {
+  animation:
+    cabPreviewFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both,
+    cabPreviewTitleShimmer 7s ease-in-out 0.8s infinite;
+}
+
+@keyframes cabPreviewFadeUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes cabPreviewTitleShimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.cab-preview-hero-lead {
+  margin: 0 auto 1.75rem;
+  max-width: 28rem;
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+.cab-preview-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.cab-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.35rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cab-preview-btn-primary {
+  color: #1a0a00;
+  background: linear-gradient(180deg, #fde68a 0%, #f59e0b 50%, #c2410c 100%);
+  border-color: rgba(255, 220, 160, 0.45);
+  box-shadow: 0 4px 28px rgba(245, 158, 11, 0.35);
+}
+
+.cab-preview-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(245, 158, 11, 0.45);
+}
+
+.cab-preview-btn-ghost {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.cab-preview-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251, 191, 36, 0.4);
+  color: #fff;
+}
+
+/* Spotlight team */
+.cab-preview-spotlight {
+  position: relative;
+  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-radius: 24px;
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  background: linear-gradient(145deg, rgba(30, 27, 75, 0.55) 0%, rgba(15, 23, 42, 0.85) 45%, rgba(2, 6, 23, 0.9) 100%);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 80px rgba(251, 191, 36, 0.06);
+  overflow: hidden;
+  animation: cabPreviewSpotPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes cabPreviewSpotPulse {
+  0% {
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+      0 0 60px rgba(251, 191, 36, 0.05);
+    border-color: rgba(251, 191, 36, 0.18);
+  }
+  100% {
+    box-shadow:
+      0 28px 72px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 0 100px rgba(251, 191, 36, 0.12);
+    border-color: rgba(251, 191, 36, 0.35);
+  }
+}
+
+.cab-preview-spotlight::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 55%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cab-preview-spotlight-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 860px) {
+  .cab-preview-spotlight-inner {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+  }
+}
+
+.cab-preview-spotlight-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fbbf24;
+}
+
+.cab-preview-spotlight h2 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  color: #fef3c7;
+  letter-spacing: -0.02em;
+}
+
+.cab-preview-spotlight-abbr {
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.cab-preview-spotlight-desc {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+.cab-preview-record {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cab-preview-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cab-preview-player {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cab-preview-spotlight.visible .cab-preview-player:nth-child(1) {
+  animation: cabPreviewFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.cab-preview-spotlight.visible .cab-preview-player:nth-child(2) {
+  animation: cabPreviewFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.cab-preview-spotlight.visible .cab-preview-player:nth-child(3) {
+  animation: cabPreviewFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.19s both;
+}
+
+.cab-preview-player:hover {
+  border-color: rgba(251, 191, 36, 0.25);
+  transform: translateX(4px);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.08);
+}
+
+.cab-preview-player-name {
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.cab-preview-player-nick {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fbbf24;
+}
+
+.cab-preview-player-bio {
+  width: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #94a3b8;
+}
+
+/* Features bento */
+.cab-preview-section-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  font-weight: 800;
+  color: #fef3c7;
+  text-align: center;
+}
+
+.cab-preview-section-intro {
+  margin: 0 auto 1.75rem;
+  max-width: 32rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+
+.cab-preview-section-intro--tight {
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  max-width: 22rem;
+}
+
+.cab-preview-footer-lead {
+  margin: 0 0 1.25rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.cab-preview-bento {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .cab-preview-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .cab-preview-bento {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cab-preview-bento .cab-preview-tile-wide {
+    grid-column: span 2;
+  }
+}
+
+.cab-preview-tile {
+  padding: 1.25rem 1.35rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.05) 0%, rgba(15, 23, 42, 0.6) 100%);
+  text-align: left;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cab-preview-tile:hover {
+  transform: translateY(-4px);
+  border-color: rgba(251, 191, 36, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.preview-page #features.section-reveal:not(.visible) .cab-preview-tile {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile {
+  animation: cabPreviewFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile:nth-child(1) {
+  animation-delay: 0.02s;
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.preview-page #features.section-reveal.visible .cab-preview-tile:nth-child(5) {
+  animation-delay: 0.26s;
+}
+
+.cab-preview-tile-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.cab-preview-tile h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fef9c3;
+}
+
+.cab-preview-tile p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #94a3b8;
+}
+
+/* League snapshot — uses .team-card for script.js tilt */
+.cab-preview-league {
+  margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.cab-preview-league-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .cab-preview-league-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .cab-preview-league-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.preview-page .cab-preview-league-grid .team-card {
+  margin: 0;
+  min-height: 11rem;
+}
+
+.preview-page .cab-preview-league-grid .team-card h3 {
+  font-size: 1rem;
+}
+
+.preview-page .cab-preview-league-grid .player {
+  font-size: 0.82rem;
+}
+
+.preview-page #league.section-reveal:not(.visible) .cab-preview-league-grid .team-card {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0) scale(0.98);
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card {
+  animation: cabPreviewFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card:nth-child(1) {
+  animation-delay: 0.02s;
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card:nth-child(4) {
+  animation-delay: 0.17s;
+}
+
+.preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card:nth-child(5) {
+  animation-delay: 0.22s;
+}
+
+/* Schedule mock */
+.cab-preview-schedule-wrap {
+  margin-bottom: clamp(2rem, 5vw, 2.75rem);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.cab-preview-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.cab-preview-schedule-table th,
+.cab-preview-schedule-table td {
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cab-preview-schedule-table th {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fbbf24;
+}
+
+.cab-preview-schedule-table td {
+  color: #cbd5e1;
+}
+
+.cab-preview-schedule-table tbody tr {
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cab-preview-schedule-table tbody tr:hover {
+  background: rgba(251, 191, 36, 0.06);
+}
+
+.cab-preview-schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cab-preview-pill {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: rgba(251, 191, 36, 0.15);
+  color: #fde68a;
+}
+
+/* Countdown */
+.cab-preview-countdown {
+  text-align: center;
+  padding: 1.75rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  background: rgba(251, 191, 36, 0.06);
+  margin-bottom: 2rem;
+}
+
+.cab-preview-countdown h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fef3c7;
+}
+
+#next-game {
+  margin: 0;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+
+.cab-preview-countdown-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* Final CTA */
+.cab-preview-footer-cta {
+  text-align: center;
+  padding: 2rem 1.25rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.85) 100%);
+}
+
+.cab-preview-footer-cta h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fef3c7;
+}
+
+.cab-preview-footer-cta p {
+  margin: 0 0 1.25rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+/* Scroll-in (preview only; hero stays visible) */
+.preview-page main .section-reveal:not(.visible):not(.cab-preview-hero) {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0) scale(0.99);
+  filter: blur(5px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.preview-page main .section-reveal.visible:not(.cab-preview-hero) {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+html[data-theme="light"] body.preview-page {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+html[data-theme="light"] body.preview-page::before {
+  background:
+    radial-gradient(ellipse 100% 70% at 50% -10%, rgba(251, 191, 36, 0.2), transparent 50%),
+    linear-gradient(180deg, #fff7ed 0%, #f8fafc 55%, #f1f5f9 100%);
+}
+
+html[data-theme="light"] .cab-preview-hero-lead,
+html[data-theme="light"] .cab-preview-section-intro,
+html[data-theme="light"] .cab-preview-footer-lead,
+html[data-theme="light"] .cab-preview-spotlight-desc,
+html[data-theme="light"] .cab-preview-player-bio,
+html[data-theme="light"] .cab-preview-tile p,
+html[data-theme="light"] .cab-preview-footer-cta p,
+html[data-theme="light"] .cab-preview-countdown-note {
+  color: #475569;
+}
+
+html[data-theme="light"] .cab-preview-spotlight,
+html[data-theme="light"] .cab-preview-tile,
+html[data-theme="light"] .cab-preview-schedule-wrap,
+html[data-theme="light"] .cab-preview-countdown,
+html[data-theme="light"] .cab-preview-footer-cta {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .cab-preview-player {
+  background: #f1f5f9;
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .cab-preview-player-name {
+  color: #0f172a;
+}
+
+html[data-theme="light"] #next-game {
+  color: #c2410c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview-page::before,
+  .cab-preview-orb,
+  .cab-preview-spotlight,
+  .cab-preview-hero h1 {
+    animation: none !important;
+  }
+
+  .cab-preview-hero.visible .cab-preview-hero-badge,
+  .cab-preview-hero.visible h1,
+  .cab-preview-hero.visible .cab-preview-hero-lead,
+  .cab-preview-hero.visible .cab-preview-hero-cta,
+  .cab-preview-spotlight.visible .cab-preview-player,
+  .preview-page #features.section-reveal.visible .cab-preview-tile,
+  .preview-page #league.section-reveal.visible .cab-preview-league-grid .team-card {
+    animation: none !important;
+  }
+
+  .preview-page main .section-reveal:not(.visible):not(.cab-preview-hero) {
+    filter: none;
+  }
+
+  .cab-preview-btn:hover,
+  .cab-preview-tile:hover,
+  .cab-preview-player:hover {
+    transform: none;
+  }
+}

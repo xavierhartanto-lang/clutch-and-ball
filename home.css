@@ -1,0 +1,518 @@
+/* index.html only — Home layout: wide desktop, compact mobile app feel */
+
+/*
+ * Global `.section-league { max-width: 440px }` is for narrow auth columns (e.g. welcome).
+ * App home workspace + dashboard use full main width.
+ */
+body.app-ui .section-league:not(.section-league-primary),
+body.app-ui main.app-main--home .section-league.section-league-primary {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ---------- Workspace (signed-in hero + coach/player hubs) ---------- */
+body.app-ui main.app-main--home .home-shell-hero.cab-home-workspace {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.1rem, 2.2vw, 1.65rem);
+  align-items: stretch;
+}
+
+body.app-ui main.app-main--home .cab-home-workspace__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+body.app-ui main.app-main--home .cab-home-workspace__intro .section-league-intro {
+  margin-bottom: 0;
+  max-width: min(88ch, 100%);
+}
+
+@media (min-width: 1100px) {
+  body.app-ui main.app-main--home .home-shell-hero .section-league-intro {
+    max-width: min(96ch, 100%);
+  }
+}
+
+body.app-ui main.app-main--home .cab-home-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(251, 191, 36, 0.88);
+  margin: 0;
+}
+
+body.app-ui main.app-main--home .cab-home-workspace__intro #hub-heading {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+body.app-ui main.app-main--home .cab-home-auth {
+  margin-top: 0.15rem;
+}
+
+body.app-ui main.app-main--home .cab-home-auth:has(#auth-signed-in:not(.hidden)) .auth-panel {
+  padding: 0.7rem 0.95rem;
+  margin-bottom: 0;
+}
+
+body.app-ui main.app-main--home .cab-home-auth:has(#auth-signed-in:not(.hidden)) .auth-welcome {
+  margin: 0 0 0.5rem;
+}
+
+body.app-ui main.app-main--home .cab-home-hubs-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 0 0 0.55rem;
+}
+
+body.app-ui main.app-main--home .cab-home-workspace__hubs {
+  min-width: 0;
+  border-radius: 18px;
+  padding: clamp(0.95rem, 1.8vw, 1.2rem) clamp(1rem, 2vw, 1.35rem);
+  background: linear-gradient(168deg, rgba(6, 8, 16, 0.94) 0%, rgba(14, 16, 24, 0.98) 100%);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  box-shadow:
+    0 10px 36px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.app-ui main.app-main--home .cab-home-workspace__hubs #hub-stack.hub-stack {
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  body.app-ui main.app-main--home .home-shell-hero.cab-home-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, min(520px, 42vw));
+    column-gap: clamp(1.35rem, 3vw, 2.75rem);
+    align-items: stretch;
+  }
+}
+
+body.app-ui main.app-main--home .home-shell-hero #coach-hub,
+body.app-ui main.app-main--home .home-shell-hero #player-hub {
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: clamp(1rem, 1.8vw, 1.25rem) clamp(1.05rem, 1.9vw, 1.35rem);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+body.app-ui main.app-main--home .cab-workspace-h4 {
+  margin: 0 0 0.65rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+@media (max-width: 380px) {
+  body.app-ui main.app-main--home .cab-workspace-h4 {
+    letter-spacing: 0.06em;
+  }
+}
+
+body.app-ui main.app-main--home #coach-hub .create-league-form {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-hub-submit-primary {
+  margin-top: 0.15rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #c2410c 100%);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  box-shadow: 0 4px 18px rgba(234, 88, 12, 0.28);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-hub-submit-primary:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 22px rgba(234, 88, 12, 0.35);
+}
+
+body.app-ui main.app-main--home #coach-hub .league-card-row--with-avatar,
+body.app-ui main.app-main--home #player-hub .league-card-row--with-avatar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.65rem 0.85rem;
+  align-items: center;
+}
+
+@media (max-width: 520px) {
+  body.app-ui main.app-main--home #coach-hub .league-card-row--with-avatar,
+  body.app-ui main.app-main--home #player-hub .league-card-row--with-avatar {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  body.app-ui main.app-main--home #coach-hub .league-card-row--with-avatar .cab-hub-row-action,
+  body.app-ui main.app-main--home #player-hub .league-card-row--with-avatar .cab-hub-row-action {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    text-align: center;
+  }
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-hub-row-action {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 0.48rem 1.05rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.42);
+}
+
+body.app-ui main.app-main--home .home-shell-hero .hub-subheading {
+  color: var(--orange-bright);
+  font-size: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 0.35rem;
+}
+
+/* Coach / player two-up inside the hubs panel */
+body.app-ui main.app-main--home #hub-stack.hub-stack {
+  display: grid;
+  gap: clamp(0.85rem, 1.5vw, 1.25rem);
+}
+
+@media (min-width: 720px) {
+  body.app-ui main.app-main--home #hub-stack.hub-stack {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  /* Coach-only or player-only: one hub was wider than half a cramped column */
+  body.app-ui main.app-main--home #hub-stack.hub-stack:has(#player-hub.hidden),
+  body.app-ui main.app-main--home #hub-stack.hub-stack:has(#coach-hub.hidden) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.app-ui main.app-main--home #hub-stack.hub-stack {
+    gap: 1.1rem 1.35rem;
+  }
+}
+@media (max-width: 639px) {
+  body.app-ui main.app-main--home {
+    max-width: 100%;
+    padding: 0.55rem 0.75rem 1.1rem;
+  }
+
+  body.app-ui main.app-main--home .home-shell-hero {
+    padding: 0.85rem 0.95rem;
+    border-radius: 16px;
+    margin-bottom: 0.85rem;
+  }
+
+  body.app-ui main.app-main--home #hub-stack.hub-stack {
+    gap: 0.75rem;
+  }
+
+  body.app-ui main.app-main--home #coach-hub,
+  body.app-ui main.app-main--home #player-hub {
+    padding: 0.85rem 0.9rem;
+  }
+
+  body.app-ui main.app-main--home .dashboard-app {
+    margin-bottom: 1.25rem;
+  }
+
+  body.app-ui main.app-main--home .dashboard-subheading {
+    margin-top: 1.25rem;
+  }
+}
+
+/* ---------- Default / tablet ---------- */
+body.app-ui main.app-main--home {
+  width: 100%;
+  max-width: min(1920px, calc(100vw - 24px));
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+body.app-ui main.app-main--home .home-shell-hero {
+  background: linear-gradient(
+    150deg,
+    rgba(255, 140, 0, 0.12) 0%,
+    rgba(20, 20, 22, 0.95) 42%,
+    rgba(10, 10, 12, 0.98) 100%
+  );
+  border: 1px solid rgba(255, 140, 0, 0.22);
+  border-radius: 24px;
+  padding: clamp(1rem, 2.2vw, 1.75rem) clamp(1rem, 2.5vw, 2.25rem);
+  box-shadow:
+    0 12px 42px rgba(0, 0, 0, 0.44),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+
+body.app-ui main.app-main--home .home-shell-hero #hub-heading {
+  background: linear-gradient(90deg, #fff 0%, #ffd9b3 56%, var(--orange-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+body.app-ui main.app-main--home .home-shell-hero .section-league-intro {
+  color: #d1d1d1;
+  max-width: 72ch;
+}
+
+body.app-ui main.app-main--home .home-shell-hero .auth-panel {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0;
+}
+
+/* ---------- Mobile: tight, app-like ---------- */
+body.app-ui main.app-main--home .dashboard-app {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+body.app-ui main.app-main--home .dashboard-heading {
+  text-align: left;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.45rem;
+}
+
+body.app-ui main.app-main--home .dashboard-intro {
+  text-align: left;
+  max-width: min(72ch, 100%);
+  color: var(--text-muted);
+  margin-bottom: clamp(1rem, 2vw, 1.6rem);
+}
+
+body.app-ui main.app-main--home .dashboard-next-card,
+body.app-ui main.app-main--home .dashboard-upcoming-card,
+body.app-ui main.app-main--home .dashboard-league-card,
+body.app-ui main.app-main--home .dashboard-stat-card {
+  border-radius: 18px;
+  border-color: rgba(255, 140, 0, 0.22);
+}
+
+@media (min-width: 900px) {
+  body.app-ui main.app-main--home .dashboard-stats-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1rem, 1.5vw, 1.35rem);
+  }
+}
+
+@media (min-width: 1100px) {
+  body.app-ui main.app-main--home .dashboard-upcoming-row {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1rem, 1.5vw, 1.35rem);
+  }
+
+  body.app-ui main.app-main--home .dashboard-leagues-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: clamp(1rem, 1.5vw, 1.35rem);
+  }
+}
+
+@media (min-width: 1400px) {
+  body.app-ui main.app-main--home .dashboard-upcoming-row {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  body.app-ui main.app-main--home .dashboard-leagues-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* Very wide: use a bit more horizontal breathing without touching the nav */
+@media (min-width: 1600px) {
+  body.app-ui main.app-main--home {
+    max-width: min(1920px, calc(100vw - 48px));
+  }
+}
+
+/* —— Command center (signed-in home dashboard) —— */
+body.app-ui main.app-main--home .cab-dash-shell {
+  width: 100%;
+  margin-top: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+
+body.app-ui main.app-main--home .cab-dash-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 1.75rem;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+body.app-ui main.app-main--home .cab-dash-header__main {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+body.app-ui main.app-main--home .cab-dash-eyebrow {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(251, 191, 36, 0.88);
+  margin: 0 0 0.35rem;
+}
+
+body.app-ui main.app-main--home .cab-dash-header .dashboard-heading {
+  margin-bottom: 0.35rem;
+}
+
+body.app-ui main.app-main--home .cab-dash-header .dashboard-intro {
+  margin-bottom: 0;
+  max-width: min(62ch, 100%);
+}
+
+body.app-ui main.app-main--home .cab-dash-bento {
+  display: grid;
+  gap: clamp(1rem, 1.8vw, 1.35rem);
+  grid-template-columns: 1fr;
+}
+
+body.app-ui main.app-main--home .cab-dash-cell .dashboard-subheading {
+  margin-top: 0;
+  margin-bottom: 0.65rem;
+}
+
+body.app-ui main.app-main--home .cab-dash-cell-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.65rem;
+}
+
+body.app-ui main.app-main--home .cab-dash-cell-head .dashboard-subheading {
+  margin-bottom: 0;
+}
+
+body.app-ui main.app-main--home .cab-dash-cell-link {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.45);
+}
+
+body.app-ui main.app-main--home .cab-dash-cell-link:hover {
+  color: #fff;
+}
+
+body.app-ui main.app-main--home .cab-dash-upcoming-mount .dashboard-upcoming-group {
+  margin-bottom: 0.85rem;
+}
+
+body.app-ui main.app-main--home .cab-dash-upcoming-mount .dashboard-upcoming-group:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 880px) {
+  body.app-ui main.app-main--home .cab-dash-bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--next {
+    grid-column: 1 / span 8;
+    grid-row: 1;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--stats {
+    grid-column: 9 / span 4;
+    grid-row: 1;
+    align-self: stretch;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--stats .dashboard-stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    height: 100%;
+    align-content: stretch;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--activity {
+    grid-column: 1 / span 8;
+    grid-row: 2;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--rail {
+    grid-column: 9 / span 4;
+    grid-row: 2 / span 3;
+    align-self: start;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--upcoming {
+    grid-column: 1 / span 8;
+    grid-row: 3;
+  }
+
+  body.app-ui main.app-main--home .cab-dash-cell--leagues {
+    grid-column: 1 / span 8;
+    grid-row: 4;
+  }
+}
+
+@media (max-width: 879px) {
+  body.app-ui main.app-main--home .cab-dash-quicknav {
+    width: 100%;
+  }
+}
+
+/* ---------- Light theme ---------- */
+html[data-theme="light"] body.app-ui main.app-main--home .home-shell-hero {
+  background: linear-gradient(155deg, rgba(255, 140, 0, 0.12) 0%, #fff 52%, #f5f5f6 100%);
+  border-color: rgba(255, 140, 0, 0.3);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.02) inset;
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .home-shell-hero .auth-panel,
+html[data-theme="light"] body.app-ui main.app-main--home .home-shell-hero #coach-hub,
+html[data-theme="light"] body.app-ui main.app-main--home .home-shell-hero #player-hub {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(0, 0, 0, 0.09);
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .cab-home-workspace__hubs {
+  background: linear-gradient(168deg, #fff 0%, #f4f4f6 100%);
+  border-color: rgba(255, 140, 0, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .cab-workspace-h4 {
+  color: #64748b;
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home #coach-hub .create-league-form {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}

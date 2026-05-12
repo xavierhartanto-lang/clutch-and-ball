@@ -1,0 +1,852 @@
+/**
+ * Signed-in app shell only (body.app-ui.cab-signed).
+ * Aligns with landing / preview: deep base, amber accent, glass surfaces.
+ * Does not load on welcome.html or clutch-and-ball preview.
+ */
+
+body.app-ui.cab-signed {
+  --cab-accent: #fbbf24;
+  --cab-accent-mid: #f59e0b;
+  --cab-accent-deep: #ea580c;
+  --cab-accent-soft: rgba(251, 191, 36, 0.14);
+  --cab-glass: rgba(15, 23, 42, 0.55);
+  --cab-glass-2: rgba(30, 41, 59, 0.45);
+  --cab-glass-border: rgba(255, 255, 255, 0.1);
+  --cab-radius-lg: 18px;
+  --cab-radius-xl: 22px;
+  --cab-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --cab-shadow-glow: 0 0 48px rgba(251, 191, 36, 0.1);
+  --cab-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --cab-font-display: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #020617;
+  color: #e2e8f0;
+}
+
+/* Same motion language as preview page mesh */
+@keyframes cabSignedMeshDrift {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0.92;
+    transform: scale(1.04) translate3d(-1.5%, 1%, 0);
+  }
+}
+
+@keyframes cabSignedAuroraSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cabSignedCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.app-ui.cab-signed::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 70% at 50% -10%, rgba(251, 191, 36, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 50%, rgba(234, 88, 12, 0.08), transparent 45%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, rgba(59, 130, 246, 0.06), transparent 40%),
+    linear-gradient(180deg, #0a0f1e 0%, #020617 50%, #010409 100%);
+  animation: cabSignedMeshDrift 24s ease-in-out infinite alternate;
+  opacity: 1;
+}
+
+body.app-ui.cab-signed::after {
+  content: "";
+  position: fixed;
+  inset: -30%;
+  z-index: -3;
+  pointer-events: none;
+  opacity: 0.2;
+  background: conic-gradient(
+    from 220deg at 50% 50%,
+    rgba(251, 191, 36, 0.14),
+    rgba(249, 115, 22, 0.08),
+    rgba(59, 130, 246, 0.06),
+    rgba(251, 191, 36, 0.12)
+  );
+  animation: cabSignedAuroraSpin 48s linear infinite;
+}
+
+body.app-ui.cab-signed .particles {
+  opacity: 0.28;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cab-skeleton::after {
+    animation: none;
+  }
+
+  body.app-ui.cab-signed .dashboard-loading::before {
+    animation: none;
+    border-color: rgba(245, 158, 11, 0.55);
+  }
+
+  body.app-ui.cab-signed::before,
+  body.app-ui.cab-signed::after {
+    animation: none;
+  }
+
+  body.app-ui.cab-signed::after {
+    opacity: 0.08;
+  }
+}
+
+/* Top bar — glass strip */
+body.app-ui.cab-signed .site-top-bar {
+  background: rgba(10, 10, 14, 0.75);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+body.app-ui.cab-signed .site-top-bar nav a {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  transition:
+    transform 0.2s var(--cab-ease),
+    border-color 0.2s var(--cab-ease),
+    box-shadow 0.2s var(--cab-ease),
+    background 0.2s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .site-top-bar nav a:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: var(--cab-accent-soft);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.12);
+}
+
+body.app-ui.cab-signed .site-top-bar nav a.nav-current {
+  background: rgba(251, 191, 36, 0.18);
+  border-color: rgba(251, 191, 36, 0.45);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.2);
+}
+
+body.app-ui.cab-signed .site-top-bar nav a.cab-nav-preview-link {
+  color: #fbbf24;
+  font-weight: 700;
+  border-color: rgba(251, 191, 36, 0.25);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+body.app-ui.cab-signed .site-top-bar nav a.cab-nav-preview-link:hover {
+  color: #fff;
+  background: rgba(251, 191, 36, 0.16);
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.22);
+}
+
+body.app-ui.cab-signed .cab-inline-preview-link {
+  color: #fbbf24;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.45);
+  transition: color 0.2s var(--cab-ease), box-shadow 0.2s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .cab-inline-preview-link:hover {
+  color: #fff;
+  box-shadow: 0 4px 0 rgba(251, 191, 36, 0.35);
+}
+
+/* Signed-in app: wide main + horizontal padding on large screens */
+body.app-ui.cab-signed main.app-main:not(.app-main--wide):not(.app-main--league):not(.app-main--home),
+body.app-ui.cab-signed main.app-main--home {
+  max-width: min(1680px, calc(100vw - 40px));
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  body.app-ui.cab-signed main.app-main:not(.app-main--wide):not(.app-main--league):not(.app-main--home),
+  body.app-ui.cab-signed main.app-main--home {
+    padding-left: clamp(1rem, 2.5vw, 2.5rem);
+    padding-right: clamp(1rem, 2.5vw, 2.5rem);
+  }
+}
+
+/* Long labels, codes, and intros should wrap instead of clipping */
+body.app-ui.cab-signed .manage-team-name,
+body.app-ui.cab-signed .league-card-text-col,
+body.app-ui.cab-signed .league-card-row--with-avatar,
+body.app-ui.cab-signed .section-card p,
+body.app-ui.cab-signed .auth-hint,
+body.app-ui.cab-signed .section-league-intro,
+body.app-ui.cab-signed .team-code-line,
+body.app-ui.cab-signed .cab-activity-title,
+body.app-ui.cab-signed .cab-activity-meta {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+body.app-ui.cab-signed .league-card-text-col,
+body.app-ui.cab-signed .league-card-row--with-avatar .manage-team-name {
+  min-width: 0;
+}
+
+/* Glass cards */
+body.app-ui.cab-signed main .section-card:not(.app-hero-card) {
+  animation: cabSignedCardEnter 0.55s var(--cab-ease) backwards;
+}
+
+body.app-ui.cab-signed main .section-card:not(.app-hero-card),
+body.app-ui.cab-signed .dashboard-stat-card,
+body.app-ui.cab-signed .dashboard-upcoming-card,
+body.app-ui.cab-signed .dashboard-next-card,
+body.app-ui.cab-signed .dashboard-league-card,
+body.app-ui.cab-signed .league-section,
+body.app-ui.cab-signed .league-chat-section,
+body.app-ui.cab-signed .calendar-toolbar,
+body.app-ui.cab-signed .cal-detail,
+body.app-ui.cab-signed .account-section,
+body.app-ui.cab-signed .account-panel {
+  background: var(--cab-glass);
+  border: 1px solid var(--cab-glass-border);
+  border-radius: var(--cab-radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--cab-shadow), var(--cab-shadow-glow);
+  transition:
+    transform 0.22s var(--cab-ease),
+    border-color 0.22s var(--cab-ease),
+    box-shadow 0.22s var(--cab-ease);
+}
+
+body.app-ui.cab-signed main .section-card:not(.app-hero-card):hover,
+body.app-ui.cab-signed .dashboard-stat-card:hover,
+body.app-ui.cab-signed .dashboard-upcoming-card:hover,
+body.app-ui.cab-signed .dashboard-next-card:hover,
+body.app-ui.cab-signed .dashboard-league-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.28);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.5),
+    0 0 48px rgba(245, 158, 11, 0.1);
+}
+
+body.app-ui.cab-signed main .section-card.app-hero-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(18, 18, 24, 0.92) 48%);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  border-radius: var(--cab-radius-xl);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Dashboard shell */
+body.app-ui.cab-signed .dashboard-app {
+  padding: 0 0 2.5rem;
+}
+
+body.app-ui.cab-signed .dashboard-heading {
+  font-family: var(--cab-font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg, #fff 0%, #fde68a 45%, var(--cab-accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+body.app-ui.cab-signed .dashboard-subheading {
+  font-family: var(--cab-font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  margin-top: 1.85rem;
+}
+
+body.app-ui.cab-signed .dashboard-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--cab-radius-lg);
+  background: var(--cab-accent-soft);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+body.app-ui.cab-signed .dashboard-loading::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--cab-accent);
+  animation: cab-spin 0.7s linear infinite;
+}
+
+@keyframes cab-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Skeletons */
+.cab-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.cab-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: cab-shimmer 1.35s ease-in-out infinite;
+}
+
+@keyframes cab-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.cab-skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 700px) {
+  .cab-skeleton-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.cab-skeleton-stat {
+  height: 5.5rem;
+  border-radius: var(--cab-radius-lg);
+}
+
+.cab-skeleton-card-lg {
+  height: 8.5rem;
+  border-radius: var(--cab-radius-lg);
+}
+
+.cab-skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cab-skeleton-line {
+  height: 4.2rem;
+  border-radius: var(--cab-radius-lg);
+}
+
+/* Activity feed */
+.cab-activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: var(--cab-radius-lg);
+  border: 1px solid var(--cab-glass-border);
+  background: rgba(12, 12, 16, 0.65);
+  overflow: hidden;
+}
+
+a.cab-activity-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.cab-activity-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.65rem 0.85rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.18s var(--cab-ease);
+}
+
+.cab-activity-item:last-child {
+  border-bottom: none;
+}
+
+.cab-activity-item:hover {
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.cab-activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--cab-accent), #ea580c);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
+}
+
+.cab-activity-title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f4f4f5;
+  line-height: 1.35;
+}
+
+.cab-activity-meta {
+  margin: 0.15rem 0 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.cab-activity-when {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.cab-activity-empty {
+  margin: 0;
+  padding: 1.25rem 1rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+body.app-ui.cab-signed .cab-toolbar-card {
+  padding: 0.75rem 1.1rem;
+}
+
+/* My Teams search */
+.cab-teams-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cab-teams-toolbar label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cab-teams-search {
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  color: #f4f4f5;
+  font-family: var(--cab-font-display);
+  font-size: 0.9rem;
+  transition: border-color 0.2s var(--cab-ease), box-shadow 0.2s var(--cab-ease);
+}
+
+.cab-teams-search::placeholder {
+  color: #71717a;
+}
+
+.cab-teams-search:focus {
+  outline: none;
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+.cab-teams-search-hint {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.manage-team-item.cab-filter-hidden {
+  display: none;
+}
+
+/* Tables / standings */
+body.app-ui.cab-signed .standings-table {
+  border-radius: var(--cab-radius-lg);
+  overflow: hidden;
+}
+
+body.app-ui.cab-signed .standings-wrap {
+  border: 1px solid var(--cab-glass-border);
+  border-radius: var(--cab-radius-lg);
+  background: rgba(10, 10, 14, 0.5);
+}
+
+/* Calendar cells */
+body.app-ui.cab-signed .cal-cell {
+  border-radius: 12px;
+  transition: border-color 0.18s var(--cab-ease), box-shadow 0.18s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .cal-cell:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+body.app-ui.cab-signed .cal-rsvp-hint {
+  margin: 0 0 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+body.app-ui.cab-signed .cal-rsvp-wrap--saving {
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+body.app-ui.cab-signed .cal-rsvp-wrap--saving .cal-rsvp-btn {
+  cursor: wait;
+}
+
+body.app-ui.cab-signed .dashboard-next-rsvp-hint {
+  margin: 0.5rem 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+body.app-ui.cab-signed .dashboard-rsvp-inline {
+  padding: 0.4rem;
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 0.35rem;
+}
+
+body.app-ui.cab-signed .dashboard-rsvp-inline .dashboard-rsvp-btn {
+  border-radius: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+}
+
+/* —— Home command center (index) —— */
+body.app-ui.cab-signed main.app-main--home .cab-dash-shell .dashboard-heading {
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-dash-quicknav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+
+body.app-ui.cab-signed .cab-dash-quicknav__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  font-family: var(--cab-font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.45);
+  transition:
+    transform 0.18s var(--cab-ease),
+    border-color 0.18s var(--cab-ease),
+    box-shadow 0.18s var(--cab-ease),
+    color 0.18s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .cab-dash-quicknav__link:hover {
+  color: #fff;
+  border-color: rgba(251, 191, 36, 0.45);
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.12);
+  transform: translateY(-1px);
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell {
+  padding: clamp(0.85rem, 1.5vw, 1.15rem) clamp(0.95rem, 1.8vw, 1.25rem);
+  border-radius: var(--cab-radius-xl);
+  background: linear-gradient(155deg, rgba(30, 41, 59, 0.42) 0%, rgba(15, 23, 42, 0.55) 100%);
+  border: 1px solid var(--cab-glass-border);
+  box-shadow: var(--cab-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: cabSignedCardEnter 0.52s var(--cab-ease) backwards;
+}
+
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(1) {
+  animation-delay: 0.04s;
+}
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(2) {
+  animation-delay: 0.08s;
+}
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(3) {
+  animation-delay: 0.11s;
+}
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(4) {
+  animation-delay: 0.14s;
+}
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(5) {
+  animation-delay: 0.17s;
+}
+body.app-ui.cab-signed main.app-main--home .cab-dash-cell:nth-child(6) {
+  animation-delay: 0.2s;
+}
+
+body.app-ui.cab-signed .cab-dash-announce {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-card {
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--cab-radius-lg);
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  transition:
+    border-color 0.2s var(--cab-ease),
+    box-shadow 0.2s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-card:hover {
+  border-color: rgba(251, 191, 36, 0.38);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-kicker {
+  margin: 0 0 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--cab-font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-body {
+  margin: 0 0 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-cta {
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.45);
+}
+
+body.app-ui.cab-signed .cab-dash-pulse-cta:hover {
+  color: #fff;
+}
+
+body.app-ui.cab-signed .cab-dash-rail-card {
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--cab-radius-lg);
+  background: rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.app-ui.cab-signed .cab-dash-rail-copy {
+  margin: 0 0 0.75rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+
+body.app-ui.cab-signed .cab-dash-rail-btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  font-family: var(--cab-font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: #0f172a;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.18);
+  transition:
+    transform 0.18s var(--cab-ease),
+    box-shadow 0.18s var(--cab-ease);
+}
+
+body.app-ui.cab-signed .cab-dash-rail-btn:last-child {
+  margin-bottom: 0;
+}
+
+body.app-ui.cab-signed .cab-dash-rail-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(251, 191, 36, 0.28);
+}
+
+body.app-ui.cab-signed .cab-dash-rail-btn--ghost {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(251, 191, 36, 0.28);
+  box-shadow: none;
+}
+
+body.app-ui.cab-signed .cab-dash-rail-btn--ghost:hover {
+  color: #fff;
+  background: rgba(251, 191, 36, 0.16);
+  border-color: rgba(251, 191, 36, 0.45);
+}
+
+body.app-ui.cab-signed .cab-dash-cell--activity .cab-activity-feed {
+  max-height: min(360px, 52vh);
+  overflow-y: auto;
+  scrollbar-color: rgba(251, 191, 36, 0.35) transparent;
+}
+
+body.app-ui.cab-signed .cab-dash-cell--activity .cab-activity-feed::-webkit-scrollbar {
+  width: 6px;
+}
+
+body.app-ui.cab-signed .cab-dash-cell--activity .cab-activity-feed::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.35);
+  border-radius: 999px;
+}
+
+@media (max-width: 879px) {
+  body.app-ui.cab-signed .cab-dash-cell--activity .cab-activity-feed {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.app-ui.cab-signed main.app-main--home .cab-dash-cell {
+    animation: none;
+  }
+
+  body.app-ui.cab-signed .cab-dash-quicknav__link:hover,
+  body.app-ui.cab-signed .cab-dash-rail-btn:hover {
+    transform: none;
+  }
+}
+
+/* Light theme */
+html[data-theme="light"] body.app-ui.cab-signed {
+  background:
+    radial-gradient(ellipse 100% 70% at 50% 0%, rgba(251, 191, 36, 0.15), transparent 50%),
+    linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .site-top-bar {
+  background: rgba(255, 255, 255, 0.86);
+  border-bottom-color: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed main .section-card:not(.app-hero-card),
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-stat-card,
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-upcoming-card,
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-next-card,
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-league-card,
+html[data-theme="light"] body.app-ui.cab-signed .league-section,
+html[data-theme="light"] body.app-ui.cab-signed .account-section {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-activity-feed {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-activity-item {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-teams-search {
+  background: #fff;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+}
+
+html[data-theme="light"] body.app-ui.cab-signed main.app-main--home .cab-dash-cell {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-dash-quicknav__link {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-dash-pulse-card {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-dash-pulse-title {
+  color: #0f172a;
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .cab-dash-rail-card {
+  background: rgba(248, 250, 252, 0.95);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-next-rsvp-hint,
+html[data-theme="light"] body.app-ui.cab-signed .cal-rsvp-hint {
+  color: #64748b;
+}
+
+html[data-theme="light"] body.app-ui.cab-signed .dashboard-rsvp-inline {
+  background: rgba(248, 250, 252, 0.65);
+  border-color: rgba(15, 23, 42, 0.08);
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+
+<div id="top"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html" class="nav-current">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="coach-page calendar-page app-main app-main--wide">
+  <div class="calendar-app">
+    <div class="calendar-app-col calendar-app-col--grid">
+      <section class="section-card calendar-toolbar">
+        <button type="button" id="cal-prev" class="cal-nav-btn" aria-label="Previous month">←</button>
+        <h2 id="cal-month-label" class="cal-month-label">Month</h2>
+        <button type="button" id="cal-next" class="cal-nav-btn" aria-label="Next month">→</button>
+      </section>
+
+      <div class="calendar-shell">
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="cal-grid" class="calendar-grid" role="grid" aria-labelledby="cal-month-label"></div>
+      </div>
+    </div>
+
+    <div class="calendar-app-col calendar-app-col--side">
+      <section class="section-card cal-detail">
+        <div class="cal-detail-scroll">
+          <h3 id="cal-selected-title">Select a Date</h3>
+          <ul id="cal-day-list" class="cal-day-list"></ul>
+
+          <form id="cal-add-form" class="auth-form hidden">
+            <input type="hidden" id="cal-form-date" value="">
+            <input type="hidden" id="cal-event-id" value="">
+            <label class="auth-label" for="cal-title">Title</label>
+            <input type="text" id="cal-title" required maxlength="120" placeholder="e.g. Practice, Film, Tip-off">
+            <label class="auth-label" for="cal-kind">Type</label>
+            <select id="cal-kind">
+              <option value="event">Event</option>
+              <option value="game">Game</option>
+              <option value="practice">Practice</option>
+              <option value="other">Other</option>
+            </select>
+            <label class="auth-label" for="cal-start-time">Start time</label>
+            <input type="time" id="cal-start-time" required value="12:00">
+            <label class="auth-label" for="cal-end-time">End time (optional)</label>
+            <input type="time" id="cal-end-time" value="">
+            <label class="auth-label" for="cal-team">Team (optional)</label>
+            <select id="cal-team">
+              <option value="">— Personal —</option>
+            </select>
+            <label class="auth-label" for="cal-notes">Notes</label>
+            <textarea id="cal-notes" rows="2" maxlength="500" placeholder="Location, links, reminders…"></textarea>
+            <button type="submit" id="cal-submit-btn" class="auth-submit">Add to Calendar</button>
+            <button type="button" id="cal-cancel-edit" class="auth-submit auth-submit-secondary hidden">Cancel edit</button>
+          </form>
+        </div>
+        <p id="cal-msg" class="auth-message" role="status"></p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="calendar.js"></script>
+</body>
+</html>

@@ -3,41 +3,286 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clutch and Ball</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<title>Preview Page — Clutch &amp; Ball</title>
+<script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="preview.css">
 </head>
-<body>
 
-<div id="particles" class="particles" aria-hidden="true"></div>
+<body class="app-ui preview-page">
+<script>
+(function () {
+  try {
+    localStorage.setItem("siteUnlocked", "true");
+  } catch (e) {}
+})();
+</script>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
 <div id="top"></div>
 
-<nav>
-  <a id="home-link" href="#top">Clutch and Ball</a>
-  <a id="rules-link" href="#rules">Rules</a>
-  <a id="teams-link" href="#teams">Teams</a>
-  <a id="schedule-link" href="#schedule">Schedule</a>
-  <a id="league-link" href="index.html">Create League</a>
-</nav>
+<header class="site-top-bar cab-preview-topbar">
+  <nav aria-label="Preview site">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="nav-current" aria-current="page">Preview Page</a>
+  </nav>
+</header>
 
-<main>
-<section class="hero" id="top">
+<main class="preview-main">
+  <section class="cab-preview-hero section-reveal visible" aria-labelledby="preview-hero-heading">
+    <div class="cab-preview-orbs" aria-hidden="true">
+      <span class="cab-preview-orb"></span>
+      <span class="cab-preview-orb"></span>
+      <span class="cab-preview-orb"></span>
+    </div>
+    <p class="cab-preview-hero-badge">Preview</p>
+    <h1 id="preview-hero-heading">Rosters · Schedule · RSVPs</h1>
+    <p class="cab-preview-hero-lead">One hub for your league—sample team below, then everyone.</p>
+    <div class="cab-preview-hero-cta">
+      <a class="cab-preview-btn cab-preview-btn-primary" href="welcome.html">Sign in</a>
+      <a class="cab-preview-btn cab-preview-btn-ghost" href="index.html">Home</a>
+    </div>
+  </section>
+
+  <section id="spotlight" class="cab-preview-spotlight section-reveal" aria-labelledby="spotlight-heading">
+    <div class="cab-preview-spotlight-inner">
+      <div>
+        <p class="cab-preview-spotlight-kicker">Sample team</p>
+        <h2 id="spotlight-heading">Lochie Xavi’s <span class="cab-preview-spotlight-abbr">(LOC)</span></h2>
+        <p class="cab-preview-spotlight-desc">How a roster card feels in the app.</p>
+        <span class="cab-preview-record" aria-label="Illustrative record">Demo · 3–1</span>
+      </div>
+      <div class="cab-preview-roster">
+        <div class="cab-preview-player">
+          <span class="cab-preview-player-name">Xavier Hartanto,</span>
+          <span class="cab-preview-player-nick">“The Arc”</span>
+          <p class="cab-preview-player-bio">Ceiling high arc and stepback specialist.</p>
+        </div>
+        <div class="cab-preview-player">
+          <span class="cab-preview-player-name">Mason Askari,</span>
+          <span class="cab-preview-player-nick">“The Problem”</span>
+          <p class="cab-preview-player-bio">Amazing hustler and multisport athlete.</p>
+        </div>
+        <div class="cab-preview-player">
+          <span class="cab-preview-player-name">Zach Silk,</span>
+          <span class="cab-preview-player-nick">“The Giant”</span>
+          <p class="cab-preview-player-bio">Never-before-seen height and insurmountable rebounder.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="section-reveal" aria-labelledby="features-heading">
+    <h2 id="features-heading" class="cab-preview-section-title">What you get</h2>
+    <div class="cab-preview-bento">
+      <article class="cab-preview-tile cab-preview-tile-wide">
+        <div class="cab-preview-tile-icon" aria-hidden="true">🔗</div>
+        <h3>Codes &amp; rosters</h3>
+        <p>Join with a code. Coaches see the full bench.</p>
+      </article>
+      <article class="cab-preview-tile">
+        <div class="cab-preview-tile-icon" aria-hidden="true">📅</div>
+        <h3>One calendar</h3>
+        <p>Practices + games, one place.</p>
+      </article>
+      <article class="cab-preview-tile">
+        <div class="cab-preview-tile-icon" aria-hidden="true">✓</div>
+        <h3>RSVPs</h3>
+        <p>Know who’s in—fast.</p>
+      </article>
+      <article class="cab-preview-tile">
+        <div class="cab-preview-tile-icon" aria-hidden="true">🏀</div>
+        <h3>Coach tools</h3>
+        <p>Log games, run the squad.</p>
+      </article>
+      <article class="cab-preview-tile">
+        <div class="cab-preview-tile-icon" aria-hidden="true">✉️</div>
+        <h3>Email sign-in</h3>
+        <p>No social-only lock-in.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="league" class="cab-preview-league section-reveal" aria-labelledby="league-heading">
+    <h2 id="league-heading" class="cab-preview-section-title">Everyone on the floor</h2>
+    <p class="cab-preview-section-intro cab-preview-section-intro--tight">Demo squads—same rosters you know.</p>
+    <div class="cab-preview-league-grid">
+      <div class="team-card">
+        <h3>Homeless Belly Dancers (HBD)</h3>
+        <div class="player" tabindex="0">
+          Jack Griffin,
+          <span class="bio">"The King". Lightning fast driver and underrated shooter.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Kyle Enersen,
+          <span class="bio">"The Passer". Elite passer and left wing expert.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Gregory Louridas
+          <span class="bio">"The Marvelous". Undersized big man and defensive stalwart.</span>
+        </div>
+      </div>
+
+      <div class="team-card lochie">
+        <h3>Lochie Xavi's (LOC)</h3>
+        <div class="player" tabindex="0">
+          Xavier Hartanto,
+          <span class="bio">"The Arc". Ceiling high arc and stepback specialist.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Mason Askari,
+          <span class="bio">"The Problem". Amazing hustler and multisport athlete.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Zach Silk
+          <span class="bio">"The Giant". Never-before-seen height and insurmountable rebounder.</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <h3>Showtime Elite (STE)</h3>
+        <div class="player" tabindex="0">
+          Vivek Moorthy,
+          <span class="bio">"The Grandpa". High IQ playmaker and shifty guard.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Zairaan Kazi,
+          <span class="bio">"The Warning". Consistent shooter and rizz shamgod.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Jack Beser
+          <span class="bio">"The Crazy". Wild shot selection and reckless driver.</span>
+        </div>
+      </div>
+
+      <div class="team-card green-giants">
+        <h3>The Green Giants (TGG)</h3>
+        <div class="player" tabindex="0">
+          Graham Dunn,
+          <span class="bio">"The Truth". This isn't his main sport.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Vikram Singh,
+          <span class="bio">"The Nonchalant". Midrange master and nonchalance beyond belief.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Chris Abraham
+          <span class="bio">"The Schedule". Ball mover and underrated in the clutch.</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <h3>The Adentujis (ADE)</h3>
+        <div class="player" tabindex="0">
+          Amar Mujumdar,
+          <span class="bio">"The Censored". Gorilla of the league and underestimated dribbler.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Vedaant Sud,
+          <span class="bio">"The Beast". Fantastic jumper and leaves the ground before thinking.</span>
+        </div>
+        <div class="player" tabindex="0">
+          Owen Enersen
+          <span class="bio">"The Rookie". Bio coming soon.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" class="section-reveal" aria-labelledby="schedule-heading">
+    <h2 id="schedule-heading" class="cab-preview-section-title">Demo week</h2>
+    <p class="cab-preview-section-intro cab-preview-section-intro--tight">Illustrative matchups—not live data.</p>
+    <div class="cab-preview-schedule-wrap">
+      <table class="cab-preview-schedule-table">
+        <thead>
+          <tr>
+            <th scope="col">When</th>
+            <th scope="col">Matchup</th>
+            <th scope="col">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tue · 12:55p</td>
+            <td><strong>LOC</strong> vs <strong>HBD</strong></td>
+            <td><span class="cab-preview-pill">Lunch run</span></td>
+          </tr>
+          <tr>
+            <td>Wed · 1:55p</td>
+            <td><strong>STE</strong> vs <strong>TGG</strong></td>
+            <td><span class="cab-preview-pill">Rivalry</span></td>
+          </tr>
+          <tr>
+            <td>Thu · 1:14p</td>
+            <td><strong>ADE</strong> vs <strong>LOC</strong></td>
+            <td><span class="cab-preview-pill">Rematch</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="countdown" class="cab-preview-countdown section-reveal" aria-labelledby="countdown-heading">
+    <h2 id="countdown-heading">Next tip</h2>
+    <p id="next-game">Loading…</p>
+    <p class="cab-preview-countdown-note">Live countdown from the same lunch-slot logic as the app.</p>
+  </section>
+
+  <section class="cab-preview-footer-cta section-reveal" aria-labelledby="cta-heading">
+    <h2 id="cta-heading">Get in</h2>
+    <p class="cab-preview-footer-lead">Sign in from the landing page—app home stays the same after you’re in.</p>
+    <div class="cab-preview-hero-cta">
+      <a class="cab-preview-btn cab-preview-btn-primary" href="welcome.html">Sign in</a>
+      <a class="cab-preview-btn cab-preview-btn-ghost" href="index.html">Home</a>
+    </div>
+  </section>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="script.js"></script>
+
+<!--
+  Legacy clutch-and-ball page (password gate + original hero, copy, teams, schedule, countdown)
+  preserved inert inside <template> so nothing is deleted from the project—recover by moving markup out of the template if needed.
+-->
+<template id="cab-legacy-clutch-archive">
+<div id="password-screen">
+  <div class="password-box">
+    <h2>Private Page 🔒</h2>
+    <p>Enter password to access</p>
+    <input type="password" id="password-input" placeholder="Password">
+    <button type="button" onclick="checkPassword()">Enter</button>
+    <p id="error-msg"></p>
+  </div>
+</div>
+<div id="protected-content">
+<section class="hero" id="legacy-top">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-content">
     <h1>CLUTCH AND BALL</h1>
     <p>MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</p>
   </div>
 </section>
-
 <section class="section-reveal" id="rules">
   <h2>Who are we?</h2>
   <p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
 </section>
-
 <section class="section-reveal" id="teams">
   <h2>Teams</h2>
   <div class="teams-container">
-
   <div class="team-card">
     <h3>Homeless Belly Dancers (HBD)</h3>
       <div class="player" tabindex="0">
@@ -53,7 +298,6 @@
         <span class="bio">"The Marvelous". Undersized big man and defensive stalwart.</span>
       </div>
   </div>
-
   <div class="team-card lochie">
     <h3>Lochie Xavi's (LOC)</h3>
       <div class="player" tabindex="0">
@@ -62,14 +306,13 @@
       </div>
       <div class="player" tabindex="0">
         Mason Askari,
-        <span class="bio">"The Hustle". Amazing hustler and multisport athlete.</span>
+        <span class="bio">"The Problem". Amazing hustler and multisport athlete.</span>
       </div>
       <div class="player" tabindex="0">
         Zach Silk
         <span class="bio">"The Giant". Never-before-seen height and insurmountable rebounder.</span>
       </div>
   </div>
-
   <div class="team-card">
     <h3>Showtime Elite (STE)</h3>
       <div class="player" tabindex="0">
@@ -85,7 +328,6 @@
         <span class="bio">"The Crazy". Wild shot selection and reckless driver.</span>
       </div>
   </div>
-
   <div class="team-card green-giants">
     <h3>The Green Giants (TGG)</h3>
       <div class="player" tabindex="0">
@@ -101,54 +343,51 @@
         <span class="bio">"The Schedule". Ball mover and underrated in the clutch.</span>
       </div>
   </div>
-
   <div class="team-card">
     <h3>The Adentujis (ADE)</h3>
       <div class="player" tabindex="0">
         Amar Mujumdar,
-        <span class="bio">"The Monkey". Gorilla of the league and underestimated dribbler.</span>
+        <span class="bio">"The Censored". Gorilla of the league and underestimated dribbler.</span>
       </div>
       <div class="player" tabindex="0">
         Vedaant Sud,
-        <span class="bio">"The Vertical". Fantastic jumper and leaves the ground before thinking.</span>
+        <span class="bio">"The Beast". Fantastic jumper and leaves the ground before thinking.</span>
       </div>
       <div class="player" tabindex="0">
         Owen Enersen
         <span class="bio">"The Rookie". Bio coming soon.</span>
       </div>
   </div>
-
   </div>
 </section>
-
-<section class="section-reveal" id="standings">
-  <h2>Standings</h2>
-<div class="standings-wrapper">
-<table class="standings">
-  <tr>
-    <th>#</th>
-    <th>Team</th>
-    <th>Wins</th>
-    <th>Losses</th>
-    <th>PCT</th>
-  </tr>
-  <!-- JS will populate standings -->
-  </table>
-</div>
-</section>
-
-<section class="section-reveal" id="schedule">
+<section class="section-reveal" id="schedule-legacy">
   <h2>Schedule</h2>
   <p>COMING SOON</p>
 </section>
-
 <section class="section-reveal" id="next-game-section">
   <h2>Next Game</h2>
-  <p id="next-game">Loading countdown...</p>
+  <p id="next-game-legacy-placeholder">Countdown lived on visible page</p>
 </section>
-</main>
+</div>
+</template>
 
-<script type="module" src="script.js"></script>
-
+<script>
+function checkPassword(){
+  var correctPassword = "xavisotuff";
+  var inputEl = document.getElementById("password-input");
+  var screen = document.getElementById("password-screen");
+  var content = document.getElementById("protected-content");
+  var error = document.getElementById("error-msg");
+  if(!inputEl || !screen || !content) return;
+  var input = inputEl.value;
+  if(input === correctPassword){
+    localStorage.setItem("siteUnlocked", "true");
+    screen.style.display = "none";
+    content.style.display = "block";
+  } else {
+    if(error) error.textContent = "Wrong password";
+  }
+}
+</script>
 </body>
 </html>

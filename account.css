@@ -1,0 +1,241 @@
+/* ===============================
+   ACCOUNT PAGE
+   =============================== */
+
+.account-page {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  text-align: left;
+}
+
+body.app-ui .account-page.app-main {
+  max-width: none;
+  margin: 0;
+  padding: 0 0 1rem;
+}
+
+.account-panel {
+  margin-bottom: 2rem;
+}
+
+.account-panel h1 {
+  text-align: center;
+  margin: 0 0 2rem;
+  color: var(--orange-bright);
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 12px var(--orange-neon-soft), 0 0 24px rgba(255, 140, 0, 0.25);
+  position: relative;
+}
+
+.account-panel h1::after {
+  content: "";
+  display: block;
+  width: min(220px, 60%);
+  height: 2px;
+  margin: 0.65rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--orange-bright), transparent);
+  box-shadow: 0 0 14px var(--orange-neon-soft);
+}
+
+.account-section {
+  background: linear-gradient(165deg, var(--bg-card) 0%, #0d0d0d 100%);
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 140, 0, 0.06);
+}
+
+.account-section h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: var(--orange-bright);
+  text-shadow: 0 0 8px var(--orange-neon-soft);
+}
+
+.account-field {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-field-block {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.account-input-full {
+  width: 100%;
+  max-width: 100%;
+}
+
+.account-field input {
+  flex: 1;
+  min-width: 180px;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255, 140, 0, 0.28);
+  border-radius: var(--radius-sm);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.account-field input:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+}
+
+.account-role-intro {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.account-role-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.account-role-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #e8e8e8;
+}
+
+.account-role-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--orange);
+}
+
+.account-save-roles-btn {
+  margin-top: 0.75rem;
+}
+
+.account-email-line {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 0;
+}
+
+.account-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.account-stat {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 140, 0, 0.15);
+  border-radius: var(--radius-md);
+}
+
+.account-stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--orange-bright);
+  text-shadow: 0 0 12px var(--orange-neon-soft);
+}
+
+.account-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.account-message {
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--text-muted);
+}
+
+#account-signout {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.account-section--danger {
+  border-color: rgba(220, 80, 80, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 24px rgba(220, 80, 80, 0.08);
+}
+
+.account-section--danger h2 {
+  color: #f08080;
+  text-shadow: 0 0 8px rgba(240, 128, 128, 0.35);
+}
+
+.account-delete-confirm-panel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(220, 100, 100, 0.25);
+}
+
+.account-delete-confirm-warning {
+  margin-bottom: 1rem;
+}
+
+.account-delete-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.account-delete-confirm-actions .auth-submit {
+  flex: 1;
+  min-width: 140px;
+}
+
+.account-delete-confirm-btn {
+  background: linear-gradient(165deg, #5a2020 0%, #3d1515 100%);
+  border-color: rgba(220, 100, 100, 0.5);
+  color: #ffe8e8;
+}
+
+.account-delete-confirm-btn:hover {
+  filter: brightness(1.08);
+}
+
+.account-delete-message {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  min-height: 1.25em;
+  text-align: left;
+}
+
+/* Align account page with app shell (style.css unified UI) */
+body.app-ui .account-section {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(22, 22, 26, 0.94);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.5);
+}
+
+body.app-ui .account-panel h1 {
+  text-shadow: none;
+  color: #f4f4f5;
+}
+
+body.app-ui .account-panel h1::after {
+  opacity: 0.85;
+}
+
+body.app-ui .account-section h2 {
+  text-shadow: none;
+  color: #fbbf24;
+}

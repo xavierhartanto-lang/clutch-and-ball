@@ -1,0 +1,466 @@
+/* Clutch & Ball Olympics — standalone page theme (futuristic / neon) */
+
+body.olympics-page {
+  --oly-cyan: #22d3ee;
+  --oly-violet: #a78bfa;
+  --oly-rose: #fb7185;
+  --oly-grid: rgba(255, 140, 0, 0.06);
+  text-align: left;
+}
+
+.olympics-page main {
+  max-width: 1100px;
+}
+
+.olympics-bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--oly-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--oly-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 20%, transparent 70%);
+  opacity: 0.85;
+}
+
+.olympics-hero {
+  position: relative;
+  padding: clamp(2rem, 5vw, 3.5rem) 0 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+  overflow: hidden;
+}
+
+.olympics-hero::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto;
+  height: 120%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 140, 0, 0.12), transparent 55%);
+  pointer-events: none;
+}
+
+.olympics-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid rgba(255, 140, 0, 0.35);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  margin-bottom: 0.85rem;
+  text-shadow: 0 0 12px var(--orange-neon-soft);
+}
+
+.olympics-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 6vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 0%, var(--orange-bright) 45%, var(--oly-cyan) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgba(255, 140, 0, 0.35));
+}
+
+.olympics-sub {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 40rem;
+}
+
+.olympics-sub a {
+  color: var(--orange-bright);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.olympics-sub a:hover {
+  text-decoration: none;
+  text-shadow: 0 0 14px var(--orange-neon-soft);
+}
+
+.olympics-section {
+  margin-bottom: 2rem;
+}
+
+.olympics-section h2 {
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--orange-bright);
+  text-shadow: 0 0 14px var(--orange-neon-soft);
+  margin: 0 0 1rem;
+}
+
+.olympics-rules-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.olympics-glass {
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 140, 0, 0.18);
+  background: linear-gradient(155deg, rgba(20, 20, 22, 0.92) 0%, rgba(8, 8, 10, 0.96) 100%);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+}
+
+.olympics-rules-grid .oly-points {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin: 0.25rem 0;
+  background: linear-gradient(180deg, #fff, var(--orange-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.olympics-rules-grid p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #c8c8c8;
+  line-height: 1.45;
+}
+
+.olympics-teams {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.olympics-team-card {
+  position: relative;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.olympics-team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 40px var(--team-glow, rgba(255, 140, 0, 0.15));
+}
+
+.olympics-team-card--asia {
+  --team-glow: rgba(34, 211, 238, 0.25);
+  background: linear-gradient(160deg, rgba(34, 211, 238, 0.1) 0%, rgba(8, 10, 14, 0.95) 55%);
+  border-color: rgba(34, 211, 238, 0.25);
+}
+
+.olympics-team-card--america {
+  --team-glow: rgba(96, 165, 250, 0.3);
+  background: linear-gradient(160deg, rgba(96, 165, 250, 0.12) 0%, rgba(8, 10, 14, 0.95) 55%);
+  border-color: rgba(96, 165, 250, 0.22);
+}
+
+.olympics-team-card--india {
+  --team-glow: rgba(167, 139, 250, 0.28);
+  background: linear-gradient(160deg, rgba(251, 113, 133, 0.08) 0%, rgba(167, 139, 250, 0.1) 40%, rgba(8, 10, 14, 0.95) 60%);
+  border-color: rgba(167, 139, 250, 0.28);
+}
+
+.olympics-team-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.olympics-team-card .oly-region {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.olympics-player {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.olympics-player:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.oly-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #f4f4f5;
+}
+
+.oly-first {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.oly-tag {
+  font-size: 0.68rem;
+  color: var(--orange);
+  font-style: italic;
+  max-width: 11rem;
+  text-align: right;
+  line-height: 1.3;
+}
+
+.olympics-event {
+  margin-bottom: 1.25rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 140, 0, 0.16);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.olympics-event h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.olympics-event .oly-ev-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.olympics-slots {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.olympics-slot-col {
+  border: 1px solid rgba(255, 140, 0, 0.15);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.7rem 0.75rem;
+}
+
+.olympics-slot-col h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange-bright);
+}
+
+.oly-slot-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.45rem 0.55rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+}
+
+.oly-slot-row:last-child {
+  margin-bottom: 0;
+}
+
+.oly-slot-pill {
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  color: var(--orange-bright);
+  padding: 0.23rem 0.45rem;
+  white-space: nowrap;
+}
+
+.oly-slot-row[data-team="asia"] .oly-slot-pill {
+  border-color: rgba(34, 211, 238, 0.45);
+  color: #7ce6f6;
+}
+
+.oly-slot-row[data-team="america"] .oly-slot-pill {
+  border-color: rgba(96, 165, 250, 0.45);
+  color: #95c3ff;
+}
+
+.oly-slot-row[data-team="india"] .oly-slot-pill {
+  border-color: rgba(167, 139, 250, 0.5);
+  color: #cab5ff;
+}
+
+.oly-picker {
+  position: relative;
+  min-width: 0;
+}
+
+.oly-picker summary {
+  list-style: none;
+}
+
+.oly-picker summary::-webkit-details-marker {
+  display: none;
+}
+
+.oly-picker-trigger {
+  width: 100%;
+  min-height: 2.2rem;
+  padding: 0.5rem 2rem 0.5rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 140, 0, 0.25);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(0, 0, 0, 0.45);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.oly-picker-trigger::after {
+  content: "▾";
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 165, 0, 0.9);
+  pointer-events: none;
+  font-size: 0.85rem;
+}
+
+.oly-picker[open] .oly-picker-trigger {
+  outline: 2px solid rgba(255, 140, 0, 0.45);
+  border-color: rgba(255, 140, 0, 0.45);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.14);
+}
+
+.oly-picker-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  max-height: 190px;
+  overflow-y: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 140, 0, 0.32);
+  background: linear-gradient(175deg, rgba(22, 22, 24, 0.98), rgba(6, 6, 7, 0.98));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(255, 140, 0, 0.15);
+  padding: 0.35rem;
+}
+
+.oly-picker-option {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 0.86rem;
+  padding: 0.4rem 0.5rem;
+  margin: 0 0 0.2rem;
+  cursor: pointer;
+}
+
+.oly-picker-option:last-child {
+  margin-bottom: 0;
+}
+
+.oly-picker-option:hover:not(:disabled) {
+  border-color: rgba(255, 140, 0, 0.32);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.oly-picker-option.is-active {
+  border-color: rgba(255, 140, 0, 0.42);
+  background: rgba(255, 140, 0, 0.18);
+}
+
+.oly-picker-option:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.oly-slot-preview {
+  grid-column: 2;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--text-muted);
+  min-height: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#oly-msg {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+.olympics-finals {
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  border: 1px dashed rgba(255, 140, 0, 0.35);
+  background: linear-gradient(135deg, rgba(255, 140, 0, 0.06) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+.olympics-finals h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.olympics-finals p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #d4d4d4;
+}
+
+.olympics-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 140, 0, 0.12);
+}
+
+@media (max-width: 520px) {
+  .oly-tag {
+    text-align: left;
+    max-width: none;
+  }
+
+  .olympics-player {
+    grid-template-columns: 1fr;
+  }
+
+  .oly-slot-row {
+    grid-template-columns: 1fr;
+    gap: 0.38rem;
+  }
+
+  .oly-slot-preview {
+    grid-column: auto;
+  }
+}

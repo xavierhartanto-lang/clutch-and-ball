@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Teams — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+
+<div id="top"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html" class="nav-current">My Teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="coach-page my-teams-page app-main">
+  <section class="section-card app-hero-card">
+    <h1 class="my-teams-title">Manage My Teams</h1>
+    <p class="auth-hint" style="margin-top:0">Teams you <strong>coach</strong> are yours to manage. Teams you <strong>play on</strong> are roster spots you joined with a code — you can leave those anytime.</p>
+  </section>
+
+  <section class="section-card cab-toolbar-card" aria-label="Filter teams">
+    <div class="cab-teams-toolbar">
+      <label for="cab-teams-filter">Search teams</label>
+      <input type="search" id="cab-teams-filter" class="cab-teams-search" placeholder="Filter by team name…" autocomplete="off" enterkeyhint="search">
+      <p class="cab-teams-search-hint">Filters both coached teams and player rosters below.</p>
+    </div>
+  </section>
+
+  <section class="section-card app-card-stagger app-card-stagger--1">
+    <h2>Teams You Coach</h2>
+    <p class="auth-hint" style="margin-top:0">These are squads you created. Open them to share the invite code and manage the roster.</p>
+    <p id="coached-list-msg" class="auth-message" role="status"></p>
+    <ul id="manage-coached-list" class="manage-team-list" aria-label="Teams you coach"></ul>
+    <p id="manage-no-coached" class="auth-hint hidden">You’re not coaching any team yet — create one on the home page.</p>
+  </section>
+
+  <section id="section-join-as-player" class="section-card app-card-stagger app-card-stagger--2 app-join-strip">
+    <h2>Join a Team as a Player</h2>
+    <p class="auth-hint" style="margin-top:0">Use the code your coach gives you. This adds you to that team’s roster (separate from coaching your own team).</p>
+    <form id="form-join-team" class="auth-form">
+      <label for="team-join-code" class="auth-label">Team code</label>
+      <input type="text" id="team-join-code" placeholder="e.g. ABC123" required maxlength="12" autocomplete="off" aria-describedby="join-team-msg" style="text-transform:uppercase">
+      <button type="submit" class="auth-submit">Join Team</button>
+    </form>
+    <p id="join-team-msg" class="auth-message" aria-live="polite" role="status"></p>
+  </section>
+
+  <section id="section-join-as-assistant" class="section-card app-card-stagger app-card-stagger--2 app-join-strip">
+    <h2>Join a Team as Assistant Coach</h2>
+    <p class="auth-hint" style="margin-top:0">Use the assistant coach code from the team settings panel. You can help manage calendar and team chat moderation.</p>
+    <form id="form-join-assistant" class="auth-form">
+      <label for="assistant-join-code" class="auth-label">Assistant code</label>
+      <input type="text" id="assistant-join-code" placeholder="e.g. QWE789" required maxlength="12" autocomplete="off" aria-describedby="join-assistant-msg" style="text-transform:uppercase">
+      <button type="submit" class="auth-submit">Join as Assistant Coach</button>
+    </form>
+    <p id="join-assistant-msg" class="auth-message" aria-live="polite" role="status"></p>
+  </section>
+
+  <section class="section-card app-card-stagger app-card-stagger--3">
+    <h2>Teams you play on</h2>
+    <p class="auth-hint" style="margin-top:0">Roster memberships only — not the same as teams you coach above.</p>
+    <p id="manage-list-msg" class="auth-message" role="status"></p>
+    <ul id="manage-team-list" class="manage-team-list" aria-label="Teams you play on"></ul>
+    <p id="manage-no-teams" class="auth-hint hidden">You’re not on any roster as a player yet — join one with a code above.</p>
+  </section>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="my-teams.js"></script>
+</body>
+</html>

@@ -1,0 +1,850 @@
+/* ===============================
+   LEAGUE PAGE — matches clutch-and-ball + style.css
+   Uses global .orange-action from style.css
+   =============================== */
+
+.hidden {
+  display: none !important;
+}
+
+.orange-action.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.orange-action.danger:hover {
+  color: #ff4d4d;
+  text-shadow: 0 0 6px #ff4d4d, 0 0 15px rgba(255, 77, 77, 0.8);
+}
+
+/* ===============================
+   FULL PAGE THEMES (body, nav, sections, buttons, text)
+   =============================== */
+
+/* Theme variables — Default Orange Neon */
+body.theme-default {
+  --league-primary: #ff8c00;
+  --league-primary-bright: #ffa500;
+  --league-glow: rgba(255, 140, 0, 0.35);
+  --league-bg: radial-gradient(ellipse at top, #1a1a1a 0%, #0d0d0d 50%, #000 100%);
+  --league-nav-border: rgba(255, 140, 0, 0.2);
+  --league-section-border: rgba(255, 140, 0, 0.2);
+}
+
+/* Theme — Ocean Blue */
+body.theme-ocean {
+  --league-primary: #1e90ff;
+  --league-primary-bright: #5ac8ff;
+  --league-glow: rgba(30, 144, 255, 0.35);
+  --league-bg: radial-gradient(ellipse at top, #0a1520 0%, #051018 40%, #020a10 100%);
+  --league-nav-border: rgba(30, 144, 255, 0.25);
+  --league-section-border: rgba(30, 144, 255, 0.2);
+}
+
+/* Theme — Violet Pulse */
+body.theme-violet {
+  --league-primary: #a855f7;
+  --league-primary-bright: #d946ef;
+  --league-glow: rgba(168, 85, 247, 0.35);
+  --league-bg: radial-gradient(ellipse at top, #150a20 0%, #0d0518 40%, #080210 100%);
+  --league-nav-border: rgba(168, 85, 247, 0.25);
+  --league-section-border: rgba(168, 85, 247, 0.2);
+}
+
+/* Full page theme overrides */
+body.theme-default,
+body.theme-ocean,
+body.theme-violet {
+  background: var(--league-bg) !important;
+}
+
+body.theme-ocean .particle,
+body.theme-violet .particle {
+  background: color-mix(in srgb, var(--league-primary) 60%, transparent);
+  box-shadow: 0 0 8px var(--league-glow);
+}
+
+body.theme-default .particle {
+  background: rgba(255, 140, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 140, 0, 0.5);
+}
+
+body.theme-default nav,
+body.theme-ocean nav,
+body.theme-violet nav {
+  border-bottom-color: var(--league-nav-border) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 1px 0 0 var(--league-glow) !important;
+}
+
+body.theme-default nav a,
+body.theme-ocean nav a,
+body.theme-violet nav a {
+  color: var(--league-primary) !important;
+  text-shadow: 0 0 8px var(--league-glow) !important;
+}
+
+body.theme-default nav a:hover,
+body.theme-ocean nav a:hover,
+body.theme-violet nav a:hover {
+  color: #fff !important;
+  text-shadow: 0 0 8px var(--league-primary-bright), 0 0 16px var(--league-glow) !important;
+  background: color-mix(in srgb, var(--league-primary) 20%, transparent) !important;
+  box-shadow: 0 0 20px var(--league-glow) !important;
+}
+
+body.theme-ocean .orange-action,
+body.theme-violet .orange-action {
+  color: var(--league-primary) !important;
+  text-shadow: 0 0 6px var(--league-glow) !important;
+}
+
+body.theme-ocean .orange-action:hover,
+body.theme-violet .orange-action:hover {
+  color: var(--league-primary-bright) !important;
+  text-shadow: 0 0 6px var(--league-primary), 0 0 15px var(--league-glow), 0 0 30px var(--league-glow) !important;
+}
+
+/* League sections - card style */
+.league-section,
+.league-chat-section {
+  background: linear-gradient(165deg, var(--bg-card) 0%, #0d0d0d 100%);
+  border: 1px solid var(--league-section-border, rgba(255, 140, 0, 0.2));
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 122, 0, 0.06);
+}
+
+.league-section h2,
+.league-chat-section h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--league-primary-bright, var(--orange-bright));
+  text-shadow: 0 0 12px var(--league-glow, var(--orange-neon-soft));
+  letter-spacing: 0.02em;
+}
+
+body.theme-ocean .league-section,
+body.theme-ocean .league-chat-section,
+body.theme-violet .league-section,
+body.theme-violet .league-chat-section {
+  border-color: var(--league-section-border) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 30px var(--league-glow) !important;
+}
+
+body.theme-ocean .league-section h2,
+body.theme-violet .league-section h2,
+body.theme-ocean .league-chat-section h2,
+body.theme-violet .league-chat-section h2 {
+  color: var(--league-primary-bright) !important;
+  text-shadow: 0 0 12px var(--league-glow) !important;
+}
+
+/* App shell: align with style.css league-manager panels (body.app-ui + league page) */
+body.app-ui .league-section,
+body.app-ui .league-chat-section {
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+  background: var(--app-surface-elevated, #151515) !important;
+}
+
+body.app-ui .league-section h2,
+body.app-ui .league-chat-section h2 {
+  text-align: left !important;
+  text-shadow: none !important;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem) !important;
+  color: var(--league-primary-bright, var(--orange-bright)) !important;
+  letter-spacing: -0.02em !important;
+  padding-bottom: 0.65rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Team cards */
+body.theme-ocean .team-card,
+body.theme-violet .team-card {
+  border-color: var(--league-section-border) !important;
+}
+
+body.theme-ocean .team-card:hover,
+body.theme-violet .team-card:hover {
+  border-color: var(--league-glow) !important;
+  box-shadow: 0 0 24px var(--league-glow) !important;
+}
+
+body.theme-ocean .team-card h3,
+body.theme-violet .team-card h3 {
+  color: var(--league-primary-bright) !important;
+  text-shadow: 0 0 8px var(--league-glow) !important;
+}
+
+/* Schedule items */
+body.theme-ocean .league-schedule-item,
+body.theme-violet .league-schedule-item {
+  border-color: var(--league-section-border) !important;
+}
+
+body.theme-ocean .league-schedule-item:hover,
+body.theme-violet .league-schedule-item:hover {
+  border-color: var(--league-glow) !important;
+  box-shadow: 0 0 20px var(--league-glow) !important;
+}
+
+body.theme-ocean .league-schedule-score,
+body.theme-violet .league-schedule-score {
+  color: var(--league-primary-bright) !important;
+  text-shadow: 0 0 6px var(--league-glow) !important;
+}
+
+/* Standings */
+body.theme-ocean .standings th,
+body.theme-violet .standings th {
+  background: linear-gradient(90deg, var(--league-primary), var(--league-primary-bright)) !important;
+}
+
+body.theme-ocean .standings tbody tr:hover,
+body.theme-violet .standings tbody tr:hover {
+  background: color-mix(in srgb, var(--league-primary) 12%, transparent) !important;
+  box-shadow: inset 0 0 0 1px var(--league-glow) !important;
+}
+
+/* Chat */
+body.theme-ocean .league-chat-box,
+body.theme-violet .league-chat-box {
+  border-color: var(--league-section-border) !important;
+  box-shadow: var(--shadow-soft), 0 0 24px var(--league-glow) !important;
+}
+
+body.theme-ocean .league-chat-input-row,
+body.theme-violet .league-chat-input-row {
+  border-top-color: var(--league-section-border) !important;
+}
+
+body.theme-ocean .league-chat-input-row input,
+body.theme-violet .league-chat-input-row input {
+  border-color: var(--league-glow) !important;
+}
+
+body.theme-ocean .league-chat-input-row input:focus,
+body.theme-violet .league-chat-input-row input:focus {
+  border-color: var(--league-primary) !important;
+  box-shadow: 0 0 12px var(--league-glow) !important;
+}
+
+body.theme-ocean .league-chat-messages::-webkit-scrollbar-thumb,
+body.theme-violet .league-chat-messages::-webkit-scrollbar-thumb {
+  background: var(--league-glow) !important;
+}
+
+/* Role badges */
+body.theme-ocean .league-role-member,
+body.theme-violet .league-role-member {
+  background: color-mix(in srgb, var(--league-primary) 18%, transparent) !important;
+  border-color: var(--league-glow) !important;
+  text-shadow: 0 0 8px var(--league-glow) !important;
+}
+
+/* League hero — big title only */
+.league-hero-simple,
+#league-hero {
+  text-align: center;
+  padding: 56px 24px 36px;
+  margin-bottom: 24px;
+}
+
+#league-hero #league-title,
+.league-hero-title {
+  margin: 0;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(3.4rem, 12vw, 110px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--league-primary-bright, var(--orange-bright));
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 20px var(--league-glow, var(--orange-neon-soft)), 0 0 40px var(--league-glow, var(--orange-glow));
+  line-height: 1.1;
+}
+
+body.theme-ocean .league-hero-title,
+body.theme-violet .league-hero-title {
+  color: var(--league-primary-bright) !important;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 20px var(--league-glow), 0 0 40px var(--league-glow) !important;
+}
+
+/* Styled confirm modal */
+.league-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.league-modal.hidden {
+  display: none !important;
+}
+
+.league-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.league-modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px;
+  background: linear-gradient(165deg, var(--bg-card) 0%, #0d0d0d 100%);
+  border: 1px solid var(--league-section-border, rgba(255, 140, 0, 0.25));
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 40px var(--league-glow, rgba(255, 140, 0, 0.15));
+}
+
+.league-modal-title {
+  margin: 0 0 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--league-primary-bright, var(--orange-bright));
+  text-shadow: 0 0 12px var(--league-glow, var(--orange-neon-soft));
+}
+
+.league-modal-message {
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.league-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.league-modal-btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.league-modal-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8e8e8;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.league-modal-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.league-modal-btn-primary {
+  background: linear-gradient(90deg, var(--league-primary, var(--orange)), var(--league-primary-bright, var(--orange-bright)));
+  color: #111;
+  text-shadow: none;
+  box-shadow: 0 0 20px var(--league-glow, var(--orange-neon-soft));
+}
+
+.league-modal-btn-primary:hover {
+  box-shadow: 0 0 24px var(--league-glow), 0 0 40px var(--league-glow);
+  transform: translateY(-1px);
+}
+
+.league-modal-btn-primary.danger {
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.league-modal-btn-primary.danger:hover {
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.5);
+}
+
+.league-prompt-input {
+  width: 100%;
+  margin: 16px 0 24px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #e8e8e8;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--league-section-border, rgba(255, 140, 0, 0.25));
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.league-prompt-input:focus {
+  border-color: var(--league-primary, var(--orange));
+  box-shadow: 0 0 12px var(--league-glow, var(--orange-neon-soft));
+}
+
+.league-prompt-input::placeholder {
+  color: var(--text-muted);
+}
+
+.league-subtitle {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* Invite + actions band (below hero, matches site spacing) */
+.league-hero-meta {
+  max-width: 1000px;
+  margin: 0 auto 32px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.league-invite-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 12px;
+}
+
+.league-invite-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.league-invite-code {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--league-primary-bright);
+  text-shadow: 0 0 8px var(--league-glow);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--league-glow);
+}
+
+.league-role-line {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.league-role-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.league-role-owner {
+  color: #111;
+  background: linear-gradient(90deg, var(--league-primary), var(--league-primary-bright));
+  text-shadow: none;
+  box-shadow: 0 0 12px var(--orange-neon-soft);
+}
+
+.league-role-member {
+  color: #e8e8e8;
+  background: rgba(255, 140, 0, 0.15);
+  border: 1px solid rgba(255, 140, 0, 0.35);
+  text-shadow: 0 0 8px var(--orange-neon-soft);
+}
+
+.league-role-guest {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.league-header-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+
+/* Description section */
+.league-description-body {
+  text-align: left;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.league-description-text {
+  color: #e0e0e0;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.league-section-cta {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.league-section-cta .orange-action,
+.league-team-actions .orange-action,
+.league-schedule-actions .orange-action,
+.league-chat-input-row .orange-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--league-section-border, rgba(255, 140, 0, 0.3));
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--league-primary, var(--orange)) 22%, transparent) 0%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 16px var(--league-glow, var(--orange-neon-soft));
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.league-section-cta .orange-action:hover,
+.league-team-actions .orange-action:hover,
+.league-schedule-actions .orange-action:hover,
+.league-chat-input-row .orange-action:hover {
+  transform: translateY(-1px);
+  border-color: var(--league-primary-bright, var(--orange-bright));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 24px var(--league-glow, var(--orange-neon-soft));
+}
+
+.league-meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.league-teams-empty {
+  padding: 1rem 60px;
+  text-align: center;
+}
+
+/* Team cards live inside .teams-container — extra polish for dynamic cards */
+.league-team-card-dynamic .league-team-record-line {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.league-team-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.league-team-actions .orange-action {
+  font-size: 0.85rem;
+}
+
+.league-team-logo-wrap {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--league-section-border, rgba(255, 140, 0, 0.25));
+  box-shadow: 0 0 16px var(--league-glow, var(--orange-neon-soft));
+}
+
+.league-team-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.league-player-name {
+  font-weight: 600;
+}
+
+.league-player-stats-line {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  margin-left: 0;
+}
+
+.league-player-stats-btn {
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.league-move-player {
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+/* Schedule (cards distinct from clutch schedule placeholder) */
+.league-schedule-subhead {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 1.25rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.league-schedule-subhead:first-of-type {
+  margin-top: 0;
+}
+
+.league-schedule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.league-schedule-item {
+  background: rgba(18, 18, 18, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 140, 0, 0.15);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-smooth);
+}
+
+.league-schedule-item:hover {
+  border-color: var(--league-glow);
+  box-shadow: 0 0 20px var(--league-glow);
+}
+
+.league-schedule-matchup {
+  font-weight: 600;
+  color: #e8e8e8;
+}
+
+.league-schedule-score {
+  color: var(--orange-bright);
+  text-shadow: 0 0 6px var(--orange-neon-soft);
+  font-weight: 600;
+}
+
+.league-schedule-date {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.league-schedule-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* Chat — bubbles, own right / others left */
+.league-chat-section {
+  margin-bottom: 3rem;
+}
+
+.league-chat-box {
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  height: 400px;
+  max-height: 55vh;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 140, 0, 0.12);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft), 0 0 24px rgba(255, 140, 0, 0.06);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.league-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+  text-align: left;
+}
+
+.league-chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.league-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 140, 0, 0.25);
+  border-radius: 4px;
+}
+
+.league-chat-row {
+  display: flex;
+  width: 100%;
+}
+
+.league-chat-row--other {
+  justify-content: flex-start;
+}
+
+.league-chat-row--own {
+  justify-content: flex-end;
+}
+
+.league-chat-bubble {
+  max-width: min(88%, 420px);
+  padding: 10px 14px 12px;
+  border-radius: 14px;
+  position: relative;
+  animation: leagueChatIn 0.22s ease;
+}
+
+@keyframes leagueChatIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.league-chat-row--other .league-chat-bubble {
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(20, 20, 20, 0.9));
+  border: 1px solid rgba(255, 140, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.league-chat-row--own .league-chat-bubble {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--league-primary) 20%, transparent), rgba(0, 0, 0, 0.12));
+  border: 1px solid var(--league-glow);
+  box-shadow: 0 0 20px var(--league-glow);
+}
+
+.league-chat-bubble-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+  font-size: 0.72rem;
+}
+
+.league-chat-sender {
+  color: var(--league-primary-bright);
+  font-weight: 700;
+  text-shadow: 0 0 8px var(--orange-neon-soft);
+}
+
+.league-chat-time {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.league-chat-bubble-meta .orange-action {
+  margin: 0;
+  font-size: 0.7rem;
+  padding: 0 4px;
+}
+
+.league-chat-bubble-text {
+  color: #f0f0f0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.league-chat-image {
+  margin-top: 8px;
+  border-radius: 10px;
+  max-width: 100%;
+  max-height: 240px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  display: block;
+}
+
+.league-chat-input-row {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 140, 0, 0.15);
+  background: rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.league-chat-input-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  background: var(--bg-dark);
+  color: #e8e8e8;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.league-chat-input-row input:focus {
+  outline: none;
+  border-color: #ff7a00;
+  box-shadow: 0 0 12px rgba(255, 122, 0, 0.25);
+}
+
+.league-chat-input-row .orange-action {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.league-chat-upload-hint {
+  margin: 8px 16px 12px;
+  text-align: left;
+}
+
+/* Modal actions — match app button polish */
+.league-modal-btn {
+  border-radius: 10px;
+}
+
+.league-modal-btn-primary {
+  background: linear-gradient(180deg, #f59e0b 0%, #c2410c 100%);
+  border: 1px solid rgba(255, 220, 160, 0.35);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.league-modal-btn-primary:hover {
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+  filter: brightness(1.05);
+}
+
+/* Signed-in league: let description & schedule use main width */
+@media (min-width: 1000px) {
+  body.app-ui.cab-signed .league-description-body,
+  body.app-ui.cab-signed .league-schedule-list {
+    max-width: min(1200px, calc(100% - 2rem));
+  }
+
+  body.app-ui.cab-signed .league-hero-meta {
+    max-width: min(1400px, calc(100% - 2rem));
+  }
+}
+

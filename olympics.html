@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clutch &amp; Ball Olympics</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="olympics.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui olympics-page cab-signed">
+
+<div id="top"></div>
+<div class="olympics-bg-grid" aria-hidden="true"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My Teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics nav-current" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics" aria-current="page">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="coach-page app-main app-main--wide">
+  <header class="olympics-hero">
+    <span class="olympics-badge">Temporary event</span>
+    <h1 class="olympics-title">Clutch &amp; Ball Olympics</h1>
+    <p class="olympics-sub">Regional squads clash in skill games, trivia, and a bracket finale. Rosters mirror the league you already know from the <a href="clutch-and-ball.html" class="cab-inline-preview-link">preview</a> — same players, new energy.</p>
+  </header>
+
+  <section class="olympics-section" aria-labelledby="oly-rules-heading">
+    <h2 id="oly-rules-heading">Format &amp; points</h2>
+    <div class="olympics-rules-grid">
+      <div class="olympics-glass">
+        <p class="oly-points">3 · 2 · 1</p>
+        <p><strong>Each event:</strong> 1st place earns <strong>3</strong> team points, 2nd earns <strong>2</strong>, 3rd earns <strong>1</strong>. Stack them across every discipline.</p>
+      </div>
+      <div class="olympics-glass">
+        <p class="oly-points">Bo3</p>
+        <p><strong>Grand finale:</strong> 5v5 matchups — <strong>first to 12</strong>, <strong>best of 3</strong>. Seeding and pairings announced after standings lock.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="olympics-section" aria-labelledby="oly-teams-heading">
+    <h2 id="oly-teams-heading">Squads</h2>
+    <p class="olympics-sub" style="margin-bottom:1rem">Last names on the jersey — first names and tags tie back to Clutch &amp; Ball rosters (e.g. Moorthy = Showtime Elite’s Vivek).</p>
+    <div id="olympics-teams-root" class="olympics-teams"></div>
+  </section>
+
+  <section class="olympics-section" aria-labelledby="oly-events-heading">
+    <h2 id="oly-events-heading">Events &amp; signups</h2>
+    <p class="olympics-sub" style="margin-bottom:1rem">Pick who reps each region per event. A player can’t be in two slots at once. Selections are now shared for everyone on the website.</p>
+    <button type="button" id="oly-clear-signups" class="auth-submit auth-submit-secondary" style="margin-bottom:0.6rem">Clear all signups (global)</button>
+    <p id="oly-msg" class="auth-message" role="status"></p>
+    <div id="olympics-events-root"></div>
+  </section>
+
+  <section class="olympics-section olympics-finals" aria-labelledby="oly-finals-heading">
+    <h3 id="oly-finals-heading">Championship series</h3>
+    <p>After all scored events wrap, the top programs meet in <strong>5v5</strong> games: <strong>first to 12 points</strong>, <strong>best of three</strong>. Bring the same energy as league night — just louder.</p>
+  </section>
+
+  <p class="olympics-note">Live page: signups are stored in Supabase and sync across visitors. Changes can appear in real-time.</p>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="olympics.js"></script>
+</body>
+</html>

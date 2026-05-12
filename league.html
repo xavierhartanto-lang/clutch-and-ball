@@ -1,46 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>League</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>League — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="league.css">
+  <link rel="stylesheet" href="app-signed-in.css">
 </head>
-<body>
+<body class="app-ui cab-signed">
 
-<h1 id="league-title">Loading league...</h1>
+<div id="top"></div>
 
-<script type="module">
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
 
-import supabase from "./supabase.js";
+<header class="site-top-bar">
+  <nav aria-label="Main">
+  <a href="index.html">Home</a>
+  <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+  <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  <a href="account.html">Account</a>
+  <a href="my-teams.html">My Teams</a>
+  <a href="#rules">Rules</a>
+  <a href="#teams">Teams</a>
+  <a href="#standings">Standings</a>
+  <a href="#schedule">Schedule</a>
+  <a href="#chat">Chat</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
 
-/* get league id from url */
+<!-- Styled confirm modal (replaces native confirm) -->
+<div id="league-confirm-modal" class="league-modal hidden" role="dialog" aria-modal="true" aria-labelledby="league-confirm-title">
+  <div class="league-modal-backdrop"></div>
+  <div class="league-modal-panel">
+    <h2 id="league-confirm-title" class="league-modal-title"></h2>
+    <p id="league-confirm-message" class="league-modal-message"></p>
+    <div class="league-modal-actions">
+      <button type="button" id="league-confirm-cancel" class="league-modal-btn league-modal-btn-secondary">Cancel</button>
+      <button type="button" id="league-confirm-ok" class="league-modal-btn league-modal-btn-primary"></button>
+    </div>
+  </div>
+</div>
 
-const params = new URLSearchParams(window.location.search);
-const leagueId = params.get("id");
+<!-- Styled prompt modal (replaces native prompt) -->
+<div id="league-prompt-modal" class="league-modal hidden" role="dialog" aria-modal="true" aria-labelledby="league-prompt-title">
+  <div class="league-modal-backdrop"></div>
+  <div class="league-modal-panel">
+    <h2 id="league-prompt-title" class="league-modal-title"></h2>
+    <input type="text" id="league-prompt-input" class="league-prompt-input" aria-label="Input value" autocomplete="off">
+    <div class="league-modal-actions">
+      <button type="button" id="league-prompt-cancel" class="league-modal-btn league-modal-btn-secondary">Cancel</button>
+      <button type="button" id="league-prompt-ok" class="league-modal-btn league-modal-btn-primary">OK</button>
+    </div>
+  </div>
+</div>
 
-async function loadLeague() {
+<main class="league-page app-main app-main--league">
+  <section class="league-hero-simple" id="league-hero">
+    <h1 id="league-title" class="league-hero-title">Loading league...</h1>
+  </section>
 
-  if (!leagueId) {
-    document.getElementById("league-title").textContent = "League not found";
-    return;
-  }
+  <div class="league-hero-meta">
+    <p id="league-subtitle" class="league-subtitle hidden" aria-live="polite"></p>
+    <div class="league-invite-row">
+      <span class="league-invite-label">Invite code</span>
+      <code id="league-invite-code" class="league-invite-code"></code>
+      <span id="league-copy-invite" class="orange-action hidden" role="button" tabindex="0">Copy</span>
+    </div>
+    <p id="league-role-line" class="league-role-line hidden" aria-live="polite"></p>
+    <div class="league-header-actions">
+      <a id="league-back" href="index.html" class="orange-action">← Back</a>
+      <span id="league-edit-tagline" class="orange-action hidden" role="button" tabindex="0">Edit subtitle</span>
+      <span id="league-leave" class="orange-action hidden" role="button" tabindex="0">Leave league</span>
+      <span id="league-delete" class="orange-action danger hidden" role="button" tabindex="0">Delete league</span>
+    </div>
+  </div>
 
-  const { data, error } = await supabase
-    .from("leagues")
-    .select("*")
-    .eq("id", leagueId)
-    .single();
+  <section class="section-reveal league-section" id="rules">
+    <h2>Rules</h2>
+    <div id="league-description" class="league-description-body"></div>
+  </section>
 
-  if (error) {
-    console.error(error);
-    document.getElementById("league-title").textContent = "Error loading league";
-    return;
-  }
+  <section class="section-reveal league-section" id="teams">
+    <h2>Teams</h2>
+    <p id="league-add-team" class="league-section-cta hidden"><span class="orange-action" role="button" tabindex="0">+ Add team</span></p>
+    <div id="league-teams" class="teams-container"></div>
+  </section>
 
-  document.getElementById("league-title").textContent = data.name;
-}
+  <section class="section-reveal league-section" id="standings">
+    <div class="standings">
+      <h2>Standings</h2>
+      <div id="league-standings-table" class="standings-wrapper"></div>
+    </div>
+  </section>
 
-loadLeague();
+  <section class="section-reveal league-section" id="schedule">
+    <h2>Schedule</h2>
+    <p id="league-add-game" class="league-section-cta hidden"><span class="orange-action" role="button" tabindex="0">+ Add game</span></p>
+    <h3 class="league-schedule-subhead">Upcoming</h3>
+    <ul id="league-schedule-upcoming" class="league-schedule-list"></ul>
+    <h3 class="league-schedule-subhead">Completed</h3>
+    <ul id="league-schedule-completed" class="league-schedule-list"></ul>
+  </section>
 
-</script>
+  <section class="section-reveal league-chat-section" id="chat">
+    <h2>League Chat</h2>
+    <div class="league-chat-box">
+      <div id="league-chat-messages" class="league-chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+      <div class="league-chat-input-row">
+        <input type="file" id="league-chat-image" accept="image/*" class="hidden" aria-label="Attach image">
+        <span id="league-chat-attach" class="orange-action" role="button" tabindex="0">Attach</span>
+        <input type="text" id="league-chat-input" placeholder="Type a message..." maxlength="500" aria-label="Chat message">
+        <span id="league-chat-send" class="orange-action" role="button" tabindex="0">Send</span>
+      </div>
+      <p id="league-chat-upload-hint" class="league-meta league-chat-upload-hint hidden"></p>
+    </div>
+  </section>
+</main>
 
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="league.js"></script>
 </body>
 </html>

@@ -1,0 +1,12 @@
+# Cloudflare Worker (static assets) — deploy from this folder:
+#   npx wrangler deploy
+#
+# Name must match your Worker in the dashboard (Workers & Pages).
+
+name = "bitter-forest-8645"
+main = "cloudflare-worker.js"
+compatibility_date = "2025-11-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"

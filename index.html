@@ -1,205 +1,325 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<title>Clutch and Ball</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clutch &amp; Ball is the calendar and RSVP hub for youth basketball teams. Coaches run squads; players and parents see games, practices, and availability in one place.">
+  <title>Home — Clutch &amp; Ball</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="app-signed-in.css">
 </head>
-<body>
+<body class="app-ui cab-signed">
+<script type="module">
+import supabase from "./supabase.js";
 
-<div id="particles" class="particles" aria-hidden="true"></div>
+const ENTER_APP_KEY = "cab-entering-app";
+const HANDOFF_KEY = "cab-session-handoff";
 
-<nav>
-  <a id="home-link" href="#top">Home</a>
-  <a id="rules-link" href="#rules">Rules</a>
-  <a id="teams-link" href="#teams">Teams</a>
-  <a id="schedule-link" href="#schedule">Schedule</a>
-  <a id="league-link" href="#create-league">Create League</a>
-</nav>
+async function consumeSessionHandoff() {
+  try {
+    const raw = sessionStorage.getItem(HANDOFF_KEY);
+    if (!raw) return;
+    sessionStorage.removeItem(HANDOFF_KEY);
+    const parsed = JSON.parse(raw);
+    if (!parsed?.access_token || !parsed?.refresh_token) return;
+    const { error } = await supabase.auth.setSession({
+      access_token: parsed.access_token,
+      refresh_token: parsed.refresh_token,
+    });
+    if (error) console.warn("Session handoff:", error.message);
+  } catch (_) {
+    /* ignore */
+  }
+}
 
-<main>
-<section class="hero" id="top">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-content">
-    <h1>CLUTCH AND BALL</h1>
-    <p>MAYBE FOR THE CLUTCH, ALL FOR THE BALL.</p>
-  </div>
-</section>
+async function waitForUserSession(maxMs) {
+  const { data: { session: first } } = await supabase.auth.getSession();
+  if (first?.user) return first;
+  return new Promise((resolve) => {
+    const start = Date.now();
+    let settled = false;
+    let subscription = null;
+    let poll = null;
+    const finish = (sess) => {
+      if (settled) return;
+      settled = true;
+      try {
+        subscription?.unsubscribe();
+      } catch (_) {
+        /* ignore */
+      }
+      if (poll != null) clearInterval(poll);
+      resolve(sess?.user ? sess : null);
+    };
+    const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) finish(session);
+    });
+    subscription = sub;
+    poll = setInterval(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) finish(session);
+      else if (Date.now() - start >= maxMs) {
+        const { data: { session: last } } = await supabase.auth.getSession();
+        finish(last?.user ? last : null);
+      }
+    }, 90);
+  });
+}
 
-<section class="section-reveal" id="rules">
-  <h2>Who are we?</h2>
-  <p>We are a 3v3 League officially created on September 30, 2025. Our values are built on cooperation, teamwork, and most importantly, hustle.</p>
-</section>
+/** GoTrue can return null once before localStorage hydration finishes. */
+async function waitForHydratedUser(maxMs) {
+  const { data: { session: s0 } } = await supabase.auth.getSession();
+  if (s0?.user) return s0;
+  return new Promise((resolve) => {
+    const start = Date.now();
+    let settled = false;
+    let subscription = null;
+    let poll = null;
+    const finish = (sess) => {
+      if (settled) return;
+      settled = true;
+      try {
+        subscription?.unsubscribe();
+      } catch (_) {
+        /* ignore */
+      }
+      if (poll != null) clearInterval(poll);
+      resolve(sess?.user ? sess : null);
+    };
+    const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) finish(session);
+    });
+    subscription = sub;
+    poll = setInterval(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) finish(session);
+      else if (Date.now() - start >= maxMs) {
+        const { data: { session: last } } = await supabase.auth.getSession();
+        finish(last?.user ? last : null);
+      }
+    }, 80);
+  });
+}
 
-<section class="section-reveal" id="teams">
-  <h2>Teams</h2>
-  <div class="teams-container">
+let session = null;
+try {
+  await consumeSessionHandoff();
+  const { data: { session: sNow } } = await supabase.auth.getSession();
+  session = sNow?.user ? sNow : null;
 
-  <div class="team-card">
-    <h3>Homeless Belly Dancers (HBD)</h3>
-      <div class="player" tabindex="0">
-        Jack Griffin,
-        <span class="bio">"The King". Lightning fast driver and underrated shooter.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Kyle Enersen,
-        <span class="bio">"The Passer". Elite passer and left wing expert.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Gregory Louridas
-        <span class="bio">"The Marvelous". Undersized big man and defensive stalwart.</span>
-      </div>
-  </div>
+  if (!session?.user) {
+    const fromAuth = sessionStorage.getItem(ENTER_APP_KEY);
+    if (fromAuth) {
+      sessionStorage.removeItem(ENTER_APP_KEY);
+      session = await waitForUserSession(8000);
+    } else {
+      session = await waitForHydratedUser(1500);
+    }
+  }
+} catch (_) {
+  session = null;
+}
 
-  <div class="team-card lochie">
-    <h3>Lochie Xavi's (LOC)</h3>
-      <div class="player" tabindex="0">
-        Xavier Hartanto,
-        <span class="bio">"The Arc". Ceiling high arc and stepback specialist.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Mason Askari,
-        <span class="bio">"The Hustle". Amazing hustler and multisport athlete.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Zach Silk
-        <span class="bio">"The Giant". Never-before-seen height and insurmountable rebounder.</span>
-      </div>
-  </div>
+if (!session?.user) {
+  window.location.replace("welcome.html");
+}
+</script>
 
-  <div class="team-card">
-    <h3>Showtime Elite (STE)</h3>
-      <div class="player" tabindex="0">
-        Vivek Moorthy,
-        <span class="bio">"The Grandpa". High IQ playmaker and shifty guard.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Zairaan Kazi,
-        <span class="bio">"The Warning". Consistent shooter and rizz shamgod.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Jack Beser
-        <span class="bio">"The Crazy". Wild shot selection and reckless driver.</span>
-      </div>
-  </div>
+<div id="top"></div>
 
-  <div class="team-card green-giants">
-    <h3>The Green Giants (TGG)</h3>
-      <div class="player" tabindex="0">
-        Graham Dunn,
-        <span class="bio">"The Truth". This isn't his main sport.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Vikram Singh,
-        <span class="bio">"The Nonchalant". Midrange master and nonchalance beyond belief.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Chris Abraham
-        <span class="bio">"The Schedule". Ball mover and underrated in the clutch.</span>
-      </div>
-  </div>
-
-  <div class="team-card">
-    <h3>The Adentujis (ADE)</h3>
-      <div class="player" tabindex="0">
-        Amar Mujumdar,
-        <span class="bio">"The Monkey". Gorilla of the league and underestimated dribbler.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Vedaant Sud,
-        <span class="bio">"The Vertical". Fantastic jumper and leaves the ground before thinking.</span>
-      </div>
-      <div class="player" tabindex="0">
-        Owen Enersen
-        <span class="bio">"The Rookie". Bio coming soon.</span>
-      </div>
-  </div>
-  
-  </div>
-</section>
-
-<section class="section-reveal" id="standings">
-  <h2>Standings</h2>
-<div class="standings-wrapper">
-<table class="standings">
-  <tr>
-    <th>#</th>
-    <th>Team</th>
-    <th>Wins</th>
-    <th>Losses</th>
-    <th>PCT</th>
-  </tr>
-  <!-- JS will populate standings -->
-  </table>
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
 </div>
-</section>
 
-<section class="section-reveal" id="schedule">
-  <h2>Schedule</h2>
-  <p>COMING SOON</p>
-</section>
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html" class="nav-current">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My Teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
 
-<section class="section-reveal" id="next-game-section">
-  <h2>Next Game</h2>
-  <p id="next-game">Loading countdown...</p>
-</section>
+<main class="app-main app-main--home cab-app-main">
+  <section class="section-reveal section-league section-league-primary visible app-home-hero home-shell-hero cab-home-workspace" id="coach-hub-section" aria-labelledby="hub-heading">
+    <div class="cab-home-workspace__intro">
+      <p class="cab-home-eyebrow" id="cab-home-eyebrow">Workspace</p>
+      <h2 id="hub-heading">Welcome</h2>
+      <p class="section-league-intro">Sign in to join a roster with a team code, manage your squad as a coach, and keep schedule and RSVPs in one place. <a href="clutch-and-ball.html" class="cab-inline-preview-link">Open preview</a>.</p>
 
-<section class="section-reveal section-league" id="create-league" aria-labelledby="create-league-heading">
-  <h2 id="create-league-heading">Create your league</h2>
-  <p class="section-league-intro">Sign in to create and manage your own league. Use any email—no GitHub or Google sign-in required.</p>
-
-  <div id="auth-state" class="auth-state">
-    <div id="auth-signed-out" class="auth-panel">
-      <div class="auth-tabs" role="tablist" aria-label="Sign in or sign up">
-        <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true" aria-controls="form-signin" aria-label="Sign in to your account">Sign in</button>
-        <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false" aria-controls="form-signup" aria-label="Create a new account">Sign up</button>
+    <div id="auth-state" class="auth-state cab-home-auth">
+      <div id="auth-signed-out" class="auth-panel">
+        <div class="auth-tabs" role="tablist" aria-label="Sign in or sign up">
+          <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true" aria-controls="form-signin">Sign in</button>
+          <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false" aria-controls="form-signup">Sign up</button>
+        </div>
+        <form id="form-signin" class="auth-form" role="tabpanel" aria-labelledby="tab-signin">
+          <label for="signin-email" class="auth-label">Email</label>
+          <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
+          <label for="signin-password" class="auth-label">Password</label>
+          <input type="password" id="signin-password" placeholder="Your password" required autocomplete="current-password" aria-describedby="auth-message">
+          <button type="submit" class="auth-submit">Sign in</button>
+        </form>
+        <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="tab-signup" aria-hidden="true">
+          <fieldset class="signup-role-fieldset">
+            <legend class="auth-label">I am signing up as</legend>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-coach" value="coach" required> Coach
+            </label>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-parent" value="parent"> Parent
+            </label>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-player" value="player"> Player
+            </label>
+          </fieldset>
+          <label for="signup-full-name" class="auth-label">Your name</label>
+          <input type="text" id="signup-full-name" placeholder="First and last name" required minlength="2" maxlength="80" autocomplete="name" aria-describedby="auth-message">
+          <label for="signup-email" class="auth-label">Email</label>
+          <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
+          <label for="signup-password" class="auth-label">Password</label>
+          <input type="password" id="signup-password" placeholder="At least 6 characters" required autocomplete="new-password" minlength="6" aria-describedby="auth-message signup-password-hint">
+          <span id="signup-password-hint" class="auth-hint">Minimum 6 characters</span>
+          <button type="submit" class="auth-submit">Sign up</button>
+        </form>
+        <p id="auth-message" class="auth-message" aria-live="polite" role="status"></p>
       </div>
-      <form id="form-signin" class="auth-form" role="tabpanel" aria-labelledby="tab-signin">
-        <label for="signin-email" class="auth-label">Email</label>
-        <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
-        <label for="signin-password" class="auth-label">Password</label>
-        <input type="password" id="signin-password" placeholder="Your password" required autocomplete="current-password" aria-describedby="auth-message">
-        <button type="submit" class="auth-submit">Sign in</button>
-      </form>
-      <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="tab-signup" aria-hidden="true">
-        <label for="signup-email" class="auth-label">Email</label>
-        <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message signup-password-hint">
-        <label for="signup-password" class="auth-label">Password</label>
-        <input type="password" id="signup-password" placeholder="At least 6 characters" required autocomplete="new-password" minlength="6" aria-describedby="auth-message signup-password-hint">
-        <span id="signup-password-hint" class="auth-hint">Minimum 6 characters</span>
-        <button type="submit" class="auth-submit">Sign up</button>
-      </form>
-      <p id="auth-message" class="auth-message" aria-live="polite" role="status"></p>
+      <div id="auth-signed-in" class="auth-panel hidden">
+        <p class="auth-welcome">Signed in as <strong id="auth-display-name"></strong></p>
+        <button type="button" id="btn-signout" class="auth-submit auth-submit-secondary">Sign out</button>
+      </div>
     </div>
-    <div id="auth-signed-in" class="auth-panel hidden">
-      <p class="auth-welcome">Signed in as <strong id="auth-email"></strong></p>
-      <button type="button" id="btn-signout" class="auth-submit auth-submit-secondary">Sign out</button>
     </div>
-  </div>
 
-  <div id="create-league-form" class="create-league-form hidden">
-    <h3>New league</h3>
-    <form id="form-create-league">
-      <label for="league-name" class="auth-label">League name</label>
-      <input type="text" id="league-name" placeholder="e.g. Tuesday Night League" required aria-describedby="league-form-message">
-      <label for="league-slug" class="auth-label">URL slug</label>
-      <input type="text" id="league-slug" placeholder="e.g. tuesday-night" required pattern="[a-z0-9-]+" title="Lowercase letters, numbers, and hyphens only" aria-describedby="league-form-message league-slug-hint">
-      <span id="league-slug-hint" class="auth-hint">Lowercase letters, numbers, hyphens only</span>
-      <button type="submit" class="auth-submit">Create league</button>
-    </form>
-    <p id="league-form-message" class="auth-message" aria-live="polite" role="status"></p>
-  </div>
+    <div class="cab-home-workspace__hubs" id="cab-home-hubs-wrap">
+      <p class="cab-home-hubs-label">Leagues · teams · roster</p>
+      <div id="hub-stack" class="hub-stack">
+        <div id="coach-hub" class="hidden">
+          <h3 id="coach-hub-title" class="hub-subheading">Coach</h3>
+          <p class="auth-hint">Create and manage your squad, invite codes, and roster.</p>
+          <div class="my-leagues">
+            <h4 class="cab-workspace-h4">Teams you coach</h4>
+            <ul id="coach-team-list" aria-label="Teams you coach"></ul>
+            <p id="coach-no-teams" class="auth-hint hidden">No teams yet — create one below.</p>
+          </div>
 
-  <div id="my-leagues" class="my-leagues hidden">
-    <h3>My leagues</h3>
-    <ul id="my-leagues-list" aria-label="Leagues you created"></ul>
-  </div>
-</section>
+          <div class="create-league-form">
+            <h4 class="cab-workspace-h4">Create team</h4>
+            <form id="form-create-team" class="auth-form">
+              <label for="new-team-name" class="auth-label">Team name</label>
+              <input type="text" id="new-team-name" placeholder="e.g. Northside Varsity" required maxlength="80" aria-describedby="coach-team-msg">
+              <button type="submit" class="auth-submit cab-hub-submit-primary">Create Team</button>
+            </form>
+            <p id="coach-team-msg" class="auth-message" aria-live="polite" role="status"></p>
+          </div>
+        </div>
+
+        <div id="player-hub" class="hidden">
+          <h3 class="hub-subheading">Player</h3>
+          <p class="auth-hint">Join someone else’s roster with their code (this is separate from coaching). <a href="my-teams.html" class="cab-inline-preview-link">Manage My Teams</a>.</p>
+          <div class="create-league-form">
+            <h4 class="cab-workspace-h4">Join with a code</h4>
+            <p class="auth-hint">Ask your coach for the team code.</p>
+            <form id="form-join-team" class="auth-form">
+              <label for="team-join-code" class="auth-label">Team code</label>
+              <input type="text" id="team-join-code" placeholder="e.g. ABC123" required maxlength="12" autocomplete="off" aria-describedby="join-team-msg" style="text-transform:uppercase">
+              <button type="submit" class="auth-submit cab-hub-submit-primary">Join Team</button>
+            </form>
+            <p id="join-team-msg" class="auth-message" aria-live="polite" role="status"></p>
+          </div>
+          <div class="my-leagues">
+            <h4 class="cab-workspace-h4">Teams you play on</h4>
+            <ul id="my-player-teams" aria-label="Teams you play on as a player"></ul>
+            <p id="player-no-teams" class="auth-hint hidden">You have not joined a team as a player yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboard-app" class="dashboard-app cab-dash-shell hidden" aria-label="Signed-in dashboard">
+    <header class="cab-dash-header">
+      <div class="cab-dash-header__main">
+        <p class="cab-dash-eyebrow">Platform</p>
+        <h2 id="dashboard-heading" class="dashboard-heading">Command center</h2>
+        <p id="dashboard-subline" class="dashboard-intro">Your leagues, teams, schedule, and comms in one place — tuned for game week.</p>
+      </div>
+      <nav class="cab-dash-quicknav" aria-label="Quick navigation">
+        <a href="my-teams.html" class="cab-dash-quicknav__link">Teams</a>
+        <a href="calendar.html" class="cab-dash-quicknav__link">Schedule</a>
+        <a href="games.html" class="cab-dash-quicknav__link">Matches</a>
+        <a href="account.html" class="cab-dash-quicknav__link">Account</a>
+      </nav>
+    </header>
+
+    <p id="dashboard-loading" class="dashboard-loading hidden">Loading your dashboard…</p>
+
+    <div id="dashboard-notifications" class="dashboard-notifications hidden"></div>
+
+    <div class="cab-dash-bento">
+      <div class="cab-dash-cell cab-dash-cell--next">
+        <h3 class="dashboard-subheading">Next up</h3>
+        <div id="dashboard-next-event"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--stats">
+        <h3 class="dashboard-subheading">At a glance</h3>
+        <div id="dashboard-stats" class="dashboard-stats-row"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--activity">
+        <h3 class="dashboard-subheading">Schedule &amp; activity</h3>
+        <div id="dashboard-activity" class="cab-activity-feed" aria-live="polite"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--upcoming">
+        <h3 class="dashboard-subheading">Upcoming matches &amp; events</h3>
+        <div id="dashboard-upcoming" class="cab-dash-upcoming-mount"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--leagues">
+        <div class="cab-dash-cell-head">
+          <h3 class="dashboard-subheading">Your leagues</h3>
+          <a href="my-teams.html" class="cab-dash-cell-link">All teams</a>
+        </div>
+        <div id="dashboard-leagues-grid" class="dashboard-leagues-grid"></div>
+      </div>
+
+      <aside class="cab-dash-cell cab-dash-cell--rail" aria-label="Highlights and tips">
+        <h3 class="dashboard-subheading">Pulse</h3>
+        <div id="dashboard-announcements" class="cab-dash-announce"></div>
+        <h3 class="dashboard-subheading">Discover &amp; invites</h3>
+        <div class="cab-dash-rail-card">
+          <p class="cab-dash-rail-copy">Join a league with a commissioner invite code, or add your roster spot with a team code from your coach.</p>
+          <a href="#cab-home-hubs-wrap" class="cab-dash-rail-btn">Create or join</a>
+          <a href="clutch-and-ball.html" class="cab-dash-rail-btn cab-dash-rail-btn--ghost cab-inline-preview-link">Product preview</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 </main>
 
+<script src="theme.js"></script>
 <script type="module" src="script.js"></script>
-
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="coach-teams-home.js"></script>
+<script type="module" src="player-home.js"></script>
 </body>
 </html>

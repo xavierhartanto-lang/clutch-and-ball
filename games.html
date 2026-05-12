@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log Game — Clutch &amp; Ball</title>
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+
+<div id="top"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My teams</a>
+    <a href="games.html" class="nav-current">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="coach-page app-main">
+  <section class="section-card">
+    <h2>Log a Game</h2>
+    <p class="auth-hint auth-hint--tight">Record a result for your team. Enter the opponent name (any school or team name) and the final scores — only your team’s wins and losses are updated.</p>
+    <form id="form-game" class="auth-form">
+      <label class="auth-label" for="my-team">Your team</label>
+      <select id="my-team" required></select>
+      <label class="auth-label" for="opponent-name">Opponent</label>
+      <input type="text" id="opponent-name" required maxlength="80" placeholder="e.g. East High, Wildcats">
+      <label class="auth-label" for="score-my">Your score</label>
+      <input id="score-my" type="number" min="0" max="300" required>
+      <label class="auth-label" for="score-opp">Opponent score</label>
+      <input id="score-opp" type="number" min="0" max="300" required>
+      <button type="submit" class="auth-submit">Save game</button>
+    </form>
+    <p id="game-msg" class="auth-message" role="status"></p>
+  </section>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="coach-games.js"></script>
+</body>
+</html>
