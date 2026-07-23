@@ -239,3 +239,20 @@ body.app-ui .account-section h2 {
   text-shadow: none;
   color: #fbbf24;
 }
+
+.account-google-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Long emails / Google status should wrap instead of overflowing the card. */
+#account-email,
+#account-google-status,
+#account-full-name,
+.account-email-line {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+}

@@ -96,6 +96,34 @@ export function downloadCalendarIcs({ filename, title, startIso, endIso, descrip
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
+/**
+ * Google Calendar "create event" URL (no API key; user confirms in browser).
+ * Dates must be UTC in format YYYYMMDDTHHmmssZ.
+ */
+function toGoogleCalUtc(dt) {
+  const d = new Date(dt);
+  if (Number.isNaN(d.getTime())) return null;
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
+}
+
+export function googleCalendarTemplateUrl({ title, startIso, endIso, description }) {
+  const start = new Date(startIso);
+  if (Number.isNaN(start.getTime())) return "";
+  const end = endIso ? new Date(endIso) : new Date(start.getTime() + 3600000);
+  const endOk = Number.isNaN(end.getTime()) ? new Date(start.getTime() + 3600000) : end;
+  const s = toGoogleCalUtc(start);
+  const e = toGoogleCalUtc(endOk);
+  if (!s || !e) return "";
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: title || "Event",
+    dates: `${s}/${e}`
+  });
+  if (description) params.set("details", String(description).slice(0, 8000));
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
 export function showToast(text, type = "success") {
   const existing = document.getElementById("toast-message");
   if (existing) existing.remove();

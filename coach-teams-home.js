@@ -1,5 +1,5 @@
 /**
- * Coach team hub on index.html (uses Clutch theme + supabase teams table).
+ * Coach team hub on app.html (uses Clutch theme + supabase teams table).
  */
 "use strict";
 

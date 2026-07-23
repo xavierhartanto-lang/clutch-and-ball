@@ -428,6 +428,18 @@ a.cab-activity-item {
   white-space: nowrap;
 }
 
+/* Grid cell holding the activity title/meta must be allowed to shrink so a
+   long title doesn't push the timestamp out of the card. */
+.cab-activity-item > * {
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .cab-activity-when {
+    white-space: normal;
+  }
+}
+
 .cab-activity-empty {
   margin: 0;
   padding: 1.25rem 1rem;

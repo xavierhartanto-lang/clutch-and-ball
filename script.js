@@ -1567,7 +1567,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       showToast("League deleted.");
-      window.location.href = "index.html";
+      window.location.href = "app.html";
     });
   }
 
@@ -1575,7 +1575,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (backBtn) {
     backBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
+      window.location.href = "app.html";
     });
   }
 

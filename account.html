@@ -28,8 +28,8 @@
 
 <header class="site-top-bar">
   <nav aria-label="Main">
-  <a href="index.html">Home</a>
-  <a href="clutch-and-ball.html" class="cab-nav-preview-link">Preview</a>
+    <a href="app.html">Home</a>
+  <a href="preview.html" class="cab-nav-preview-link">Preview page</a>
   <a href="account.html" class="nav-current">Account</a>
   <a href="my-teams.html">My Teams</a>
   <a href="games.html">Log Game</a>
@@ -42,7 +42,7 @@
 <main class="account-page app-main">
   <div id="account-signed-out" class="account-panel">
     <p class="account-message">Sign in to view your account.</p>
-    <a href="index.html" class="orange-action">Go to Create League</a>
+    <a href="app.html" class="orange-action">Go to Create League</a>
   </div>
 
   <div id="account-signed-in" class="account-panel hidden">
@@ -94,6 +94,19 @@
           <span class="account-stat-label">Leagues joined</span>
         </div>
       </div>
+    </section>
+
+    <section id="cab-google-calendar" class="account-section" aria-labelledby="account-google-heading">
+      <h2 id="account-google-heading">Google Calendar</h2>
+      <p class="auth-hint" style="margin-top:0">
+        Optional: connect your Google account so events you create or edit on the <a href="calendar.html">Clutch &amp; Ball calendar</a> can be written to your <strong>primary</strong> Google calendar. We request access only to <strong>create and update events</strong> (not read your whole calendar). We do <strong>not</strong> read Gmail. You can disconnect anytime; that removes our stored Google tokens and stops new syncs (events already in Google stay there unless you delete them in Google).
+      </p>
+      <p id="account-google-status" class="account-email-line" aria-live="polite">Status: checking…</p>
+      <div class="account-google-actions">
+        <button type="button" id="account-google-connect" class="auth-submit">Connect Google Calendar</button>
+        <button type="button" id="account-google-disconnect" class="auth-submit auth-submit-secondary hidden">Disconnect</button>
+      </div>
+      <p id="account-google-msg" class="auth-message" role="status" aria-live="polite"></p>
     </section>
 
     <section class="account-section account-section--danger" aria-labelledby="account-delete-heading">

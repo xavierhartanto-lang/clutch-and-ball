@@ -656,6 +656,39 @@ body.theme-violet .league-hero-title {
   gap: 8px;
 }
 
+/* ==========================================================================
+   LONG-TEXT / OVERFLOW SAFETY (alignment audit) — league page
+   ========================================================================== */
+.league-hero-title,
+#league-title,
+#league-subtitle,
+.league-description-text,
+.league-player-name,
+.league-invite-code,
+.league-schedule-date {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Matchup can flex/shrink so the actions don't squeeze it off-screen. */
+.league-schedule-matchup {
+  flex: 1 1 12rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.league-chat-bubble-meta {
+  min-width: 0;
+}
+
+.league-chat-sender {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Chat — bubbles, own right / others left */
 .league-chat-section {
   margin-bottom: 3rem;

@@ -1,4 +1,4 @@
-/* Public preview (clutch-and-ball.html) — second hook; complements landing.css */
+/* Public product preview (served at / via Worker + clutch-and-ball.html asset) */
 
 body.preview-page {
   margin: 0;
@@ -742,6 +742,55 @@ body.preview-page {
   font-size: 0.95rem;
 }
 
+/* Legal + app purpose (OAuth / root home) */
+.cab-preview-legal-footer {
+  text-align: center;
+  padding: 1.5rem 1.25rem 2rem;
+  margin-top: 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(2, 6, 23, 0.55);
+}
+
+.cab-preview-legal-footer__title {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fef3c7;
+  letter-spacing: -0.02em;
+}
+
+.cab-preview-legal-footer__text {
+  margin: 0 auto 1rem;
+  max-width: 52rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+}
+
+.cab-preview-legal-footer__links {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cab-preview-legal-footer__links a {
+  color: #fb923c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cab-preview-legal-footer__links a:hover {
+  color: #fdba74;
+}
+
+.cab-preview-legal-footer__sep {
+  display: inline-block;
+  margin: 0 0.35rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
 /* Scroll-in (preview only; hero stays visible) */
 .preview-page main .section-reveal:not(.visible):not(.cab-preview-hero) {
   opacity: 0;
@@ -777,15 +826,21 @@ html[data-theme="light"] .cab-preview-spotlight-desc,
 html[data-theme="light"] .cab-preview-player-bio,
 html[data-theme="light"] .cab-preview-tile p,
 html[data-theme="light"] .cab-preview-footer-cta p,
+html[data-theme="light"] .cab-preview-legal-footer__text,
 html[data-theme="light"] .cab-preview-countdown-note {
   color: #475569;
+}
+
+html[data-theme="light"] .cab-preview-legal-footer__title {
+  color: #c2410c;
 }
 
 html[data-theme="light"] .cab-preview-spotlight,
 html[data-theme="light"] .cab-preview-tile,
 html[data-theme="light"] .cab-preview-schedule-wrap,
 html[data-theme="light"] .cab-preview-countdown,
-html[data-theme="light"] .cab-preview-footer-cta {
+html[data-theme="light"] .cab-preview-footer-cta,
+html[data-theme="light"] .cab-preview-legal-footer {
   border-color: rgba(15, 23, 42, 0.12);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);

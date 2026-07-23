@@ -439,7 +439,7 @@ async function deleteLeague() {
   if (error) toast(error.message, "error");
   else {
     toast("League deleted");
-    window.location.href = "index.html";
+    window.location.href = "app.html";
   }
 }
 
@@ -458,7 +458,7 @@ async function leaveLeague() {
   if (error) toast(error.message, "error");
   else {
     toast("You left the league");
-    window.location.href = "index.html";
+    window.location.href = "app.html";
   }
 }
 
@@ -504,7 +504,7 @@ function renderHeader() {
     copyBtn.classList.toggle("hidden", !state.league.invite_code);
     copyBtn.onclick = copyInviteCode;
   }
-  if (back) back.href = "index.html";
+  if (back) back.href = "app.html";
   if (leaveBtn) {
     leaveBtn.classList.toggle("hidden", isOwner() || !state.role);
     leaveBtn.onclick = leaveLeague;
@@ -1035,7 +1035,7 @@ async function init() {
   const id = leagueId();
   if (!id) {
     const main = document.querySelector("main");
-    if (main) main.innerHTML = "<p class='league-meta'>No league selected. <a class='orange-action' href='index.html'>Go home</a></p>";
+    if (main) main.innerHTML = "<p class='league-meta'>No league selected. <a class='orange-action' href='app.html'>Go home</a></p>";
     return;
   }
   await ensureUser();

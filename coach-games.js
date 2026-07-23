@@ -11,7 +11,7 @@ const form = document.getElementById("form-game");
 async function init() {
   const user = await getSessionUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
 

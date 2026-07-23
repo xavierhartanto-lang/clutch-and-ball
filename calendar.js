@@ -2,8 +2,9 @@
 
 import supabase from "./supabase.js";
 import { getSessionUser, showMsg, fetchTeamsCoachedByUser } from "./coach-shared.js";
-import { downloadCalendarIcs, escapeAttr, showToast } from "./ui.js";
+import { downloadCalendarIcs, escapeAttr, googleCalendarTemplateUrl, showToast } from "./ui.js";
 import { formatRsvpStatus, upsertMyEventRsvp, notifyRsvpEmailSideEffect } from "./rsvp.js";
+import { invokeGoogleCalendarPurge, invokeGoogleCalendarSync, fetchGoogleCalendarLinkStatus } from "./google-calendar-client.js";
 
 const gridEl = document.getElementById("cal-grid");
 const monthLabel = document.getElementById("cal-month-label");
@@ -24,6 +25,7 @@ let teamAccessMap = new Map();
 let currentUserId = null;
 let rsvpMap = new Map();
 let rsvpSavingEventId = null;
+let googleCalendarLinked = false;
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"];
@@ -266,6 +268,18 @@ function renderDayPanel() {
         out: evRsvps.filter((r) => r.status === "out").length
       };
       const mineLabel = formatRsvpStatus(mine?.status);
+      const gSyncBtn = googleCalendarLinked
+        ? `<button type="button" class="cal-google-sync" data-event-id="${escapeAttr(ev.id)}">Save to my Google Calendar</button>`
+        : "";
+      const gcalUrl = googleCalendarTemplateUrl({
+        title: ev.title || "Event",
+        startIso: ev.starts_at,
+        endIso: ev.ends_at || "",
+        description: ev.notes || ""
+      });
+      const gcalBtn = gcalUrl
+        ? `<a class="cal-gcal-open" href="${escapeAttr(gcalUrl)}" target="_blank" rel="noopener noreferrer">Open in Google Calendar</a>`
+        : "";
       const icsBtn = `<button type="button" class="cal-ics-download" data-ics-title="${escapeAttr(ev.title || "Event")}" data-ics-start="${escapeAttr(ev.starts_at)}" data-ics-end="${escapeAttr(ev.ends_at || "")}" data-ics-notes="${escapeAttr(ev.notes || "")}">Add to calendar (.ics)</button>`;
       const rsvpBlock = ev.team_id
         ? `<div class="cal-rsvp-wrap${rsvpSavingEventId === ev.id ? " cal-rsvp-wrap--saving" : ""}">
@@ -292,7 +306,7 @@ function renderDayPanel() {
           <span class="cal-event-kind">${escapeHtml(ev.kind)}</span>
           <strong>${escapeHtml(ev.title)}</strong>
           <span class="cal-event-time">${escapeHtml(timeStr)}${ev.notes ? ` · ${escapeHtml(ev.notes)}` : ""}</span>
-          <div class="cal-event-ics-row">${icsBtn}</div>
+          <div class="cal-event-ics-row">${icsBtn}${gcalBtn}${gSyncBtn}</div>
         </div>
         <span>
           ${canManage ? `<button type="button" class="cal-event-edit" data-id="${ev.id}" aria-label="Edit event">Edit</button>` : ""}
@@ -313,13 +327,15 @@ function selectDay(key) {
 async function refresh() {
   const user = await getSessionUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
   currentUserId = user.id;
   dayList.innerHTML = `<li class="auth-hint cal-day-empty">Loading events…</li>`;
   await loadMonthEvents(user.id);
   await loadMonthRsvps();
+  const gst = await fetchGoogleCalendarLinkStatus();
+  googleCalendarLinked = !!gst.linked;
   renderGrid();
   renderDayPanel();
 }
@@ -345,6 +361,22 @@ btnNext?.addEventListener("click", () => {
 });
 
 dayList?.addEventListener("click", async (e) => {
+  const gSync = e.target.closest(".cal-google-sync");
+  if (gSync?.dataset.eventId) {
+    const r = await invokeGoogleCalendarSync(gSync.dataset.eventId);
+    if (r.ok && !r.skipped) showToast("Saved to your Google Calendar.");
+    else if (r.ok && r.skipped) {
+      showMsg(
+        msgEl,
+        "Connect Google Calendar under Account to sync automatically.",
+        true
+      );
+      showToast("Connect Google under Account first.", "error");
+    } else {
+      showToast(r.error || "Google sync failed", "error");
+    }
+    return;
+  }
   const icsBtn = e.target.closest(".cal-ics-download");
   if (icsBtn?.dataset.icsStart) {
     downloadCalendarIcs({
@@ -425,6 +457,10 @@ dayList?.addEventListener("click", async (e) => {
   const ev = monthEvents.find((r) => r.id === btn.dataset.id);
   if (!ev) return;
   const canManageTeamEvent = !!ev.team_id && ["coach", "assistant"].includes(teamAccessMap.get(ev.team_id));
+  const purge = await invokeGoogleCalendarPurge(btn.dataset.id);
+  if (!purge.ok && purge.error && !/404|not deployed|functions|Failed to fetch/i.test(String(purge.error))) {
+    console.warn("[Google Calendar]", purge.error);
+  }
   const delQuery = supabase.from("calendar_events").delete().eq("id", btn.dataset.id);
   if (!canManageTeamEvent) {
     delQuery.eq("user_id", user.id);
@@ -482,17 +518,30 @@ addForm?.addEventListener("submit", async (e) => {
   };
   const canManageTeamEvent = !!teamId && ["coach", "assistant"].includes(teamAccessMap.get(teamId));
   let error = null;
+  let syncedEventId = null;
   if (eventId) {
     let q = supabase.from("calendar_events").update(row).eq("id", eventId);
     if (!canManageTeamEvent) q = q.eq("user_id", user.id);
     ({ error } = await q);
+    if (!error) syncedEventId = eventId;
   } else {
-    ({ error } = await supabase.from("calendar_events").insert(row));
+    const ins = await supabase.from("calendar_events").insert(row).select("id").single();
+    error = ins.error;
+    if (!error && ins.data?.id) syncedEventId = ins.data.id;
   }
 
   if (error) {
     showMsg(msgEl, error.message, true);
     return;
+  }
+
+  if (syncedEventId) {
+    const g = await invokeGoogleCalendarSync(syncedEventId);
+    if (!g.ok && g.error && !/not deployed|404|functions/i.test(String(g.error))) {
+      console.warn("[Google Calendar sync]", g.error);
+    } else if (g.ok && !g.skipped) {
+      showToast("Synced to your Google Calendar.");
+    }
   }
 
   addForm.reset();
@@ -509,7 +558,7 @@ addForm?.addEventListener("submit", async (e) => {
 (async function init() {
   const user = await getSessionUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
   await loadTeamOptions(user.id);

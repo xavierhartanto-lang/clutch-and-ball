@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clutch &amp; Ball is a youth basketball team and league platform: rosters, schedules, RSVPs, game logs, and team communication. Coaches manage squads; families stay aligned in one app.">
+  <title>App home — Clutch &amp; Ball</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>(function(){try{if(localStorage.getItem("cab-theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="app-signed-in.css">
+</head>
+<body class="app-ui cab-signed">
+<script type="module">
+import supabase from "./supabase.js";
+
+const ENTER_APP_KEY = "cab-entering-app";
+const HANDOFF_KEY = "cab-session-handoff";
+
+async function consumeSessionHandoff() {
+  try {
+    const raw = sessionStorage.getItem(HANDOFF_KEY);
+    if (!raw) return;
+    sessionStorage.removeItem(HANDOFF_KEY);
+    const parsed = JSON.parse(raw);
+    if (!parsed?.access_token || !parsed?.refresh_token) return;
+    const { error } = await supabase.auth.setSession({
+      access_token: parsed.access_token,
+      refresh_token: parsed.refresh_token,
+    });
+    if (error) console.warn("Session handoff:", error.message);
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+async function waitForUserSession(maxMs) {
+  const { data: { session: first } } = await supabase.auth.getSession();
+  if (first?.user) return first;
+  return new Promise((resolve) => {
+    const start = Date.now();
+    let settled = false;
+    let subscription = null;
+    let poll = null;
+    const finish = (sess) => {
+      if (settled) return;
+      settled = true;
+      try {
+        subscription?.unsubscribe();
+      } catch (_) {
+        /* ignore */
+      }
+      if (poll != null) clearInterval(poll);
+      resolve(sess?.user ? sess : null);
+    };
+    const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) finish(session);
+    });
+    subscription = sub;
+    poll = setInterval(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) finish(session);
+      else if (Date.now() - start >= maxMs) {
+        const { data: { session: last } } = await supabase.auth.getSession();
+        finish(last?.user ? last : null);
+      }
+    }, 90);
+  });
+}
+
+/** GoTrue can return null once before localStorage hydration finishes. */
+async function waitForHydratedUser(maxMs) {
+  const { data: { session: s0 } } = await supabase.auth.getSession();
+  if (s0?.user) return s0;
+  return new Promise((resolve) => {
+    const start = Date.now();
+    let settled = false;
+    let subscription = null;
+    let poll = null;
+    const finish = (sess) => {
+      if (settled) return;
+      settled = true;
+      try {
+        subscription?.unsubscribe();
+      } catch (_) {
+        /* ignore */
+      }
+      if (poll != null) clearInterval(poll);
+      resolve(sess?.user ? sess : null);
+    };
+    const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) finish(session);
+    });
+    subscription = sub;
+    poll = setInterval(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) finish(session);
+      else if (Date.now() - start >= maxMs) {
+        const { data: { session: last } } = await supabase.auth.getSession();
+        finish(last?.user ? last : null);
+      }
+    }, 80);
+  });
+}
+
+let session = null;
+try {
+  await consumeSessionHandoff();
+  const { data: { session: sNow } } = await supabase.auth.getSession();
+  session = sNow?.user ? sNow : null;
+
+  if (!session?.user) {
+    const fromAuth = sessionStorage.getItem(ENTER_APP_KEY);
+    if (fromAuth) {
+      sessionStorage.removeItem(ENTER_APP_KEY);
+      session = await waitForUserSession(8000);
+    } else {
+      session = await waitForHydratedUser(1500);
+    }
+  }
+} catch (_) {
+  session = null;
+}
+
+if (!session?.user) {
+  window.location.replace("sign-in.html");
+}
+</script>
+
+<div id="top"></div>
+
+<div id="particles" class="particles" aria-hidden="true">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+
+<header class="site-top-bar">
+  <nav aria-label="Main">
+    <a href="app.html" class="nav-current">Home</a>
+    <a href="preview.html" class="cab-nav-preview-link">Preview page</a>
+    <a href="account.html">Account</a>
+    <a href="my-teams.html">My Teams</a>
+    <a href="games.html">Log Game</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="olympics.html" class="nav-olympics" title="Clutch &amp; Ball Olympics" aria-label="Clutch and Ball Olympics">🏀</a>
+  </nav>
+  <div id="profile-menu-mount"></div>
+</header>
+
+<main class="app-main app-main--home cab-app-main">
+  <section class="section-reveal section-league section-league-primary visible app-home-hero home-shell-hero cab-home-workspace" id="coach-hub-section" aria-labelledby="hub-heading">
+    <div class="cab-home-workspace__intro">
+      <p class="cab-home-eyebrow" id="cab-home-eyebrow">Workspace</p>
+      <h2 id="hub-heading">Welcome</h2>
+      <p class="section-league-intro">Sign in to join a roster with a team code, manage your squad as a coach, and keep schedule and RSVPs in one place. <a href="preview.html" class="cab-inline-preview-link">Open preview</a>.</p>
+
+    <div id="auth-state" class="auth-state cab-home-auth">
+      <div id="auth-signed-out" class="auth-panel">
+        <div class="auth-tabs" role="tablist" aria-label="Sign in or sign up">
+          <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true" aria-controls="form-signin">Sign in</button>
+          <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false" aria-controls="form-signup">Sign up</button>
+        </div>
+        <form id="form-signin" class="auth-form" role="tabpanel" aria-labelledby="tab-signin">
+          <label for="signin-email" class="auth-label">Email</label>
+          <input type="email" id="signin-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
+          <label for="signin-password" class="auth-label">Password</label>
+          <input type="password" id="signin-password" placeholder="Your password" required autocomplete="current-password" aria-describedby="auth-message">
+          <button type="submit" class="auth-submit">Sign in</button>
+        </form>
+        <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="tab-signup" aria-hidden="true">
+          <fieldset class="signup-role-fieldset">
+            <legend class="auth-label">I am signing up as</legend>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-coach" value="coach" required> Coach
+            </label>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-parent" value="parent"> Parent
+            </label>
+            <label class="signup-role-option">
+              <input type="radio" name="signup-role" id="signup-role-player" value="player"> Player
+            </label>
+          </fieldset>
+          <label for="signup-full-name" class="auth-label">Your name</label>
+          <input type="text" id="signup-full-name" placeholder="First and last name" required minlength="2" maxlength="80" autocomplete="name" aria-describedby="auth-message">
+          <label for="signup-email" class="auth-label">Email</label>
+          <input type="email" id="signup-email" placeholder="you@example.com" required autocomplete="email" aria-describedby="auth-message">
+          <label for="signup-password" class="auth-label">Password</label>
+          <input type="password" id="signup-password" placeholder="At least 6 characters" required autocomplete="new-password" minlength="6" aria-describedby="auth-message signup-password-hint">
+          <span id="signup-password-hint" class="auth-hint">Minimum 6 characters</span>
+          <button type="submit" class="auth-submit">Sign up</button>
+        </form>
+        <p id="auth-message" class="auth-message" aria-live="polite" role="status"></p>
+      </div>
+      <div id="auth-signed-in" class="auth-panel hidden">
+        <p class="auth-welcome">Signed in as <strong id="auth-display-name"></strong></p>
+        <button type="button" id="btn-signout" class="auth-submit auth-submit-secondary">Sign out</button>
+      </div>
+    </div>
+    </div>
+
+    <div class="cab-home-workspace__hubs" id="cab-home-hubs-wrap">
+      <p class="cab-home-hubs-label">Leagues · teams · roster</p>
+      <div id="hub-stack" class="hub-stack">
+        <div id="coach-hub" class="hidden">
+          <h3 id="coach-hub-title" class="hub-subheading">Coach</h3>
+          <p class="auth-hint">Create and manage your squad, invite codes, and roster. You can still join <strong>another</strong> team as a player in the Player section below.</p>
+          <div class="my-leagues">
+            <h4 class="cab-workspace-h4">Teams you coach</h4>
+            <ul id="coach-team-list" aria-label="Teams you coach"></ul>
+            <p id="coach-no-teams" class="auth-hint hidden">No teams yet — create one below.</p>
+          </div>
+
+          <div class="create-league-form">
+            <h4 class="cab-workspace-h4">Create team</h4>
+            <form id="form-create-team" class="auth-form">
+              <label for="new-team-name" class="auth-label">Team name</label>
+              <input type="text" id="new-team-name" placeholder="e.g. Northside Varsity" required maxlength="80" aria-describedby="coach-team-msg">
+              <button type="submit" class="auth-submit cab-hub-submit-primary">Create Team</button>
+            </form>
+            <p id="coach-team-msg" class="auth-message" aria-live="polite" role="status"></p>
+          </div>
+        </div>
+
+        <div id="player-hub" class="hidden">
+          <h3 class="hub-subheading">Player</h3>
+          <p class="auth-hint">Join someone else’s roster with their code — even if you coach your own team. <a href="my-teams.html" class="cab-inline-preview-link">Manage My Teams</a>.</p>
+          <div class="create-league-form">
+            <h4 class="cab-workspace-h4">Join with a code</h4>
+            <p class="auth-hint">Ask your coach for the team code.</p>
+            <form id="form-join-team" class="auth-form">
+              <label for="team-join-code" class="auth-label">Team code</label>
+              <input type="text" id="team-join-code" placeholder="e.g. ABC123" required maxlength="12" autocomplete="off" aria-describedby="join-team-msg" style="text-transform:uppercase">
+              <button type="submit" class="auth-submit cab-hub-submit-primary">Join Team</button>
+            </form>
+            <p id="join-team-msg" class="auth-message" aria-live="polite" role="status"></p>
+          </div>
+          <div class="my-leagues">
+            <h4 class="cab-workspace-h4">Teams you play on</h4>
+            <ul id="my-player-teams" aria-label="Teams you play on as a player"></ul>
+            <p id="player-no-teams" class="auth-hint hidden">You have not joined a team as a player yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboard-app" class="dashboard-app cab-dash-shell hidden" aria-label="Signed-in dashboard">
+    <header class="cab-dash-header">
+      <div class="cab-dash-header__main">
+        <p class="cab-dash-eyebrow">Platform</p>
+        <h2 id="dashboard-heading" class="dashboard-heading">Command center</h2>
+        <p id="dashboard-subline" class="dashboard-intro">Your leagues, teams, schedule, and comms in one place — tuned for game week.</p>
+      </div>
+      <nav class="cab-dash-quicknav" aria-label="Quick navigation">
+        <a href="my-teams.html" class="cab-dash-quicknav__link">Teams</a>
+        <a href="calendar.html" class="cab-dash-quicknav__link">Schedule</a>
+        <a href="games.html" class="cab-dash-quicknav__link">Matches</a>
+        <a href="account.html" class="cab-dash-quicknav__link">Account</a>
+      </nav>
+    </header>
+
+    <p id="dashboard-loading" class="dashboard-loading hidden">Loading your dashboard…</p>
+
+    <div id="dashboard-notifications" class="dashboard-notifications hidden"></div>
+
+    <div class="cab-dash-bento">
+      <div class="cab-dash-cell cab-dash-cell--next">
+        <h3 class="dashboard-subheading">Next up</h3>
+        <div id="dashboard-next-event"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--stats">
+        <h3 class="dashboard-subheading">At a glance</h3>
+        <div id="dashboard-stats" class="dashboard-stats-row"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--activity">
+        <h3 class="dashboard-subheading">Schedule &amp; activity</h3>
+        <div id="dashboard-activity" class="cab-activity-feed" aria-live="polite"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--upcoming">
+        <h3 class="dashboard-subheading">Upcoming matches &amp; events</h3>
+        <div id="dashboard-upcoming" class="cab-dash-upcoming-mount"></div>
+      </div>
+
+      <div class="cab-dash-cell cab-dash-cell--leagues">
+        <div class="cab-dash-cell-head">
+          <h3 class="dashboard-subheading">Your leagues</h3>
+          <a href="my-teams.html" class="cab-dash-cell-link">All teams</a>
+        </div>
+        <div id="dashboard-leagues-grid" class="dashboard-leagues-grid"></div>
+      </div>
+
+      <aside class="cab-dash-cell cab-dash-cell--rail" aria-label="Highlights and tips">
+        <h3 class="dashboard-subheading">Pulse</h3>
+        <div id="dashboard-announcements" class="cab-dash-announce"></div>
+        <h3 class="dashboard-subheading">Discover &amp; invites</h3>
+        <div class="cab-dash-rail-card">
+          <p class="cab-dash-rail-copy">Join a league with a commissioner invite code, or add your roster spot with a team code from your coach.</p>
+          <a href="#cab-home-hubs-wrap" class="cab-dash-rail-btn">Create or join</a>
+          <a href="preview.html" class="cab-dash-rail-btn cab-dash-rail-btn--ghost cab-inline-preview-link">Product preview</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="home-app-purpose home-app-purpose--page-footer" aria-labelledby="home-purpose-heading">
+    <h2 id="home-purpose-heading" class="home-app-purpose__title">What this application is for</h2>
+    <p class="home-app-purpose__text"><strong>Clutch &amp; Ball</strong> helps youth basketball leagues and teams run day-to-day operations in one place: team and roster management, invite codes, shared schedules, RSVPs, game logging, stats, and in-app communication. Coaches create and administer teams; parents and players join with a code and see the same schedule and updates. You can optionally connect Google Calendar so selected events sync to the calendar on your devices.</p>
+    <p class="home-app-purpose__legal"><a href="privacy-policy.html">Privacy Policy</a> · <a href="terms-of-service.html">Terms of Service</a></p>
+  </section>
+</main>
+
+<script src="theme.js"></script>
+<script type="module" src="script.js"></script>
+<script type="module" src="profile-menu.js"></script>
+<script type="module" src="coach-teams-home.js"></script>
+<script type="module" src="player-home.js"></script>
+</body>
+</html>

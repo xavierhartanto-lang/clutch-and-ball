@@ -49,9 +49,10 @@ export function hasCoachHubAccess(user) {
   return isCoachSignup(user);
 }
 
-/** Parents and players use the join-team / roster flows. */
+/** Everyone signed in can appear on another team’s roster (coach, parent, or player). */
 export function hasPlayerHubAccess(user) {
-  return isParentSignup(user) || isPlayerSignup(user);
+  if (!user) return false;
+  return isCoachSignup(user) || isParentSignup(user) || isPlayerSignup(user);
 }
 
 export function getSignupLabel(user) {
@@ -91,7 +92,7 @@ function escapeHtmlStr(s) {
 }
 
 /**
- * Signed-in home hero (index.html #coach-hub-section): title + intro HTML with links.
+ * Signed-in home hero (app.html #coach-hub-section): title + intro HTML with links.
  */
 export function homeHeroForSignedInUser(user) {
   const rawName = accountDisplayName(user).trim() || "there";
@@ -100,18 +101,18 @@ export function homeHeroForSignedInUser(user) {
   if (intent === "coach") {
     return {
       title: `Hi, ${rawName}`,
-      introHtml: `${name}, your signed-in hub mirrors the <a href="clutch-and-ball.html" class="cab-inline-preview-link">product preview</a>: leagues, teams, schedule, and RSVPs. Create a team below or jump to <a href="calendar.html" class="cab-inline-preview-link">Calendar</a> and <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a>.`
+      introHtml: `${name}, your signed-in hub mirrors the <a href="preview.html" class="cab-inline-preview-link">product preview</a>: leagues, teams, schedule, and RSVPs. <strong>Create a team</strong> in the Coach block below, or <strong>join another squad as a player</strong> with their team code in the Player block. Open <a href="calendar.html" class="cab-inline-preview-link">Calendar</a> or <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a> anytime.`
     };
   }
   if (intent === "parent") {
     return {
       title: `Welcome, ${rawName}`,
-      introHtml: `Join a roster with your coach’s team code below, then use <a href="calendar.html" class="cab-inline-preview-link">Calendar</a> for practices and games. <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a> lists every squad you follow — same hierarchy as the <a href="clutch-and-ball.html" class="cab-inline-preview-link">preview</a>.`
+      introHtml: `Join a roster with your coach’s team code below, then use <a href="calendar.html" class="cab-inline-preview-link">Calendar</a> for practices and games. <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a> lists every squad you follow — same hierarchy as the <a href="preview.html" class="cab-inline-preview-link">preview</a>.`
     };
   }
   return {
     title: `Hey, ${rawName}`,
-    introHtml: `Use your coach’s code to join below, then RSVP on <a href="calendar.html" class="cab-inline-preview-link">Calendar</a>. <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a> has your rosters. See the full flow in the <a href="clutch-and-ball.html" class="cab-inline-preview-link">preview</a>.`
+    introHtml: `Use your coach’s code to join below, then RSVP on <a href="calendar.html" class="cab-inline-preview-link">Calendar</a>. <a href="my-teams.html" class="cab-inline-preview-link">My Teams</a> has your rosters. See the full flow in the <a href="preview.html" class="cab-inline-preview-link">preview</a>.`
   };
 }
 
@@ -178,7 +179,7 @@ export async function fetchTeamsCoachedByUser(userId) {
 export function requireAuth() {
   return getSessionUser().then((u) => {
     if (!u) {
-      window.location.href = "index.html";
+      window.location.href = "app.html";
       return null;
     }
     return u;

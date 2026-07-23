@@ -23,7 +23,7 @@ function avatarSvg() {
 function renderSignedOut(mount) {
   mount.innerHTML = `
     <div class="profile-menu profile-menu--signed-out">
-      <a href="welcome.html" class="profile-signin-link">Sign in</a>
+      <a href="sign-in.html" class="profile-signin-link">Sign in</a>
     </div>`;
 }
 
@@ -54,7 +54,7 @@ function bindDropdown(mount) {
 
   document.getElementById("profile-menu-signout")?.addEventListener("click", async () => {
     await supabase.auth.signOut();
-    window.location.href = "welcome.html";
+    window.location.href = "sign-in.html";
   });
 
   document.addEventListener("click", (e) => {

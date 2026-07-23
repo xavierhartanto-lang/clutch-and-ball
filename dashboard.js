@@ -1,5 +1,5 @@
 /**
- * Home dashboard after sign-in (index.html).
+ * Home dashboard after sign-in (app.html).
  */
 "use strict";
 

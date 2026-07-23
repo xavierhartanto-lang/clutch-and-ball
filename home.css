@@ -1,4 +1,4 @@
-/* index.html only — Home layout: wide desktop, compact mobile app feel */
+/* index.html (public preview) + app.html (signed-in workspace) — Home layout for app.html */
 
 /*
  * Global `.section-league { max-width: 440px }` is for narrow auth columns (e.g. welcome).
@@ -515,4 +515,58 @@ html[data-theme="light"] body.app-ui main.app-main--home .cab-workspace-h4 {
 
 html[data-theme="light"] body.app-ui main.app-main--home #coach-hub .create-league-form {
   border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+/* ---------- App purpose + legal at bottom of app home (index) ---------- */
+body.app-ui main.app-main--home .home-app-purpose--page-footer {
+  margin-top: clamp(1.25rem, 3vw, 2.25rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.15rem clamp(0.75rem, 2.5vw, 1.25rem) 2.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  max-width: min(88ch, 100%);
+}
+
+body.app-ui main.app-main--home .home-app-purpose__title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.45rem;
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+body.app-ui main.app-main--home .home-app-purpose__text {
+  margin: 0 0 0.55rem;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: #cbd5e1;
+}
+
+body.app-ui main.app-main--home .home-app-purpose__legal {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+body.app-ui main.app-main--home .home-app-purpose__legal a {
+  color: #fb923c;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+body.app-ui main.app-main--home .home-app-purpose__legal a:hover {
+  color: #fdba74;
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .home-app-purpose--page-footer {
+  border-top-color: rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .home-app-purpose__title {
+  color: #0f172a;
+}
+
+html[data-theme="light"] body.app-ui main.app-main--home .home-app-purpose__text {
+  color: #334155;
 }

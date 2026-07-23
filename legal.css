@@ -1,0 +1,57 @@
+/* Standalone legal pages (privacy / terms) */
+.legal-doc {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+  line-height: 1.65;
+}
+
+.legal-doc h1 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  margin: 0 0 0.35rem;
+  color: #fbbf24;
+  letter-spacing: -0.02em;
+}
+
+.legal-doc .legal-meta {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0 0 1.75rem;
+}
+
+.legal-doc h2 {
+  font-size: 1.05rem;
+  margin: 1.75rem 0 0.5rem;
+  color: #e2e8f0;
+}
+
+.legal-doc p,
+.legal-doc li {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  margin: 0 0 0.85rem;
+}
+
+.legal-doc ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.legal-doc .legal-callout {
+  border-left: 3px solid rgba(251, 191, 36, 0.5);
+  padding: 0.75rem 0 0.75rem 1rem;
+  margin: 1.25rem 0;
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+.legal-doc a {
+  color: #fb923c;
+  text-decoration: underline;
+}
+
+.legal-doc a:hover {
+  color: #fdba74;
+}

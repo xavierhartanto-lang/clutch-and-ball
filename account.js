@@ -6,6 +6,11 @@
 import supabase, { edgeFunctionUrl, supabaseAnonKey } from "./supabase.js";
 import { hasPlayerHubAccess, rosterDisplayName } from "./coach-shared.js";
 import { syncPlayerRosterNames } from "./player-teams-api.js";
+import {
+  fetchGoogleCalendarLinkStatus,
+  invokeGoogleCalendarDisconnect,
+  startGoogleCalendarLink
+} from "./google-calendar-client.js";
 
 function msg(el, text) {
   if (!el) return;
@@ -46,6 +51,95 @@ async function init() {
   const deleteMsgEl = document.getElementById("account-delete-message");
 
   if (emailEl) emailEl.textContent = user.email || "—";
+
+  const googleStatusEl = document.getElementById("account-google-status");
+  const googleConnectBtn = document.getElementById("account-google-connect");
+  const googleDisconnectBtn = document.getElementById("account-google-disconnect");
+  const googleMsgEl = document.getElementById("account-google-msg");
+
+  async function refreshGoogleUi() {
+    try {
+      const st = await fetchGoogleCalendarLinkStatus();
+      if (googleStatusEl) {
+        if (st.error && st.error !== "not_signed_in") {
+          googleStatusEl.textContent = `Could not check Google status: ${st.error}`;
+        } else if (st.linked) {
+          googleStatusEl.textContent = `Connected as ${st.google_email || "Google"}. Saving events on the Clutch & Ball calendar syncs to your primary Google calendar.`;
+        } else {
+          googleStatusEl.textContent = "Not connected.";
+        }
+      }
+      if (googleConnectBtn) googleConnectBtn.classList.toggle("hidden", !!st.linked);
+      if (googleDisconnectBtn) googleDisconnectBtn.classList.toggle("hidden", !st.linked);
+    } catch (e) {
+      if (googleStatusEl) {
+        googleStatusEl.textContent = `Could not check Google status: ${e instanceof Error ? e.message : String(e)}`;
+      }
+    }
+  }
+
+  await refreshGoogleUi();
+
+  const q = new URLSearchParams(window.location.search);
+  if (q.get("cab_google") === "connected") {
+    if (googleMsgEl) {
+      googleMsgEl.textContent = "Google Calendar connected successfully.";
+      googleMsgEl.classList.remove("auth-message--error");
+    }
+    window.history.replaceState({}, "", "account.html#cab-google-calendar");
+    await refreshGoogleUi();
+  } else if (q.get("cab_google") === "error") {
+    const reason = q.get("reason") || "Unknown error";
+    if (googleMsgEl) {
+      googleMsgEl.textContent = `Google connection failed: ${decodeURIComponent(reason)}`;
+      googleMsgEl.classList.add("auth-message--error");
+    }
+    window.history.replaceState({}, "", "account.html#cab-google-calendar");
+  }
+
+  if (googleConnectBtn) {
+    googleConnectBtn.addEventListener("click", async () => {
+      if (googleMsgEl) {
+        googleMsgEl.textContent = "Opening Google…";
+        googleMsgEl.classList.remove("auth-message--error");
+      }
+      try {
+        const r = await startGoogleCalendarLink();
+        if (!r.ok && r.error) {
+          if (googleMsgEl) {
+            googleMsgEl.textContent = r.error;
+            googleMsgEl.classList.add("auth-message--error");
+          }
+        }
+      } catch (e) {
+        if (googleMsgEl) {
+          googleMsgEl.textContent = e instanceof Error ? e.message : String(e);
+          googleMsgEl.classList.add("auth-message--error");
+        }
+      }
+    });
+  }
+
+  if (googleDisconnectBtn) {
+    googleDisconnectBtn.addEventListener("click", async () => {
+      if (googleMsgEl) {
+        googleMsgEl.textContent = "";
+        googleMsgEl.classList.remove("auth-message--error");
+      }
+      googleDisconnectBtn.disabled = true;
+      const r = await invokeGoogleCalendarDisconnect();
+      googleDisconnectBtn.disabled = false;
+      if (!r.ok) {
+        if (googleMsgEl) {
+          googleMsgEl.textContent = r.error || "Disconnect failed.";
+          googleMsgEl.classList.add("auth-message--error");
+        }
+        return;
+      }
+      if (googleMsgEl) googleMsgEl.textContent = "Disconnected from Google Calendar.";
+      await refreshGoogleUi();
+    });
+  }
 
   if (hasPlayerHubAccess(user) && showcaseSection) {
     showcaseSection.classList.remove("hidden");
@@ -182,7 +276,7 @@ async function init() {
   if (signoutBtn) {
     signoutBtn.addEventListener("click", async () => {
       await supabase.auth.signOut();
-      window.location.href = "index.html";
+      window.location.href = "app.html";
     });
   }
 
@@ -258,7 +352,7 @@ async function init() {
       }
 
       await supabase.auth.signOut();
-      window.location.href = "index.html?deleted=1";
+      window.location.href = "app.html?deleted=1";
     });
   }
 

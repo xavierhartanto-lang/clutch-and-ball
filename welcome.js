@@ -30,7 +30,7 @@ async function goApp(prefetchedSession) {
   } catch (_) {
     /* ignore */
   }
-  window.location.assign(new URL("index.html", window.location.href).href);
+  window.location.assign(new URL("app.html", window.location.href).href);
 }
 
 function whenDomReady(fn) {
@@ -41,17 +41,13 @@ function whenDomReady(fn) {
   }
 }
 
-void (async function boot() {
-  try {
-    const { data: { session: existing } } = await supabase.auth.getSession();
-    if (existing?.user) {
-      await goApp(existing);
-      return;
-    }
-  } catch (_) {
-    /* stay on landing if auth check fails */
-  }
+/** Set by setupAuth so nav can switch tabs without duplicating logic.
+ *  Declared before boot() so the deferred module run (DOM already ready) can't
+ *  hit it in the temporal dead zone when setupAuth() runs synchronously. */
+const landingAuthTab = { switchTo: null };
 
+void (async function boot() {
+  /* Do not auto-redirect on load — OAuth crawlers must see public home content. */
   whenDomReady(() => {
     setupParticles();
     setupLandingSparks();
@@ -63,9 +59,6 @@ void (async function boot() {
     setupLandingPromoVideo();
   });
 })();
-
-/** Set by setupAuth so nav can switch tabs without duplicating logic. */
-const landingAuthTab = { switchTo: null };
 
 function closeAllLandingDropdowns() {
   document.querySelectorAll("[data-dropdown].is-open").forEach((wrap) => {
@@ -301,6 +294,11 @@ function setupAuth() {
 
   landingAuthTab.switchTo = switchAuthTab;
 
+  const hash = window.location.hash.replace(/^#/, "");
+  if (hash === "signup" || hash === "signin") {
+    switchAuthTab(hash);
+  }
+
   tabSignin?.addEventListener("click", () => switchAuthTab("signin"));
   tabSignup?.addEventListener("click", () => switchAuthTab("signup"));
 
@@ -328,9 +326,8 @@ function setupAuth() {
     updateAuthUI(session);
   });
 
-  supabase.auth.getSession().then(async ({ data: { session } }) => {
+  supabase.auth.getSession().then(({ data: { session } }) => {
     updateAuthUI(session);
-    if (session?.user) await goApp(session);
   });
 
   signinForm?.addEventListener("submit", async (e) => {

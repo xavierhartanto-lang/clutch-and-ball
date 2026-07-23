@@ -41,7 +41,8 @@ async function loadPlayerTeams() {
     if (teams.length === 0) {
       const { data: { user: u2 } } = await supabase.auth.getUser();
       if (u2 && hasCoachHubAccess(u2)) {
-        noTeamsEl.textContent = "No player rosters yet — teams you coach are in the Coach section above.";
+        noTeamsEl.textContent =
+          "No player rosters yet — enter your coach’s team code in Join with a code below.";
       } else {
         noTeamsEl.textContent = "You have not joined a team as a player yet.";
       }

@@ -660,6 +660,53 @@
   opacity: 0;
 }
 
+/* OAuth / crawlers: hero copy must be visible without running animations */
+.landing-hero .landing-kicker,
+.landing-hero .landing-title,
+.landing-hero .landing-sub,
+.landing-hero .landing-public-note,
+.landing-hero .landing-hero-legal,
+.landing-hero .landing-cta-row,
+.landing-hero .landing-scroll-hint {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.landing-sub--purpose {
+  max-width: 42rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.08rem);
+  margin-bottom: 1rem;
+}
+
+.landing-public-note {
+  margin: 0 auto 0.85rem;
+  max-width: 40rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #94a3b8;
+}
+
+.landing-hero-legal {
+  margin: 0 auto 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.landing-hero-legal a {
+  color: #fb923c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.landing-hero-legal a:hover {
+  color: #fdba74;
+}
+
+.landing-nav-legal {
+  color: #fb923c !important;
+}
+
 @keyframes landingFadeUp {
   from {
     opacity: 0;
@@ -832,6 +879,29 @@
   margin-right: auto;
 }
 
+/* Inline links in the auth intro should match the amber theme — not the raw
+   browser blue/purple default link color. */
+.landing-auth-wrap .section-league-intro a,
+.landing-main .section-league-intro a {
+  color: #fbbf24;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(251, 191, 36, 0.4);
+  padding-bottom: 1px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.landing-auth-wrap .section-league-intro a:visited,
+.landing-main .section-league-intro a:visited {
+  color: #fbbf24;
+}
+
+.landing-auth-wrap .section-league-intro a:hover,
+.landing-main .section-league-intro a:hover {
+  color: #fff;
+  border-color: rgba(251, 191, 36, 0.9);
+}
+
 .landing-auth-wrap h2 {
   margin-top: 0;
   font-size: clamp(1.35rem, 4vw, 1.75rem);
@@ -909,4 +979,111 @@
   .landing-dd-chev {
     transform: none !important;
   }
+}
+
+/* ---------- Footer: legal + app purpose (OAuth branding) ---------- */
+.landing-footer {
+  margin: 0;
+  padding: 2rem 1.25rem 2.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(2, 6, 23, 0.55);
+}
+
+.landing-footer-inner {
+  max-width: 52rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.landing-footer-purpose {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+.landing-footer-purpose strong {
+  color: #f1f5f9;
+}
+
+.landing-footer-links {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.landing-footer-links a {
+  color: #fb923c;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.landing-footer-links a:hover {
+  color: #fdba74;
+}
+
+.landing-footer-sep {
+  display: inline-block;
+  margin: 0 0.4rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.landing-about-app__title {
+  margin: 0 0 0.75rem;
+  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fef3c7;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 24px rgba(251, 191, 36, 0.25);
+}
+
+/* ---------- Alignment normalization ----------
+   Keep every section centered on the same axis with a shared text column so
+   headings and paragraphs line up. The "Use Clutch & Ball" block reuses the
+   shared app `.section-league` rule (440px, left-aligned) — override it here. */
+
+.landing-get-started {
+  text-align: center;
+}
+
+.landing-page .landing-get-started.section-league {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.landing-get-started h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  font-weight: 800;
+  color: #fef3c7;
+  letter-spacing: -0.02em;
+}
+
+.landing-page .landing-get-started .section-league-intro {
+  max-width: 38rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.landing-get-started p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* About footer: match the hero/body text column width so the lines share the
+   same left/right edges as the rest of the page instead of running wider. */
+.landing-footer-inner {
+  max-width: 44rem;
+}
+
+.landing-footer-purpose {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
 }

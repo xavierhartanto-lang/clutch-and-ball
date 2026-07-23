@@ -1,13 +1,18 @@
 /**
- * Minimal Worker: serve static files from the assets binding.
- * Deploy with: npx wrangler deploy
+ * Static assets Worker. "/" serves index.html (OAuth public home) by default.
+ * Legacy URLs /welcome and /welcome.html also serve index.html.
  */
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === "/" || url.pathname === "") {
-      return env.ASSETS.fetch(new Request(`${url.origin}/index.html`, request));
+    const path = url.pathname.replace(/\/$/, "") || "/";
+
+    if (path === "/welcome" || path === "/welcome.html") {
+      return env.ASSETS.fetch(
+        new Request(`${url.origin}/index.html`, request),
+      );
     }
+
     return env.ASSETS.fetch(request);
   },
 };

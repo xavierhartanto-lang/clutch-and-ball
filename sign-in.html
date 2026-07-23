@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sign in — Clutch &amp; Ball</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body class="landing-page">
+<div id="particles" class="particles" aria-hidden="true"></div>
+
+<nav class="landing-nav" aria-label="Site">
+  <div class="landing-nav-row">
+    <a href="/" class="landing-nav-plain">Home</a>
+    <a href="preview.html" class="landing-nav-plain">Preview page</a>
+    <a href="privacy-policy.html" class="landing-nav-plain landing-nav-legal">Privacy Policy</a>
+  </div>
+</nav>
+
+<main class="landing-main">
+  <section id="authSection" class="landing-auth-wrap section-reveal visible section-league section-league-primary" aria-labelledby="auth-heading">
+    <h1 id="auth-heading" class="landing-section-head">Clutch &amp; Ball — Sign in</h1>
+    <p class="section-league-intro">Use your email—no social login required. After you sign in, you’ll land on your app home. <a href="/">Return to the public home page</a>.</p>
+
+    <div id="auth-state" class="auth-state">
+      <div id="auth-signed-out" class="auth-panel">
+        <div class="auth-tabs" role="tablist" aria-label="Sign in or sign up">
+          <button type="button" id="tab-signin" class="auth-tab active" role="tab" aria-selected="true" aria-controls="form-signin">Sign in</button>
+          <button type="button" id="tab-signup" class="auth-tab" role="tab" aria-selected="false" aria-controls="form-signup">Sign up</button>
+        </div>
+
+        <form id="form-signin" class="auth-form" role="tabpanel" aria-labelledby="tab-signin">
+          <label for="signin-email" class="auth-label">Email</label>
+          <input id="signin-email" type="email" placeholder="you@example.com" required autocomplete="email">
+          <label for="signin-password" class="auth-label">Password</label>
+          <input id="signin-password" type="password" placeholder="Your password" required autocomplete="current-password">
+          <button type="submit" class="auth-submit">Sign in</button>
+        </form>
+
+        <form id="form-signup" class="auth-form hidden" role="tabpanel" aria-labelledby="tab-signup" aria-hidden="true">
+          <label for="signup-email" class="auth-label">Email</label>
+          <input id="signup-email" type="email" placeholder="you@example.com" required autocomplete="email">
+          <label for="signup-password" class="auth-label">Password</label>
+          <input id="signup-password" type="password" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
+          <span class="auth-hint">Minimum 6 characters</span>
+          <button type="submit" class="auth-submit">Sign up</button>
+        </form>
+        <p id="auth-message" class="auth-message" aria-live="polite" role="status"></p>
+      </div>
+
+      <div id="auth-signed-in" class="auth-panel hidden">
+        <p class="auth-welcome">Signed in as <strong id="auth-email"></strong></p>
+        <p class="auth-hint">You are signed in. Open the app when you are ready.</p>
+        <button id="btn-go-app" type="button" class="auth-submit">Go to app home</button>
+        <button id="btn-signout" type="button" class="auth-submit auth-submit-secondary">Sign out</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="welcome.js"></script>
+</body>
+</html>

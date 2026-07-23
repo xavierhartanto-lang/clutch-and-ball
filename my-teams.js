@@ -1,7 +1,6 @@
 "use strict";
 
 import supabase from "./supabase.js";
-import { isCoachSignup } from "./coach-shared.js";
 import {
   fetchCoachedTeamsList,
   fetchPlayerTeamsList,
@@ -187,7 +186,7 @@ joinForm?.addEventListener("submit", async (e) => {
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
 
@@ -209,7 +208,7 @@ joinAssistantForm?.addEventListener("submit", async (e) => {
   if (joinAssistantMsg) joinAssistantMsg.textContent = "";
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
   const code = String(joinAssistantInput?.value || "")
@@ -271,16 +270,10 @@ joinAssistantForm?.addEventListener("submit", async (e) => {
 (async function init() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "app.html";
     return;
   }
   const joinSection = document.getElementById("section-join-as-player");
   const assistantSection = document.getElementById("section-join-as-assistant");
-  if (user && isCoachSignup(user) && joinSection) {
-    joinSection.classList.add("hidden");
-  }
-  if (user && isCoachSignup(user) && assistantSection) {
-    assistantSection.classList.add("hidden");
-  }
   await renderAll();
 })();

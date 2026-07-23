@@ -1192,7 +1192,7 @@ async function loadTeam() {
 
     const user = await getSessionUser();
     if (!user) {
-      window.location.href = "index.html";
+      window.location.href = "app.html";
       return;
     }
 
